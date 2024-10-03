@@ -17,7 +17,7 @@ public class PerfectNumber {
 
         // Check if the sum of divisors equals the number
         if (sum == num) {
-            System.out.println(num + " is a perfect number.");
+            System.out.println(num + " is a perfect numbers.");
         } else {
             System.out.println(num + " is not a perfect number.");
         }
