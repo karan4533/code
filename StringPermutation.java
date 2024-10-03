@@ -1,23 +1,25 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class StringPermutation {
-    public static void main(String[] args) {
-        String str = "kar";
-        List<String> permutations = new ArrayList<>();
-        generatePermutations(str, "", permutations);
-        System.out.println("Permutations: " + permutations);
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String str = sc.nextLine();
+    permute(str, "");
+    sc.close();
+  }
+  public static void permute(String str, String answer){
+    if (str.length() == 0) {
+      System.out.println(answer);
+      return;
     }
-
-    public static void generatePermutations(String str, String prefix, List<String> result) {
-        if (str.isEmpty()) {
-            result.add(prefix);
-        } else {
-            for (int i = 0; i < str.length(); i++) {
-                char ch = str.charAt(i);
-                String remaining = str.substring(0, i) + str.substring(i + 1);
-                generatePermutations(remaining, prefix + ch, result);
-            }
-        }
+    try{
+      for(int i =0 ; i < str.length(); i++){
+        char ch = str.charAt(i);
+        String remaining  = str.substring(0, i) + str.substring(i+1);
+        permute(remaining,  answer + ch);
+      }
+    }catch(Exception e){
+      System.out.println("error");
     }
+  }
 }
