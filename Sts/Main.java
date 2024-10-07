@@ -17,7 +17,7 @@ public class Main
 	         	   System.out.println(String.valueOf(s2));
 	      String s3= "       ";
 	          System.out.println(s3.isEmpty());
-	          System.out.println(s3.isBlank());
+	        
 	      
 	        
 	}
