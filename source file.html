@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heuristic Labs | Applied AI Systems</title>
+  <meta name="description" content="Heuristic Labs designs, builds, and deploys enterprise AI systems with measurable business impact." />
+  <meta name="theme-color" content="#10213a" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f3eee4;
+      --surface: #fffaf2;
+      --ink: #142035;
+      --muted: #4f5d73;
+      --accent: #e06d3f;
+      --accent-2: #2a8f8a;
+      --line: rgba(20, 32, 53, 0.16);
+      --radius: 18px;
+      --shadow: 0 14px 42px rgba(20, 32, 53, 0.12);
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(1200px 420px at 100% 0%, rgba(224, 109, 63, 0.16), transparent 70%),
+        radial-gradient(900px 380px at 0% 30%, rgba(42, 143, 138, 0.14), transparent 65%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(100% - 2.4rem, var(--max));
+      margin-inline: auto;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Fraunces", Georgia, serif;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 5.2rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--ink);
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 0;
+      padding: 0.78rem 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.16s ease, opacity 0.16s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(120deg, var(--ink), #29466c);
+    }
+
+    .btn-secondary {
+      color: var(--ink);
+      background: rgba(20, 32, 53, 0.08);
+      border: 1px solid rgba(20, 32, 53, 0.2);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+      background: rgba(243, 238, 228, 0.88);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.58rem;
+      font-family: "Fraunces", Georgia, serif;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .brand-dot {
+      width: 0.66rem;
+      height: 0.66rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 6px rgba(224, 109, 63, 0.14);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      opacity: 1;
+    }
+
+    .hero {
+      padding: 5.5rem 0 4.3rem;
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.9rem);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero p {
+      max-width: 55ch;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .hero-card {
+      background: linear-gradient(145deg, #10213a, #224466);
+      color: #fff;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      min-height: 360px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before,
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-card::before {
+      width: 260px;
+      height: 260px;
+      right: -60px;
+      top: -70px;
+      background: radial-gradient(circle, rgba(224, 109, 63, 0.62), transparent 70%);
+    }
+
+    .hero-card::after {
+      width: 280px;
+      height: 280px;
+      left: -90px;
+      bottom: -95px;
+      background: radial-gradient(circle, rgba(42, 143, 138, 0.45), transparent 72%);
+    }
+
+    .hero-kpis {
+      list-style: none;
+      display: grid;
+      gap: 0.9rem;
+      position: relative;
+      z-index: 1;
+      margin-top: 1rem;
+    }
+
+    .hero-kpis li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 0.6rem;
+      gap: 1rem;
+    }
+
+    .hero-kpis strong {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      align-items: start;
+      margin-bottom: 1.4rem;
+    }
+
+    .cards {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: 0 8px 20px rgba(20, 32, 53, 0.06);
+    }
+
+    .card h3 {
+      font-size: 1.18rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .service-list,
+    .step-list,
+    .case-list,
+    .faq-list,
+    .footer-links {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .service-list li,
+    .step-list li,
+    .case-list li {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 1rem;
+    }
+
+    .step-list li {
+      counter-increment: flow;
+      position: relative;
+      padding-left: 4rem;
+    }
+
+    .step-list {
+      counter-reset: flow;
+    }
+
+    .step-list li::before {
+      content: counter(flow);
+      position: absolute;
+      left: 1rem;
+      top: 0.95rem;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: "Fraunces", Georgia, serif;
+      background: linear-gradient(135deg, var(--accent), #f0aa8f);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .case-list li {
+      background: linear-gradient(180deg, #fffdf9, #f6efe1);
+    }
+
+    .metric {
+      margin-top: 0.5rem;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: clip;
+    }
+
+    .faq-item button {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      color: var(--ink);
+      font-weight: 700;
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    .faq-content {
+      padding: 0 1rem 1rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    .faq-item[open] .faq-content {
+      display: block;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .contact-panel {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fef9f1, #f8f0e1);
+      border-radius: 22px;
+      padding: 1.2rem;
+      min-height: 100%;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .contact-form label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.72rem 0.8rem;
+      font: inherit;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .site-footer {
+      padding: 2.2rem 0 2.8rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .footer-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      opacity: 0.78;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      opacity: 1;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split,
+      .cards,
+      .contact-grid,
+      .footer-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 4rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0.7rem 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="pill" href="#main-content" style="position:absolute;left:-9999px;top:auto">Skip to content</a>
+
+  <header class="site-header" aria-label="Site header">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <span class="brand-dot" aria-hidden="true"></span>
+        Heuristic Labs
+      </a>
+
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#cases">Case studies</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-primary" href="#contact">Book a strategy call</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section id="top" class="hero container" aria-labelledby="hero-title">
+      <div class="hero-grid" data-reveal>
+        <article>
+          <p class="pill">Applied AI Lab</p>
+          <h1 id="hero-title">Lead your AI transformation with systems that ship and scale.</h1>
+          <p>
+            We partner with enterprise teams to design secure AI workflows, deploy production assistants, and
+            measure impact in weeks, not quarters.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Start your roadmap</a>
+            <a class="btn btn-secondary" href="#cases">See outcomes</a>
+          </div>
+        </article>
+
+        <aside class="hero-card" aria-label="Company impact metrics">
+          <h2 style="font-size:clamp(1.5rem,4.2vw,2.2rem)">Execution-first AI.</h2>
+          <p style="color:rgba(255,255,255,0.8)">
+            Built for regulated industries, mission-critical operations, and teams that need measurable value.
+          </p>
+          <ul class="hero-kpis">
+            <li><span>Automation uplift</span><strong>92%</strong></li>
+            <li><span>Avg. first deployment</span><strong>8 weeks</strong></li>
+            <li><span>Leadership experience</span><strong>40+ years</strong></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="container">
+        <div class="split" data-reveal>
+          <div>
+            <p class="pill">About</p>
+            <h2 id="about-title" style="font-size:clamp(1.8rem,4.2vw,3rem)">An enterprise AI lab built for real operators.</h2>
+          </div>
+          <p>
+            We remove noise from AI adoption. Every engagement starts with your workflows, risk profile, and
+            existing systems. Then we build the smallest valuable model stack that can prove ROI quickly.
+          </p>
+        </div>
+
+        <div class="cards" data-reveal>
+          <article class="card">
+            <h3>Pragmatic architecture</h3>
+            <p>We choose models and orchestration patterns based on business constraints, not trends.</p>
+          </article>
+          <article class="card">
+            <h3>Compliance by design</h3>
+            <p>Security, traceability, and policy controls are designed in from day one.</p>
+          </article>
+          <article class="card">
+            <h3>Delivery accountability</h3>
+            <p>Each sprint ties to measurable operational outcomes and ownership in your team.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section" aria-labelledby="services-title">
+      <div class="container">
+        <div class="split" data-reveal>
+          <div>
+            <p class="pill">Services</p>
+            <h2 id="services-title" style="font-size:clamp(1.8rem,4vw,2.8rem)">What we build</h2>
+          </div>
+          <p>From strategy to production systems, our scope covers architecture, implementation, and enablement.</p>
+        </div>
+
+        <ul class="service-list" data-reveal>
+          <li>
+            <h3>Enterprise AI assistants and copilots</h3>
+            <p>Agentic retrieval systems integrated with your internal platforms and knowledge boundaries.</p>
+          </li>
+          <li>
+            <h3>Industrial automation intelligence</h3>
+            <p>Vision and language systems for maintenance, process monitoring, and technician support.</p>
+          </li>
+          <li>
+            <h3>Governance and model risk controls</h3>
+            <p>Evaluation pipelines, policy gates, and audit trails for safe and compliant deployments.</p>
+          </li>
+          <li>
+            <h3>AI operating model and capability transfer</h3>
+            <p>Playbooks and upskilling so your team can own and evolve solutions after launch.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="process" class="section" aria-labelledby="process-title">
+      <div class="container">
+        <div class="split" data-reveal>
+          <div>
+            <p class="pill">Process</p>
+            <h2 id="process-title" style="font-size:clamp(1.8rem,4vw,2.8rem)">A delivery structure that de-risks adoption</h2>
+          </div>
+          <p>We move in focused phases so stakeholders stay aligned and value appears early.</p>
+        </div>
+
+        <ol class="step-list" data-reveal>
+          <li>
+            <h3>Discovery and use-case ranking</h3>
+            <p>Map constraints, data access, and expected business impact.</p>
+          </li>
+          <li>
+            <h3>Rapid pilot and validation</h3>
+            <p>Prototype the narrowest high-value workflow and evaluate with real users.</p>
+          </li>
+          <li>
+            <h3>Production hardening</h3>
+            <p>Add observability, governance controls, and integration resilience.</p>
+          </li>
+          <li>
+            <h3>Scale and internal enablement</h3>
+            <p>Operationalize rollout, train teams, and install continuous improvement loops.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="cases" class="section" aria-labelledby="cases-title">
+      <div class="container">
+        <div class="split" data-reveal>
+          <div>
+            <p class="pill">Case studies</p>
+            <h2 id="cases-title" style="font-size:clamp(1.8rem,4vw,2.8rem)">Recent outcomes</h2>
+          </div>
+          <p>Representative programs showing speed, risk reduction, and measurable operational lift.</p>
+        </div>
+
+        <ul class="case-list" data-reveal>
+          <li>
+            <h3>Global manufacturer: maintenance intelligence copilot</h3>
+            <p>Connected manuals, historical logs, and IoT events into a guided troubleshooting assistant.</p>
+            <p class="metric">Result: 31% faster diagnosis and 23% less downtime in one plant region.</p>
+          </li>
+          <li>
+            <h3>Insurance enterprise: policy operations automation</h3>
+            <p>Deployed a secure assistant for policy interpretation and exception triage workflows.</p>
+            <p class="metric">Result: 47% reduction in manual review cycle time.</p>
+          </li>
+          <li>
+            <h3>Healthcare network: governance-first AI launch</h3>
+            <p>Built model risk controls, prompt evaluation workflows, and audit trail reporting.</p>
+            <p class="metric">Result: compliant rollout across 6 business units in under 10 weeks.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" class="section" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="split" data-reveal>
+          <div>
+            <p class="pill">FAQ</p>
+            <h2 id="faq-title" style="font-size:clamp(1.8rem,4vw,2.8rem)">Common questions</h2>
+          </div>
+          <p>Short answers to the questions we get before most projects begin.</p>
+        </div>
+
+        <ul class="faq-list" data-reveal>
+          <li class="faq-item" open>
+            <button type="button" aria-expanded="true">How quickly can we launch something in production?</button>
+            <div class="faq-content">Most teams reach a production-ready first workflow in 6-10 weeks, depending on integration access and governance approvals.</div>
+          </li>
+          <li class="faq-item">
+            <button type="button" aria-expanded="false">Can you work with strict compliance and security constraints?</button>
+            <div class="faq-content">Yes. We design with auditability, data boundaries, and policy controls from the first architecture draft.</div>
+          </li>
+          <li class="faq-item">
+            <button type="button" aria-expanded="false">Do you replace internal teams?</button>
+            <div class="faq-content">No. We partner with internal teams, transfer capability, and leave behind maintainable systems and playbooks.</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="container contact-grid" data-reveal>
+        <article class="contact-panel">
+          <p class="pill">Contact</p>
+          <h2 id="contact-title" style="font-size:clamp(1.8rem,4vw,2.8rem)">Plan your AI roadmap.</h2>
+          <p style="margin-top:0.9rem">
+            Share your goals and constraints. We will send a tailored plan with architecture direction,
+            phased milestones, and likely ROI windows.
+          </p>
+          <p style="margin-top:1rem"><strong>Email:</strong> hello@heuristiclabs.ai</p>
+          <p><strong>Office hours:</strong> Monday-Friday, 9:00-18:00</p>
+        </article>
+
+        <form class="contact-panel contact-form" aria-label="Contact form">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div>
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div>
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" autocomplete="organization" />
+          </div>
+
+          <div>
+            <label for="scope">Primary scope</label>
+            <select id="scope" name="scope">
+              <option>AI assistant deployment</option>
+              <option>Industrial automation AI</option>
+              <option>Governance and risk framework</option>
+              <option>AI strategy and roadmap</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message">Project context</label>
+            <textarea id="message" name="message" placeholder="What outcomes are you targeting in the next 3-6 months?"></textarea>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Request consultation</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="container footer-wrap">
+      <article>
+        <a class="brand" href="#top">
+          <span class="brand-dot" aria-hidden="true"></span>
+          Heuristic Labs
+        </a>
+        <p style="margin-top:0.7rem;max-width:32ch">Enterprise AI systems with practical architecture, governance rigor, and measurable outcomes.</p>
+      </article>
+
+      <nav aria-label="Footer navigation">
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#cases">Case studies</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <article>
+        <p><strong>Heuristic Labs</strong></p>
+        <p>Applied AI consulting and implementation</p>
+        <p style="margin-top:0.5rem">Copyright 2026 Heuristic Labs</p>
+      </article>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var revealNodes = document.querySelectorAll("[data-reveal]");
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14 }
+      );
+
+      revealNodes.forEach(function (node) {
+        observer.observe(node);
+      });
+
+      var faqItems = document.querySelectorAll(".faq-item");
+      faqItems.forEach(function (item) {
+        var button = item.querySelector("button");
+        button.addEventListener("click", function () {
+          var isOpen = item.hasAttribute("open");
+          faqItems.forEach(function (otherItem) {
+            otherItem.removeAttribute("open");
+            otherItem.querySelector("button").setAttribute("aria-expanded", "false");
+          });
+          if (!isOpen) {
+            item.setAttribute("open", "");
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
