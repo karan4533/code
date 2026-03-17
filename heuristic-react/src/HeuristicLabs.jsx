@@ -123,6 +123,14 @@ const Section = ({ children, bg, id }) => (
 ══════════════════════════════════════════════════ */
 
 function Nav() {
+  const navLinks = [
+    { label:"Home", href:"#" },
+    { label:"About", href:"#about" },
+    { label:"Service", href:"#services" },
+    { label:"Insights", href:"#case-studies" },
+    { label:"Contact", href:"#contact" },
+  ];
+
   return (
     <nav style={{
       position:"sticky", top:0, zIndex:200,
@@ -133,11 +141,11 @@ function Nav() {
       fontFamily:font.sans,
     }}>
       <ul style={{ display:"flex", gap:28, listStyle:"none", padding:0, margin:0 }}>
-        {["About","Case Studies","Services"].map(l => (
-          <li key={l}>
-            <a href={`#${l.toLowerCase().replace(" ","-")}`}
+        {navLinks.map(link => (
+          <li key={link.label}>
+            <a href={link.href}
               style={{ fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none" }}>
-              {l}
+              {link.label}
             </a>
           </li>
         ))}
@@ -162,9 +170,13 @@ function Hero() {
       }}>
         <Reveal>
           <Pill>About us</Pill>
-          <H1>On a mission to<br /><Em>lead</Em> the AI<br />transformation.</H1>
+          <H1>
+            On a mission to
+            <br />
+            <Em>simplify</Em> automation.
+          </H1>
           <p style={{ fontSize:15, lineHeight:1.75, color:T.ink60, maxWidth:420, marginBottom:36, fontFamily:font.sans }}>
-            Most enterprises complicate AI adoption. We built Heuristic Labs to do the opposite — helping businesses cut through the noise and build AI systems that actually deliver results.
+            We help teams move from AI curiosity to real-world impact through consulting, custom solutioning, and applied AI research.
           </p>
           <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
             <Btn dark href="#contact">Talk to us</Btn>
@@ -212,8 +224,15 @@ function WhoWeAre() {
       <Reveal>
         <SecHeader
           pill="Who we are"
-          title={<>The Applied AI Lab<br />built for <Em>you.</Em></>}
-          desc="We built this lab to help enterprises avoid AI overwhelm. We listen first, evaluate what actually works for your context, and build production-grade systems you'll actually use — without the hype or unnecessary complexity."
+          title={<>Your <Em>On-Demand</Em> AI Research Partner</>}
+          desc={
+            <>
+              The world of GenAI is evolving too fast for any one team to track. Our applied AI research team evaluates emerging GenAI technologies so you don't have to.
+              <br />
+              <br />
+              We build a library of AI agents and accelerators that forms the foundation for custom, production-ready solutions, helping you stay ahead while keeping innovation costs low.
+            </>
+          }
         />
       </Reveal>
       <Reveal delay={0.1}>
@@ -253,12 +272,12 @@ function WhoWeAre() {
 }
 
 const SERVICES = [
-  { emoji:"🤖", name:"Custom AI Solutions", desc:"Production-grade AI systems tailored to your workflows, data, and compliance requirements.", items:["Enterprise AI Assistants (Agentic RAG)","Domain-Specific LLM Fine-Tuning","Conversational AI & Virtual Agents","Multimodal AI — Text, Voice, Image","Secure On-Prem / Hybrid Deployment"] },
-  { emoji:"🏭", name:"GenAI for Industrial Automation", desc:"Bring intelligence to the shop floor — from computer vision to smart troubleshooting and IoT integration.", items:["Predictive Maintenance Intelligence","Digital Shop-Floor Copilots","Service Manual & Tech Doc Automation","IoT + AI Integration","Safety-Critical AI Workflow Systems"] },
-  { emoji:"🛡️", name:"Data & AI Governance", desc:"Build AI you can trust — with compliance, explainability, and audit-readiness baked in from day one.", items:["AI Risk & Compliance Frameworks","Data Lineage & Quality Management","Bias Detection & Mitigation","Model Explainability & Audit Trails","Regulatory AI Readiness (EU AI Act)"] },
-  { emoji:"🎯", name:"AI Strategic Consulting", desc:"Turn AI ambition into a concrete roadmap — with ROI analysis, prioritisation, and executive alignment.", items:["AI Readiness Assessment","Use Case Prioritisation & ROI Mapping","Build vs. Buy Analysis","AI Transformation Roadmaps","Change Management & Team Upskilling"] },
-  { emoji:"🔬", name:"R&D as a Service", desc:"Applied research that solves real problems — novel architectures, benchmarks, and publications if needed.", items:["Custom Model Architecture Design","LLM Evaluation & Benchmarking","Computer Vision R&D","NLP & Information Extraction","Academic Collaboration & IP Creation"] },
-  { emoji:"🎓", name:"Academic Partnerships", desc:"Bridge research and commercial deployment through structured collaboration with leading institutions.", items:["Joint Research Programs","Dataset Creation & Annotation","PhD / MTech Project Supervision","Technology Licensing","Sponsored Research Agreements"] },
+  { emoji:"🤖", name:"Custom Agentic Solutions", desc:"Production-grade AI systems tailored to your workflows, data, and compliance requirements.", items:["Enterprise AI Assistants (Agentic RAG)","Domain-Specific LLM Fine-Tuning","Conversational AI & Virtual Agents","Multimodal AI — Text, Voice, Image","Secure On-Prem / Hybrid Deployment"] },
+  { emoji:"📦", name:"Prebuilt Products", desc:"Ready-to-deploy AI products and accelerators to reduce implementation time and speed up value realization.", items:["Reusable AI Agent Templates","Workflow Automation Packs","Enterprise Knowledge Assistants","Document Intelligence Modules","Plug-and-Play Integration APIs"] },
+  { emoji:"🔬", name:"Applied Research Lab", desc:"Applied research that solves real problems — novel architectures, benchmarks, and production experiments.", items:["Custom Model Architecture Design","LLM Evaluation & Benchmarking","Computer Vision R&D","NLP & Information Extraction","Rapid Prototyping & Validation"] },
+  { emoji:"🛡️", name:"Governance/Advisory Services", desc:"Build AI you can trust with strategy, compliance, and responsible AI guidance from day one.", items:["AI Risk & Compliance Frameworks","Data Governance & Quality Management","Bias Detection & Mitigation","Model Explainability & Audit Trails","Executive Advisory & Roadmapping"] },
+  { emoji:"🎓", name:"Corporate Trainings", desc:"Hands-on training programs that help teams adopt, operate, and scale AI capabilities confidently.", items:["Leadership AI Workshops","Team Enablement Bootcamps","Role-Based AI Playbooks","Prompting & Agent Design Labs","Change Management Support"] },
+  { emoji:"🧪", name:"R&D as a Service", desc:"Dedicated AI research execution to explore, validate, and productionize high-impact innovation opportunities.", items:["Prototype-to-Production Research","Model Experimentation Pipelines","Evaluation Framework Design","Rapid Feasibility Studies","IP-Oriented Solution Discovery"] },
 ];
 
 function Services() {
