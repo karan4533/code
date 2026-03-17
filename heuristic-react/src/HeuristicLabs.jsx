@@ -122,9 +122,59 @@ const Section = ({ children, bg, id }) => (
    SECTIONS
 ══════════════════════════════════════════════════ */
 
-function Nav() {
+function LandingPage({ onExit }) {
+  return (
+    <div style={{
+      position:"fixed", top:0, left:0, width:"100%", height:"100%",
+      background:T.bg,
+      display:"flex", alignItems:"center", justifyContent:"center",
+      zIndex:300,
+      animation:"fadeInLanding .8s ease-out",
+    }}>
+      <div style={{
+        textAlign:"center",
+        animation:"slideUpLanding .8s ease-out",
+      }}>
+        <p style={{
+          fontFamily:font.serif,
+          fontSize:"clamp(48px, 6vw, 72px)",
+          fontWeight:700,
+          lineHeight:1.2,
+          letterSpacing:"-.02em",
+          color:T.ink,
+          maxWidth:650,
+          margin:"0 auto 40px auto",
+        }}>
+          From AI confusion to<br /><span style={{ color:T.amber }}>clarity</span>.
+        </p>
+        <button
+          onClick={onExit}
+          style={{
+            marginTop:40,
+            padding:"12px 32px",
+            borderRadius:100,
+            background:T.ink,
+            color:T.w,
+            border:"none",
+            fontFamily:font.sans,
+            fontSize:14,
+            fontWeight:500,
+            cursor:"pointer",
+            transition:".3s",
+          }}
+          onMouseEnter={(e) => e.target.style.opacity = "0.8"}
+          onMouseLeave={(e) => e.target.style.opacity = "1"}
+        >
+          Explore ➜
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Nav({ onLogoClick, onHomeClick, isLanding }) {
   const navLinks = [
-    { label:"Home", href:"#" },
+    { label:"Home", onClick: onHomeClick },
     { label:"About", href:"#about" },
     { label:"Service", href:"#services" },
     { label:"Case Studies", href:"#case-studies" },
@@ -133,7 +183,7 @@ function Nav() {
 
   return (
     <nav style={{
-      position:"sticky", top:0, zIndex:200,
+      position:"sticky", top:0, zIndex:isLanding ? 200 : 200,
       display:"flex", alignItems:"center", justifyContent:"space-between",
       padding:"0 48px", height:60,
       background:"rgba(232,227,217,.94)", backdropFilter:"blur(16px)",
@@ -143,18 +193,37 @@ function Nav() {
       <ul style={{ display:"flex", gap:28, listStyle:"none", padding:0, margin:0 }}>
         {navLinks.map(link => (
           <li key={link.label}>
-            <a href={link.href}
-              style={{ fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none" }}>
-              {link.label}
-            </a>
+            {link.onClick ? (
+              <button
+                onClick={link.onClick}
+                style={{
+                  fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none",
+                  background:"none", border:"none", cursor:"pointer", padding:0,
+                  fontFamily:font.sans,
+                }}
+              >
+                {link.label}
+              </button>
+            ) : (
+              <a href={link.href}
+                style={{ fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none" }}>
+                {link.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
-      <a href="#" style={{
-        fontFamily:font.serif, fontSize:19, fontWeight:600,
-        color:T.ink, textDecoration:"none",
-        position:"absolute", left:"50%", transform:"translateX(-50%)",
-      }}>Heuristic Labs</a>
+      <button
+        onClick={onLogoClick}
+        style={{
+          fontFamily:font.serif, fontSize:19, fontWeight:600,
+          color:T.ink, textDecoration:"none",
+          position:"absolute", left:"50%", transform:"translateX(-50%)",
+          background:"none", border:"none", cursor:"pointer", padding:0,
+        }}
+      >
+        Heuristic Labs
+      </button>
       <Btn dark href="#contact">Talk to us </Btn>
     </nav>
   );
@@ -650,6 +719,21 @@ function Footer() {
 
 /* ══ MAIN APP ══ */
 export default function App() {
+  const [showLanding, setShowLanding] = useState(true);
+
+  const handleLogoClick = () => {
+    setShowLanding(true);
+  };
+
+  const handleHomeClick = () => {
+    setShowLanding(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleExitLanding = () => {
+    setShowLanding(false);
+  };
+
   return (
     <>
       <style>{`
@@ -661,17 +745,36 @@ export default function App() {
           0%, 100% { transform: translateY(0); }
           50%       { transform: translateY(-12px); }
         }
+        @keyframes fadeInLanding {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUpLanding {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
         a:hover { opacity: .8; }
       `}</style>
-      <Nav />
-      <Hero />
-      <WhoWeAre />
-      <Services />
-      <CaseStudies />
-      <Team />
-      <FAQ />
-      <Contact />
-      <Footer />
+      {showLanding && <LandingPage onExit={handleExitLanding} />}
+      <Nav onLogoClick={handleLogoClick} onHomeClick={handleHomeClick} isLanding={showLanding} />
+      {!showLanding && (
+        <>
+          <Hero />
+          <WhoWeAre />
+          <Services />
+          <CaseStudies />
+          <Team />
+          <FAQ />
+          <Contact />
+          <Footer />
+        </>
+      )}
     </>
   );
 }
