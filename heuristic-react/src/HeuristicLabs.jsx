@@ -52,6 +52,7 @@ const T = {
 };
 
 const font = { serif: "'Playfair Display', serif", sans: "'DM Sans', sans-serif" };
+const HERO_BRAIN_IMG = new URL("./assets/brain.png", import.meta.url).href;
 
 /* ── shared components ── */
 const Pill = ({ children, dark }) => (
@@ -185,16 +186,17 @@ function Hero() {
         </Reveal>
         <div style={{ display:"flex", justifyContent:"flex-end", alignItems:"center" }}>
           <div style={{
-            width:430, height:430, borderRadius:24, overflow:"hidden",
+            width:"clamp(340px, 38vw, 500px)",
+            height:"clamp(340px, 38vw, 500px)",
+            borderRadius:24, overflow:"hidden",
             background:T.bg,
             position:"relative",
             display:"flex", alignItems:"center", justifyContent:"center",
           }}>
-            <img src={BRAIN_IMG} alt="AI Brain"
+            <img src={HERO_BRAIN_IMG} alt="AI Brain"
               style={{
                 position:"relative", zIndex:2,
-                width:"92%", height:"92%", objectFit:"contain",
-                mixBlendMode:"multiply", opacity:.98,
+                width:"100%", height:"100%", objectFit:"contain",
                 animation:"floatBrain 7s ease-in-out infinite",
               }} />
           </div>
