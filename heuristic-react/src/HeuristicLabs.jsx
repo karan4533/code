@@ -41,6 +41,7 @@ function useViewport() {
 
   return {
     width,
+    isSmallMobile: width < 480,
     isMobile: width < 768,
     isTablet: width < 1024,
   };
@@ -118,25 +119,25 @@ const Btn = ({ children, dark, onClick, href, style }) => {
 };
 
 const SecHeader = ({ pill, title, desc, light }) => {
-  const { isMobile } = useViewport();
+  const { isMobile, isSmallMobile } = useViewport();
   return (
-    <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isMobile ? 18 : 32, alignItems:"start", marginBottom:isMobile ? 34 : 56 }}>
+    <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isSmallMobile ? 14 : isMobile ? 18 : 32, alignItems:"start", marginBottom:isSmallMobile ? 28 : isMobile ? 34 : 56 }}>
       <div>
         <Pill dark={light}>{pill}</Pill>
         <H2 light={light}>{title}</H2>
       </div>
       <div style={{ paddingTop:isMobile ? 0 : 40 }}>
-        <p style={{ fontSize:15, lineHeight:1.75, color: light ? T.w40 : T.ink60, fontFamily:font.sans }}>{desc}</p>
+        <p style={{ fontSize:isSmallMobile ? 13 : 15, lineHeight:1.75, color: light ? T.w40 : T.ink60, fontFamily:font.sans }}>{desc}</p>
       </div>
     </div>
   );
 };
 
 const Section = ({ children, bg, id }) => {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   return (
-    <section id={id} style={{ padding:isMobile ? "56px 0" : "88px 0", background: bg || T.bg }}>
-      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>{children}</div>
+    <section id={id} style={{ padding:isSmallMobile ? "40px 0" : isMobile ? "56px 0" : "88px 0", background: bg || T.bg }}>
+      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isSmallMobile ? 16 : isMobile ? 20 : isTablet ? 28 : 48}px` }}>{children}</div>
     </section>
   );
 };
@@ -146,7 +147,8 @@ const Section = ({ children, bg, id }) => {
 ══════════════════════════════════════════════════ */
 
 function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onContact }) {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const headerHeight = isSmallMobile ? 160 : isMobile ? 140 : isTablet ? 88 : 72;
   const landingLinks = [
     { label:"Home", onClick:onHome },
     { label:"About", onClick:onAbout },
@@ -185,53 +187,62 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
       overflowY:"auto",
     }}>
       <header style={{
-        position:"sticky",
+        position:"absolute",
         top:0,
-        zIndex:2,
+        left:0,
         width:"100%",
-        minHeight:isMobile ? 140 : isTablet ? 88 : 72,
+        minHeight:headerHeight,
         display:"flex",
         alignItems:"center",
-        justifyContent:"space-between",
+        justifyContent:isMobile ? "center" : "space-between",
         flexDirection:isMobile ? "column" : "row",
         flexWrap:isTablet ? "wrap" : "nowrap",
-        gap:isMobile ? 10 : isTablet ? 12 : 0,
-        padding:isMobile ? "10px 16px" : isTablet ? "10px 24px" : "0 48px",
+        gap:isSmallMobile ? 10 : isMobile ? 12 : isTablet ? 12 : 0,
+        padding:isSmallMobile ? "10px 12px" : isMobile ? "12px 16px" : isTablet ? "10px 24px" : "0 48px",
         borderBottom:`1px solid ${T.ink12}`,
         fontFamily:font.sans,
       }}>
         <div style={{
           fontFamily:font.serif,
-          fontSize:isMobile ? 17 : 19,
+          fontSize:isSmallMobile ? 15 : isMobile ? 17 : 19,
           fontWeight:600,
           color:T.ink,
+          order:isMobile ? 1 : 0,
         }}>
           Heuristic Labs
         </div>
-        <nav style={{ width:isMobile ? "100%" : isTablet ? "100%" : "auto" }}>
+        <nav style={{ width:isMobile ? "100%" : isTablet ? "100%" : "auto", order:isMobile ? 2 : 0 }}>
           <ul style={{
             display:"flex",
-            gap:isMobile ? 8 : isTablet ? 12 : 28,
+            gap:isSmallMobile ? 6 : isMobile ? 8 : isTablet ? 12 : 28,
             listStyle:"none",
             margin:0,
             padding:0,
-            justifyContent:isMobile || isTablet ? "center" : "flex-start",
-            flexWrap:isMobile || isTablet ? "wrap" : "nowrap",
+            justifyContent:"center",
+            flexWrap:"wrap",
           }}>
             {landingLinks.map((item) => (
               <li key={item.label}>
                 <button
                   onClick={item.onClick}
                   style={{
-                    background:"none",
-                    padding:isMobile || isTablet ? "5px 10px" : 0,
+                    background:isMobile || isTablet ? `rgba(30,26,16,.04)` : "none",
+                    padding:isSmallMobile ? "7px 10px" : isMobile || isTablet ? "6px 12px" : 0,
                     borderRadius:999,
                     cursor:"pointer",
                     color:T.ink60,
-                    fontSize:isMobile ? 12 : isTablet ? 13 : 14,
+                    fontSize:isSmallMobile ? 11 : isMobile ? 12 : isTablet ? 13 : 14,
                     fontWeight:400,
                     fontFamily:font.sans,
                     border:isMobile || isTablet ? `1px solid ${T.ink12}` : "none",
+                    whiteSpace:"nowrap",
+                    transition:".2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isMobile && !isTablet) e.target.style.opacity = "0.7";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isMobile && !isTablet) e.target.style.opacity = "1";
                   }}
                 >
                   {item.label}
@@ -244,9 +255,9 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
       <div style={{
         textAlign:"center",
         animation:"slideUpLanding .8s ease-out",
-        padding:isMobile ? "18px 16px 26px" : isTablet ? "18px 24px 34px" : "40px 32px 44px",
+        padding:isSmallMobile ? "18px 12px 20px" : isMobile ? "20px 16px 26px" : isTablet ? "18px 24px 34px" : "104px 32px 44px",
         width:"min(1200px, 100%)",
-        marginTop:0,
+        marginTop:headerHeight,
         display:"flex",
         flexDirection:"column",
         alignItems:"center",
@@ -269,7 +280,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         </p>
         <p style={{
           fontFamily:font.sans,
-          fontSize:isMobile ? 16 : 18,
+          fontSize:isSmallMobile ? 14 : isMobile ? 16 : 18,
           lineHeight:1.75,
           color:T.ink60,
           maxWidth:840,
@@ -304,9 +315,9 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",
-          gap:16,
-          marginTop:26,
+          gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+          gap:isSmallMobile ? 12 : 16,
+          marginTop:isSmallMobile ? 20 : 26,
         }}>
           {capabilities.map((item) => (
             <div
@@ -315,10 +326,10 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
                 background:"rgba(255,255,255,.42)",
                 border:`1px solid ${T.ink12}`,
                 borderRadius:18,
-                padding:"20px 20px 18px",
+                padding:isSmallMobile ? "16px 16px 14px" : "20px 20px 18px",
                 textAlign:"left",
                 backdropFilter:"blur(3px)",
-                minHeight:152,
+                minHeight:isSmallMobile ? 140 : 152,
                 display:"flex",
                 flexDirection:"column",
                 justifyContent:"space-between",
@@ -347,9 +358,9 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",
-          gap:16,
-          marginTop:16,
+          gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+          gap:isSmallMobile ? 12 : 16,
+          marginTop:isSmallMobile ? 14 : 16,
         }}>
           {stats.map((item) => (
             <div
@@ -357,18 +368,18 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
               style={{
                 border:`1px dashed ${T.ink12}`,
                 borderRadius:16,
-                padding:"14px 16px",
+                padding:isSmallMobile ? "12px 14px" : "14px 16px",
                 textAlign:"left",
                 background:"rgba(255,255,255,.2)",
-                minHeight:92,
+                minHeight:isSmallMobile ? 80 : 92,
               }}
             >
               <div style={{
                 fontFamily:font.serif,
-                fontSize:30,
+                fontSize:isSmallMobile ? 26 : 30,
                 lineHeight:1,
                 color:T.ink,
-                marginBottom:8,
+                marginBottom:6,
               }}>
                 {item.value}
               </div>
@@ -401,8 +412,8 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
 }
 
 function Nav({ onLogoClick, onHomeClick, isLanding }) {
-  const { width, isMobile, isTablet } = useViewport();
-  const isDesktopWide = width >= 1200;
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const isDesktopWide = !isTablet;
   const navLinks = [
     { label:"Home", onClick: onHomeClick },
     { label:"About", href:"#about" },
@@ -414,12 +425,10 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
   return (
     <nav style={{
       position:"sticky", top:0, zIndex:isLanding ? 200 : 200,
-      display:isDesktopWide ? "grid" : "flex",
-      gridTemplateColumns:isDesktopWide ? "1fr auto 1fr" : "none",
-      alignItems:"center", justifyContent:"space-between",
+      display:"flex", alignItems:"center", justifyContent:"space-between",
       flexWrap:isTablet ? "wrap" : "nowrap",
-      rowGap:isMobile ? 8 : isTablet ? 10 : 0,
-      padding:isMobile ? "10px 16px" : isTablet ? "0 24px" : "0 48px",
+      rowGap:isSmallMobile ? 6 : isMobile ? 8 : isTablet ? 10 : 0,
+      padding:isSmallMobile ? "8px 12px" : isMobile ? "10px 16px" : isTablet ? "0 24px" : "0 48px",
       height:isTablet ? "auto" : 60,
       background:"rgba(232,227,217,.94)", backdropFilter:"blur(16px)",
       borderBottom:`1px solid ${T.ink12}`,
@@ -427,7 +436,7 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
     }}>
       <ul style={{
         display:"flex",
-        gap:isMobile ? 8 : isDesktopWide ? 24 : 10,
+        gap:isSmallMobile ? 6 : isMobile ? 8 : 28,
         listStyle:"none",
         padding:0,
         margin:0,
@@ -435,7 +444,6 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
         justifyContent:isTablet ? "center" : "flex-start",
         flexWrap:isTablet ? "wrap" : "nowrap",
         order:isTablet ? 3 : 1,
-        justifySelf:isDesktopWide ? "start" : "auto",
       }}>
         {navLinks.map(link => (
           <li key={link.label}>
@@ -443,10 +451,11 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
               <button
                 onClick={link.onClick}
                 style={{
-                  fontSize:isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
-                  background:"none", border:isTablet ? `1px solid ${T.ink12}` : "none", cursor:"pointer", padding:isTablet ? "5px 10px" : 0,
+                  fontSize:isSmallMobile ? 11 : isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
+                  background:"none", border:isTablet ? `1px solid ${T.ink12}` : "none", cursor:"pointer", padding:isTablet ? isSmallMobile ? "4px 8px" : "5px 10px" : 0,
                   borderRadius:isTablet ? 999 : 0,
                   fontFamily:font.sans,
+                  whiteSpace:"nowrap",
                 }}
               >
                 {link.label}
@@ -454,9 +463,10 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
             ) : (
               <a href={link.href}
                 style={{
-                  fontSize:isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
-                  border:isTablet ? `1px solid ${T.ink12}` : "none", padding:isTablet ? "5px 10px" : 0,
+                  fontSize:isSmallMobile ? 11 : isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
+                  border:isTablet ? `1px solid ${T.ink12}` : "none", padding:isTablet ? isSmallMobile ? "4px 8px" : "5px 10px" : 0,
                   borderRadius:isTablet ? 999 : 0,
+                  whiteSpace:"nowrap",
                 }}>
                 {link.label}
               </a>
@@ -467,36 +477,30 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
       <button
         onClick={onLogoClick}
         style={{
-          fontFamily:font.serif, fontSize:isMobile ? 17 : 19, fontWeight:600,
+          fontFamily:font.serif, fontSize:isSmallMobile ? 15 : isMobile ? 17 : 19, fontWeight:600,
           color:T.ink, textDecoration:"none",
-          position:"static",
-          transform:"none",
+          position:isDesktopWide ? "absolute" : "static", left:isDesktopWide ? "50%" : "auto", transform:isDesktopWide ? "translateX(-50%)" : "none",
           background:"none", border:"none", cursor:"pointer", padding:0,
           order:isTablet ? 1 : 2,
           width:isTablet ? "100%" : "auto",
           textAlign:isTablet ? "center" : "left",
-          justifySelf:isDesktopWide ? "center" : "auto",
         }}
       >
         Heuristic Labs
       </button>
-      {isDesktopWide && (
-        <div style={{ justifySelf:isDesktopWide ? "end" : "auto" }}>
-          <Btn dark href="#contact">Talk to us </Btn>
-        </div>
-      )}
+      {!isTablet && <Btn dark href="#contact">Talk to us </Btn>}
     </nav>
   );
 }
 
 function Hero() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   return (
-    <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>
+    <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isSmallMobile ? 16 : isMobile ? 20 : isTablet ? 28 : 48}px` }}>
       <div style={{
         display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1fr",
-        alignItems:"center", gap:isMobile ? 28 : 40,
-        minHeight:isTablet ? "auto" : "calc(100vh - 60px)", padding:isMobile ? "36px 0 56px" : "60px 0 80px",
+        alignItems:"center", gap:isSmallMobile ? 24 : isMobile ? 28 : 40,
+        minHeight:isTablet ? "auto" : "calc(100vh - 60px)", padding:isSmallMobile ? "28px 0 40px" : isMobile ? "36px 0 56px" : "60px 0 80px",
       }}>
         <Reveal>
           <Pill>About us</Pill>
@@ -505,7 +509,7 @@ function Hero() {
             <br />
             <Em>simplify</Em> automation.
           </H1>
-          <p style={{ fontSize:15, lineHeight:1.75, color:T.ink60, maxWidth:420, marginBottom:36, fontFamily:font.sans }}>
+          <p style={{ fontSize:isSmallMobile ? 13 : 15, lineHeight:1.75, color:T.ink60, maxWidth:420, marginBottom:36, fontFamily:font.sans }}>
             We help teams move from AI curiosity to real-world impact through consulting, custom solutioning, and applied AI research.
           </p>
           <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
@@ -549,7 +553,7 @@ function Hero() {
 }
 
 function WhoWeAre() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   return (
     <Section id="about">
       <Reveal>
@@ -570,9 +574,9 @@ function WhoWeAre() {
         <div style={{
           borderRadius:20, overflow:"hidden",
           background:`linear-gradient(130deg, ${T.teal} 0%, ${T.tealMid} 45%, ${T.tealDk} 100%)`,
-          padding:isMobile ? "28px 18px" : "48px 40px",
+          padding:isSmallMobile ? "32px 24px" : "48px 40px",
         }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:20 }}>
+          <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:isSmallMobile ? 12 : 20 }}>
             {[
               { num:"92%", label:"End-to-end automation achieved for clients" },
               { num:"8 wks", label:"Average time to first production deployment" },
@@ -580,10 +584,10 @@ function WhoWeAre() {
             ].map(s => (
               <div key={s.num} style={{
                 background:T.w08, border:`1px solid ${T.w15}`,
-                borderRadius:14, padding:"32px 28px", textAlign:"center",
+                borderRadius:14, padding:isSmallMobile ? "24px 20px" : "32px 28px", textAlign:"center",
               }}>
-                <div style={{ fontFamily:font.serif, fontSize:52, fontWeight:700, color:T.w, lineHeight:1, marginBottom:8, letterSpacing:"-.02em" }}>{s.num}</div>
-                <div style={{ fontSize:13, color:T.w60, lineHeight:1.5, fontFamily:font.sans }}>{s.label}</div>
+                <div style={{ fontFamily:font.serif, fontSize:isSmallMobile ? 42 : 52, fontWeight:700, color:T.w, lineHeight:1, marginBottom:6, letterSpacing:"-.02em" }}>{s.num}</div>
+                <div style={{ fontSize:isSmallMobile ? 12 : 13, color:T.w60, lineHeight:1.5, fontFamily:font.sans }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -608,7 +612,7 @@ const SERVICES = [
 ];
 
 function Services() {
-  const { isMobile } = useViewport();
+  const { isMobile, isSmallMobile } = useViewport();
   return (
     <Section id="services">
       <Reveal>
@@ -618,21 +622,21 @@ function Services() {
           desc="End-to-end AI transformation — from strategy and research to production-grade systems and governance frameworks."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "repeat(2,1fr)", gap:isSmallMobile ? 12 : 16 }}>
         {SERVICES.map((s, i) => (
           <Reveal key={s.name} delay={i * 0.05}>
             <div style={{
               background:T.bg2, border:`1px solid ${T.ink12}`,
-              borderRadius:16, padding:"32px 32px 36px",
+              borderRadius:16, padding:isSmallMobile ? "24px 24px 28px" : "32px 32px 36px",
               height:"100%",
             }}>
-              <span style={{ fontSize:26, marginBottom:18, display:"block" }}>{s.emoji}</span>
-              <div style={{ fontFamily:font.serif, fontSize:19, fontWeight:600, color:T.ink, marginBottom:8 }}>{s.name}</div>
-              <p style={{ fontSize:14, lineHeight:1.65, color:T.ink60, marginBottom:20, fontFamily:font.sans }}>{s.desc}</p>
-              <ul style={{ listStyle:"none", padding:0, display:"flex", flexDirection:"column", gap:6 }}>
+              <span style={{ fontSize:isSmallMobile ? 22 : 26, marginBottom:isSmallMobile ? 12 : 18, display:"block" }}>{s.emoji}</span>
+              <div style={{ fontFamily:font.serif, fontSize:isSmallMobile ? 17 : 19, fontWeight:600, color:T.ink, marginBottom:8 }}>{s.name}</div>
+              <p style={{ fontSize:isSmallMobile ? 13 : 14, lineHeight:1.65, color:T.ink60, marginBottom:18, fontFamily:font.sans }}>{s.desc}</p>
+              <ul style={{ listStyle:"none", padding:0, display:"flex", flexDirection:"column", gap:isSmallMobile ? 5 : 6 }}>
                 {s.items.map(item => (
-                  <li key={item} style={{ fontSize:13, color:T.ink60, display:"flex", alignItems:"baseline", gap:8, fontFamily:font.sans }}>
-                    <span style={{ color:T.ink40, fontSize:12, flexShrink:0 }}>—</span>{item}
+                  <li key={item} style={{ fontSize:isSmallMobile ? 12 : 13, color:T.ink60, display:"flex", alignItems:"baseline", gap:8, fontFamily:font.sans }}>
+                    <span style={{ color:T.ink40, fontSize:11, flexShrink:0 }}>—</span>{item}
                   </li>
                 ))}
               </ul>
@@ -659,7 +663,7 @@ const CASES = [
 ];
 
 function CaseStudies() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [showAllCases, setShowAllCases] = useState(false);
   const initialVisible = 6;
   const visibleCases = showAllCases ? CASES : CASES.slice(0, initialVisible);
@@ -673,28 +677,28 @@ function CaseStudies() {
           desc="11 production-grade AI systems delivered across industries — each with documented, quantified impact."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:isSmallMobile ? 12 : 16 }}>
         {visibleCases.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.05}>
             <div style={{
               background:T.bg2, border:`1px solid ${T.ink12}`,
-              borderRadius:16, padding:"28px 24px 32px", height:"100%",
+              borderRadius:16, padding:isSmallMobile ? "20px 18px 24px" : "28px 24px 32px", height:"100%",
             }}>
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:18 }}>
-                <span style={{ fontSize:10, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:T.ink40, fontFamily:font.sans }}>{c.cat}</span>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:isSmallMobile ? 12 : 18 }}>
+                <span style={{ fontSize:isSmallMobile ? 9 : 10, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:T.ink40, fontFamily:font.sans }}>{c.cat}</span>
                 <span style={{
-                  fontSize:11, fontWeight:500, color:T.ink60,
+                  fontSize:isSmallMobile ? 10 : 11, fontWeight:500, color:T.ink60,
                   background:T.ink07, border:`1px solid ${T.ink12}`,
-                  padding:"3px 10px", borderRadius:100, fontFamily:font.sans,
+                  padding:isSmallMobile ? "2px 8px" : "3px 10px", borderRadius:100, fontFamily:font.sans,
                 }}>{c.weeks}</span>
               </div>
-              <div style={{ fontFamily:font.serif, fontSize:17, fontWeight:600, color:T.ink, marginBottom:10, lineHeight:1.35 }}>{c.title}</div>
-              <p style={{ fontSize:13, lineHeight:1.65, color:T.ink60, marginBottom:20, fontFamily:font.sans }}>{c.body}</p>
-              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+              <div style={{ fontFamily:font.serif, fontSize:isSmallMobile ? 15 : 17, fontWeight:600, color:T.ink, marginBottom:10, lineHeight:1.35 }}>{c.title}</div>
+              <p style={{ fontSize:isSmallMobile ? 12 : 13, lineHeight:1.65, color:T.ink60, marginBottom:16, fontFamily:font.sans }}>{c.body}</p>
+              <div style={{ display:"flex", flexDirection:"column", gap:isSmallMobile ? 5 : 6 }}>
                 {c.metrics.map(m => (
                   <div key={m.label} style={{ display:"flex", alignItems:"baseline", gap:6 }}>
-                    <span style={{ fontFamily:font.serif, fontSize:22, fontWeight:700, color:T.ink, lineHeight:1 }}>{m.val}</span>
-                    <span style={{ fontSize:12, color:T.ink60, fontFamily:font.sans }}>{m.label}</span>
+                    <span style={{ fontFamily:font.serif, fontSize:isSmallMobile ? 18 : 22, fontWeight:700, color:T.ink, lineHeight:1 }}>{m.val}</span>
+                    <span style={{ fontSize:isSmallMobile ? 11 : 12, color:T.ink60, fontFamily:font.sans }}>{m.label}</span>
                   </div>
                 ))}
               </div>
@@ -741,7 +745,7 @@ const TEAM = [
 ];
 
 function Team() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   return (
     <Section id="team">
       <Reveal>
@@ -751,7 +755,7 @@ function Team() {
           desc="No layers of management. You work directly with the specialists who understand your business and build your AI systems from first principles to production."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))", gap:20 }}>
+      <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:isSmallMobile ? 14 : 20 }}>
         {TEAM.map((m, i) => (
           <Reveal key={m.name} delay={i * 0.08}>
             <div style={{
@@ -798,18 +802,18 @@ const FAQS = [
 ];
 
 function FAQ() {
-  const { isMobile } = useViewport();
+  const { isMobile, isSmallMobile } = useViewport();
   const [open, setOpen] = useState(null);
   return (
     <Section>
       <Reveal>
-        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isMobile ? 30 : 64, alignItems:"start" }}>
+        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isSmallMobile ? 24 : isMobile ? 30 : 64, alignItems:"start" }}>
           <div>
             <Pill>FAQ</Pill>
-            <div style={{ fontFamily:font.serif, fontSize:"clamp(34px,3.5vw,46px)", fontWeight:700, lineHeight:1.12, letterSpacing:"-.02em", color:T.ink, marginBottom:16 }}>
+            <div style={{ fontFamily:font.serif, fontSize:"clamp(28px,3.5vw,46px)", fontWeight:700, lineHeight:1.12, letterSpacing:"-.02em", color:T.ink, marginBottom:16 }}>
               How We <br /><Em>Help.</Em>
             </div>
-            <p style={{ fontSize:14, lineHeight:1.7, color:T.ink60, marginBottom:32, fontFamily:font.sans }}>
+            <p style={{ fontSize:isSmallMobile ? 13 : 14, lineHeight:1.7, color:T.ink60, marginBottom:32, fontFamily:font.sans }}>
               End-to-end LLM solutions from strategy to implementation
             </p>
             <Btn dark href="#contact">talk to us </Btn>
@@ -849,26 +853,26 @@ function FAQ() {
 }
 
 function Contact() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [chips, setChips] = useState([]);
   const toggle = (c) => setChips(p => p.includes(c) ? p.filter(x=>x!==c) : [...p,c]);
   const chipList = ["Custom AI Build","AI Strategy","GenAI Automation","Need to scale operations","R&D Partnership","Security & compliance"];
 
   return (
-    <section id="contact" style={{ background:T.bg2, padding:isMobile ? "56px 0" : "80px 0" }}>
-      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>
+    <section id="contact" style={{ background:T.bg2, padding:isSmallMobile ? "40px 0" : isMobile ? "56px 0" : "80px 0" }}>
+      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isSmallMobile ? 16 : isMobile ? 20 : isTablet ? 28 : 48}px` }}>
         <Reveal>
-          <div style={{ display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1.4fr", gap:32, alignItems:"start" }}>
+          <div style={{ display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1.4fr", gap:isSmallMobile ? 20 : 32, alignItems:"start" }}>
             {/* left teal card */}
             <div style={{
               borderRadius:20, overflow:"hidden",
               background:`linear-gradient(160deg, ${T.teal} 0%, ${T.tealMid} 50%, ${T.tealDk} 100%)`,
-              padding:"48px 40px", minHeight:420,
+              padding:isSmallMobile ? "32px 28px" : "48px 40px", minHeight:isSmallMobile ? 340 : 420,
               display:"flex", flexDirection:"column", justifyContent:"space-between",
             }}>
               <div>
-                <div style={{ color:"#F5C842", fontSize:18, letterSpacing:2, marginBottom:8 }}>★★★★★</div>
-                <div style={{ fontSize:13, color:T.w60, marginBottom:32, fontFamily:font.sans }}>Helped over 10+ enterprises</div>
+                <div style={{ color:"#F5C842", fontSize:isSmallMobile ? 14 : 18, letterSpacing:2, marginBottom:8 }}>★★★★★</div>
+                <div style={{ fontSize:isSmallMobile ? 12 : 13, color:T.w60, marginBottom:28, fontFamily:font.sans }}>Helped over 10+ enterprises</div>
               </div>
               <div>
                 <div style={{ fontFamily:font.serif, fontSize:32, fontWeight:700, color:T.w, lineHeight:1.15, letterSpacing:"-.02em", marginBottom:16 }}>
@@ -882,57 +886,57 @@ function Contact() {
 
             {/* right form */}
             <div style={{ padding:"8px 0" }}>
-              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:12, marginBottom:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isSmallMobile ? 10 : 12, marginBottom:14 }}>
                 {["Name*","Email*"].map(ph => (
                   <input key={ph} placeholder={ph} style={{
-                    width:"100%", padding:"12px 16px",
+                    width:"100%", padding:isSmallMobile ? "10px 12px" : "12px 16px",
                     background:T.bg, border:`1.5px solid ${T.ink12}`,
-                    borderRadius:12, fontFamily:font.sans, fontSize:14,
+                    borderRadius:12, fontFamily:font.sans, fontSize:isSmallMobile ? 13 : 14,
                     color:T.ink, outline:"none",
                   }} />
                 ))}
               </div>
-              <p style={{ fontSize:13, color:T.ink60, marginBottom:12, fontFamily:font.sans }}>What services are you interested in?</p>
-              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:8, marginBottom:16 }}>
+              <p style={{ fontSize:isSmallMobile ? 12 : 13, color:T.ink60, marginBottom:10, fontFamily:font.sans }}>What services are you interested in?</p>
+              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isSmallMobile ? 6 : 8, marginBottom:14 }}>
                 {chipList.map(c => (
                   <div key={c} onClick={() => toggle(c)} style={{
-                    padding:"9px 14px", borderRadius:10, cursor:"pointer",
+                    padding:isSmallMobile ? "7px 10px" : "9px 14px", borderRadius:10, cursor:"pointer",
                     border: chips.includes(c) ? `1.5px solid ${T.ink}` : `1.5px solid ${T.ink12}`,
                     background: chips.includes(c) ? T.ink07 : "transparent",
-                    fontSize:12, fontWeight:500,
+                    fontSize:isSmallMobile ? 11 : 12, fontWeight:500,
                     color: chips.includes(c) ? T.ink : T.ink60,
-                    display:"flex", alignItems:"center", gap:7,
+                    display:"flex", alignItems:"center", gap:isSmallMobile ? 5 : 7,
                     fontFamily:font.sans, transition:".2s",
                   }}>
                     <span style={{
-                      width:14, height:14, borderRadius:"50%",
+                      width:isSmallMobile ? 12 : 14, height:isSmallMobile ? 12 : 14, borderRadius:"50%",
                       border: chips.includes(c) ? `1.5px solid ${T.ink}` : `1.5px solid ${T.ink40}`,
                       flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
                     }}>
-                      {chips.includes(c) && <span style={{ width:6, height:6, borderRadius:"50%", background:T.ink, display:"block" }} />}
+                      {chips.includes(c) && <span style={{ width:5, height:5, borderRadius:"50%", background:T.ink, display:"block" }} />}
                     </span>
                     {c}
                   </div>
                 ))}
               </div>
               <textarea placeholder="Tell us about your business…" style={{
-                width:"100%", padding:"12px 16px", height:100, resize:"none",
+                width:"100%", padding:isSmallMobile ? "10px 12px" : "12px 16px", height:isSmallMobile ? 80 : 100, resize:"none",
                 background:T.bg, border:`1.5px solid ${T.ink12}`,
-                borderRadius:12, fontFamily:font.sans, fontSize:14,
-                color:T.ink, outline:"none", marginBottom:16,
+                borderRadius:12, fontFamily:font.sans, fontSize:isSmallMobile ? 13 : 14,
+                color:T.ink, outline:"none", marginBottom:14,
               }} />
               <button style={{
-                width:"100%", padding:15, borderRadius:100,
+                width:"100%", padding:isSmallMobile ? 12 : 15, borderRadius:100,
                 background:T.ink, color:T.w,
-                fontFamily:font.sans, fontSize:15, fontWeight:600,
+                fontFamily:font.sans, fontSize:isSmallMobile ? 13 : 15, fontWeight:600,
                 border:"none", cursor:"pointer",
                 display:"flex", alignItems:"center", justifyContent:"center", gap:8,
               }}>
                 Talk to us call
                 <span style={{
-                  width:22, height:22, borderRadius:"50%",
+                  width:isSmallMobile ? 18 : 22, height:isSmallMobile ? 18 : 22, borderRadius:"50%",
                   background:"rgba(255,255,255,.15)",
-                  display:"inline-flex", alignItems:"center", justifyContent:"center", fontSize:11,
+                  display:"inline-flex", alignItems:"center", justifyContent:"center", fontSize:isSmallMobile ? 9 : 11,
                 }}>↗</span>
               </button>
             </div>
@@ -944,23 +948,23 @@ function Contact() {
 }
 
 function Footer() {
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile, isTablet, isSmallMobile } = useViewport();
   const cols = [
     { title:"Navigate", links:[["About","#about"],["Services","#services"],["Case Studies","#case-studies"],["Team","#team"],["FAQ","#"]] },
     { title:"Services", links:[["Custom AI Solutions","#"],["Industrial GenAI","#"],["AI Governance","#"],["Strategic Consulting","#"],["R&D as a Service","#"]] },
     { title:"Connect", links:[["Talk to us Call","#contact"],["Email Us","mailto:connect@heuristiclabs.ai"],["LinkedIn","#"],["Website","https://heuristiclabs.ai"]] },
   ];
   return (
-    <footer style={{ background:T.footer, padding:isMobile ? "48px 20px 28px" : isTablet ? "56px 28px 34px" : "64px 48px 40px", fontFamily:font.sans }}>
+    <footer style={{ background:T.footer, padding:isSmallMobile ? "36px 16px 20px" : isMobile ? "48px 20px 28px" : isTablet ? "56px 28px 34px" : "64px 48px 40px", fontFamily:font.sans }}>
       <div style={{ maxWidth:1160, margin:"0 auto" }}>
-        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "1fr 1fr" : "1.6fr 1fr 1fr 1fr", gap:isMobile ? 28 : 48, paddingBottom:48, borderBottom:"1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "1fr 1fr" : "1.6fr 1fr 1fr 1fr", gap:isSmallMobile ? 20 : isMobile ? 28 : 48, paddingBottom:isSmallMobile ? 32 : 48, borderBottom:"1px solid rgba(255,255,255,.08)" }}>
           <div>
-            <div style={{ fontFamily:font.serif, fontSize:20, fontWeight:600, color:T.w, marginBottom:12 }}>Heuristic Labs</div>
-            <p style={{ fontSize:13, color:T.w40, lineHeight:1.7, marginBottom:24, maxWidth:280 }}>
+            <div style={{ fontFamily:font.serif, fontSize:isSmallMobile ? 17 : 20, fontWeight:600, color:T.w, marginBottom:12 }}>Heuristic Labs</div>
+            <p style={{ fontSize:isSmallMobile ? 12 : 13, color:T.w40, lineHeight:1.7, marginBottom:24, maxWidth:280 }}>
               Your Applied AI Lab — turning AI ambition into secure, scalable, production-ready systems. Unlocking value in weeks.
             </p>
             <a href="#contact" style={{
-              display:"inline-flex", padding:"9px 20px", borderRadius:100,
+              display:"inline-flex", padding:isSmallMobile ? "7px 16px" : "9px 20px", borderRadius:100,
               border:"1.5px solid rgba(255,255,255,.18)",
               fontSize:14, color:T.w60, textDecoration:"none",
             }}>Talk to us </a>
@@ -968,17 +972,17 @@ function Footer() {
           {cols.map(col => (
             <div key={col.title}>
               <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:T.w40, marginBottom:18 }}>{col.title}</div>
-              <ul style={{ listStyle:"none", padding:0, display:"flex", flexDirection:"column", gap:10 }}>
+              <ul style={{ listStyle:"none", padding:0, display:"flex", flexDirection:"column", gap:isSmallMobile ? 8 : 10 }}>
                 {col.links.map(([label, href]) => (
-                  <li key={label}><a href={href} style={{ fontSize:14, color:T.w60, textDecoration:"none" }}>{label}</a></li>
+                  <li key={label}><a href={href} style={{ fontSize:isSmallMobile ? 12 : 14, color:T.w60, textDecoration:"none" }}>{label}</a></li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <div style={{ paddingTop:28, display:"flex", justifyContent:"space-between", alignItems:isMobile ? "flex-start" : "center", flexDirection:isMobile ? "column" : "row", gap:isMobile ? 8 : 0 }}>
-          <span style={{ fontSize:12, color:"rgba(255,255,255,.22)" }}>© 2026 Heuristic Labs (Frux Consulting LLP). All rights reserved.</span>
-          <span style={{ fontSize:12, color:"rgba(255,255,255,.22)" }}>www.heuristiclabs.ai</span>
+        <div style={{ paddingTop:isSmallMobile ? 20 : 28, display:"flex", justifyContent:"space-between", alignItems:isMobile ? "flex-start" : "center", flexDirection:isMobile ? "column" : "row", gap:isMobile ? 8 : 0 }}>
+          <span style={{ fontSize:isSmallMobile ? 11 : 12, color:"rgba(255,255,255,.22)" }}>© 2026 Heuristic Labs (Frux Consulting LLP). All rights reserved.</span>
+          <span style={{ fontSize:isSmallMobile ? 11 : 12, color:"rgba(255,255,255,.22)" }}>www.heuristiclabs.ai</span>
         </div>
       </div>
     </footer>
