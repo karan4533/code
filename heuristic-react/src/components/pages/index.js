@@ -1,0 +1,9 @@
+export { Hero } from "./Hero";
+export { WhoWeAre } from "./WhoWeAre";
+export { Services } from "./Services";
+export { CaseStudies } from "./CaseStudies";
+export { Team } from "./Team";
+export { FAQ } from "./FAQ";
+export { Contact } from "./Contact";
+export { Footer } from "./Footer";
+export { LandingPage } from "./LandingPage";

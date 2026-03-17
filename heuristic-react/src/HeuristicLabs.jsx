@@ -148,6 +148,7 @@ const Section = ({ children, bg, id }) => {
 
 function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onContact }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const [landingMenuOpen, setLandingMenuOpen] = useState(false);
   const headerHeight = isSmallMobile ? 160 : isMobile ? 140 : isTablet ? 88 : 72;
   const landingLinks = [
     { label:"Home", onClick:onHome },
@@ -202,62 +203,130 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         borderBottom:`1px solid ${T.ink12}`,
         fontFamily:font.sans,
       }}>
+        {/* Hamburger Menu Button - Mobile/Tablet Only */}
+        {isTablet && (
+          <button
+            onClick={() => setLandingMenuOpen(!landingMenuOpen)}
+            style={{
+              position:"relative",
+              width:28, height:28,
+              display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center",
+              gap:5, background:"none", border:"none", cursor:"pointer",
+              padding:0, order:1,
+            }}
+          >
+            <span style={{
+              width:"100%", height:2, background:T.ink, borderRadius:2,
+              transform:landingMenuOpen ? "rotate(45deg) translateY(11px)" : "none",
+              transition:".3s",
+            }} />
+            <span style={{
+              width:"100%", height:2, background:T.ink, borderRadius:2,
+              opacity:landingMenuOpen ? 0 : 1,
+              transition:".3s",
+            }} />
+            <span style={{
+              width:"100%", height:2, background:T.ink, borderRadius:2,
+              transform:landingMenuOpen ? "rotate(-45deg) translateY(-11px)" : "none",
+              transition:".3s",
+            }} />
+          </button>
+        )}
+
+        {/* Logo */}
         <div style={{
           fontFamily:font.serif,
           fontSize:isSmallMobile ? 15 : isMobile ? 17 : 19,
           fontWeight:600,
           color:T.ink,
-          order:isMobile ? 1 : 0,
+          order:isTablet ? 2 : 0,
+          flex:isTablet ? 1 : "auto",
+          textAlign:"center",
         }}>
           Heuristic Labs
         </div>
-        <nav style={{ width:isMobile ? "100%" : isTablet ? "100%" : "auto", order:isMobile ? 2 : 0 }}>
-          <ul style={{
-            display:"flex",
-            gap:isSmallMobile ? 6 : isMobile ? 8 : isTablet ? 12 : 28,
-            listStyle:"none",
-            margin:0,
-            padding:0,
-            justifyContent:"center",
-            flexWrap:"wrap",
-          }}>
-            {landingLinks.map((item) => (
-              <li key={item.label}>
-                <button
-                  onClick={item.onClick}
-                  style={{
-                    background:isMobile || isTablet ? `rgba(30,26,16,.04)` : "none",
-                    padding:isSmallMobile ? "7px 10px" : isMobile || isTablet ? "6px 12px" : 0,
-                    borderRadius:999,
-                    cursor:"pointer",
-                    color:T.ink60,
-                    fontSize:isSmallMobile ? 11 : isMobile ? 12 : isTablet ? 13 : 14,
-                    fontWeight:400,
-                    fontFamily:font.sans,
-                    border:isMobile || isTablet ? `1px solid ${T.ink12}` : "none",
-                    whiteSpace:"nowrap",
-                    transition:".2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isMobile && !isTablet) e.target.style.opacity = "0.7";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isMobile && !isTablet) e.target.style.opacity = "1";
-                  }}
-                >
-                  {item.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+
+        {/* Desktop Navigation - Hidden on Mobile */}
+        {!isTablet && (
+          <nav style={{ width:"auto", order:0 }}>
+            <ul style={{
+              display:"flex",
+              gap:isSmallMobile ? 6 : isMobile ? 8 : 28,
+              listStyle:"none",
+              margin:0,
+              padding:0,
+              justifyContent:"center",
+              flexWrap:"wrap",
+            }}>
+              {landingLinks.map((item) => (
+                <li key={item.label}>
+                  <button
+                    onClick={item.onClick}
+                    style={{
+                      background:"none",
+                      padding:0,
+                      borderRadius:999,
+                      cursor:"pointer",
+                      color:T.ink60,
+                      fontSize:14,
+                      fontWeight:400,
+                      fontFamily:font.sans,
+                      border:"none",
+                      whiteSpace:"nowrap",
+                      transition:".2s",
+                    }}
+                    onMouseEnter={(e) => e.target.style.opacity = "0.7"}
+                    onMouseLeave={(e) => e.target.style.opacity = "1"}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </header>
+
+      {/* Mobile Menu Dropdown - Landing Page */}
+      {isTablet && landingMenuOpen && (
+        <div style={{
+          position:"fixed", top:headerHeight, left:0, right:0,
+          background:"rgba(232,227,217,.98)", backdropFilter:"blur(16px)",
+          borderBottom:`1px solid ${T.ink12}`,
+          padding:"16px 12px",
+          display:"flex", flexDirection:"column", gap:8,
+          animation:"slideDownMenu .3s ease-out",
+          zIndex:299,
+        }}>
+          {landingLinks.map(item => (
+            <button
+              key={item.label}
+              onClick={() => {
+                item.onClick();
+                setLandingMenuOpen(false);
+              }}
+              style={{
+                width:"100%", textAlign:"left",
+                padding:"12px 16px", borderRadius:12,
+                background:T.ink07, border:`1px solid ${T.ink12}`,
+                fontSize:14, fontWeight:500, color:T.ink,
+                fontFamily:font.sans, cursor:"pointer",
+                transition:".2s",
+              }}
+              onMouseEnter={(e) => e.target.style.background = T.ink12}
+              onMouseLeave={(e) => e.target.style.background = T.ink07}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
       <div style={{
         textAlign:"center",
         animation:"slideUpLanding .8s ease-out",
-        padding:isSmallMobile ? "18px 12px 20px" : isMobile ? "20px 16px 26px" : isTablet ? "18px 24px 34px" : "104px 32px 44px",
+        padding:isSmallMobile ? "36px 12px 24px" : isMobile ? "40px 16px 28px" : isTablet ? "32px 24px 34px" : "104px 32px 44px",
         width:"min(1200px, 100%)",
-        marginTop:headerHeight,
+        marginTop:isSmallMobile ? headerHeight + 32 : isMobile ? headerHeight + 24 : isTablet ? headerHeight + 16 : headerHeight,
         display:"flex",
         flexDirection:"column",
         alignItems:"center",
