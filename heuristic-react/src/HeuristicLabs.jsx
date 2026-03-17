@@ -127,7 +127,7 @@ function Nav() {
     { label:"Home", href:"#" },
     { label:"About", href:"#about" },
     { label:"Service", href:"#services" },
-    { label:"Insights", href:"#case-studies" },
+    { label:"Case Studies", href:"#case-studies" },
     { label:"Contact", href:"#contact" },
   ];
 
