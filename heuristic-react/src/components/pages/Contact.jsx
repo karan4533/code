@@ -115,7 +115,7 @@ export function Contact() {
       title: "Stay connected",
       desc: "Follow us on LinkedIn for the latest insights",
       action: (
-        <ActionBtn href="#" fullWidth={isMobile}>
+        <ActionBtn href="https://www.linkedin.com/company/heuristic-labs-ai/" fullWidth={isMobile}>
           Connect with us
         </ActionBtn>
       ),
