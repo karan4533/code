@@ -234,20 +234,15 @@ export function LandingPage({
           textAlign: "center",
           animation: "slideUpLanding .8s ease-out",
           padding: isSmallMobile
-            ? "14px 12px 24px"
+            ? "8px 12px 24px"
             : isMobile
-              ? "16px 16px 28px"
+              ? "8px 16px 28px"
               : isTablet
-                ? "20px 24px 34px"
+                ? "12px 24px 34px"
                 : "104px 32px 44px",
           width: "min(1200px, 100%)",
-          marginTop: isSmallMobile
-            ? headerHeight + 12
-            : isMobile
-              ? headerHeight + 12
-              : isTablet
-                ? headerHeight + 12
-                : headerHeight,
+          marginTop: headerHeight,
+          alignSelf: isMobile || isTablet ? "flex-start" : "center",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
