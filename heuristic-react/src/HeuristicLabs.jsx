@@ -245,7 +245,7 @@ function WhoWeAre() {
             {[
               { num:"92%", label:"End-to-end automation achieved for clients" },
               { num:"8 wks", label:"Average time to first production deployment" },
-              { num:"40+", label:"Years of combined AI leadership experience" },
+              { num:"50+", label:"Years of combined AI leadership experience" },
             ].map(s => (
               <div key={s.num} style={{
                 background:T.w08, border:`1px solid ${T.w15}`,
@@ -260,11 +260,7 @@ function WhoWeAre() {
       </Reveal>
       <Reveal delay={0.15}>
         <div style={{ marginTop:40, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16 }}>
-          <p style={{ fontSize:15, color:T.ink60, fontFamily:font.sans }}>Want to be part of the team?</p>
-          <div style={{ display:"flex", gap:10 }}>
-            <Btn>Hiring now</Btn>
-            <Btn dark>Apply now</Btn>
-          </div>
+        
         </div>
       </Reveal>
     </Section>
@@ -323,9 +319,18 @@ const CASES = [
   { cat:"Legal", weeks:"8 weeks", title:"Legal Contracts Assistant", body:"Knowledge graph indexing 400,000+ contracts with RAG-grounded responses and RBAC chat interface.", metrics:[{val:"500K",label:"contracts indexed"},{val:"91%",label:"clause extraction accuracy"}] },
   { cat:"Medico-Legal", weeks:"4 weeks", title:"Multimodal Clinical Document Intelligence", body:"Multimodal LLMs for OCR on handwritten medical records with structured extraction and audit trails.", metrics:[{val:"97%",label:"extraction accuracy"},{val:"4×",label:"faster case processing"}] },
   { cat:"Enterprise", weeks:"10 weeks", title:"Hybrid Enterprise Search (On-Prem)", body:"Fully on-prem agentic RAG with BM25 + semantic search, RBAC, and citation-only responses.", metrics:[{val:"85%",label:"faster knowledge retrieval"},{val:"0",label:"data leaving premises"}] },
+  { cat:"Manufacturing", weeks:"9 weeks", title:"Predictive Maintenance Co-Pilot", body:"Time-series anomaly detection with LLM-assisted diagnostics integrated into maintenance SOP workflows.", metrics:[{val:"38%",label:"fewer unplanned stops"},{val:"2.4×",label:"faster root-cause analysis"}] },
+  { cat:"Finance", weeks:"7 weeks", title:"KYC Document Intelligence Workflow", body:"Agentic extraction and verification pipeline for onboarding packets with confidence scoring and human-in-loop checks.", metrics:[{val:"74%",label:"manual review reduced"},{val:"3×",label:"onboarding speed-up"}] },
+  { cat:"Healthcare", weeks:"11 weeks", title:"Clinical Summarization Assistant", body:"RAG-grounded assistant for discharge summaries and clinician notes with audit-ready citation trails.", metrics:[{val:"68%",label:"documentation time saved"},{val:"95%",label:"citation coverage"}] },
+  { cat:"Telecom", weeks:"6 weeks", title:"Field Technician Troubleshooting Agent", body:"Multi-turn diagnostic assistant over service manuals and incident history for first-time-right resolution.", metrics:[{val:"42%",label:"repeat visits reduced"},{val:"31%",label:"higher first-time fix rate"}] },
+  { cat:"Logistics", weeks:"8 weeks", title:"Dispatch Optimization Intelligence", body:"Demand-aware route recommendation engine with exception-handling agents for real-time dispatch decisions.", metrics:[{val:"19%",label:"fuel cost reduction"},{val:"27%",label:"improved on-time delivery"}] },
 ];
 
 function CaseStudies() {
+  const [showAllCases, setShowAllCases] = useState(false);
+  const initialVisible = 6;
+  const visibleCases = showAllCases ? CASES : CASES.slice(0, initialVisible);
+
   return (
     <Section id="case-studies">
       <Reveal>
@@ -336,7 +341,7 @@ function CaseStudies() {
         />
       </Reveal>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 }}>
-        {CASES.map((c, i) => (
+        {visibleCases.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.05}>
             <div style={{
               background:T.bg2, border:`1px solid ${T.ink12}`,
@@ -364,14 +369,42 @@ function CaseStudies() {
           </Reveal>
         ))}
       </div>
+      {CASES.length > initialVisible && (
+        <div style={{ display:"flex", justifyContent:"center", marginTop:28 }}>
+          <button
+            onClick={() => setShowAllCases((prev) => !prev)}
+            style={{
+              display:"inline-flex", alignItems:"center", gap:9,
+              border:`1.5px solid ${T.ink12}`,
+              background:"transparent", color:T.ink,
+              borderRadius:100, padding:"10px 20px",
+              fontSize:14, fontWeight:500, fontFamily:font.sans,
+              cursor:"pointer",
+            }}
+          >
+            {showAllCases ? "View less" : `View more (${CASES.length - initialVisible})`}
+            <span
+              style={{
+                width:22, height:22, borderRadius:"50%",
+                border:`1px solid ${T.ink12}`,
+                display:"inline-flex", alignItems:"center", justifyContent:"center",
+                fontSize:11, transform: showAllCases ? "rotate(-90deg)" : "rotate(90deg)",
+                transition:"transform .2s ease",
+              }}
+            >
+              ➜
+            </span>
+          </button>
+        </div>
+      )}
     </Section>
   );
 }
 
 const TEAM = [
-  { initial:"G", name:"Gauthaam Sarathy", role:"Chief Executive Officer", bullets:["IIM Bangalore Alumni","10+ years enterprise strategy"], grad:"linear-gradient(160deg,#C49A70 0%,#967350 30%,#5A4028 70%,#3A2818 100%)" },
-  { initial:"K", name:"Dr. Karthikeyan", role:"CTO & Chief AI Officer", bullets:["Doctorate in AI / ML","15+ years deep learning R&D"], grad:"linear-gradient(160deg,#9A9070 0%,#7A7055 30%,#4A4030 70%,#302818 100%)" },
-  { initial:"R", name:"Rohit M", role:"Head of AI", bullets:["PhD Researcher, Generative AI","LLM & multimodal systems lead"], grad:"linear-gradient(160deg,#A89878 0%,#887858 30%,#504030 70%,#342818 100%)" },
+  { initial:"G", name:"Gauthaam Sarathy", role:"Chief Executive Officer", bullets:["IIM Bangalore Alumni","20+ years of AI experience"], grad:"linear-gradient(160deg,#C49A70 0%,#967350 30%,#5A4028 70%,#3A2818 100%)" },
+  { initial:"K", name:"Dr. Karthikeyan", role:" Chief AI architect and CTO", bullets:["Doctorate in AI / ML","17+ years OF AI/Gen AI and R&D"], grad:"linear-gradient(160deg,#9A9070 0%,#7A7055 30%,#4A4030 70%,#302818 100%)" },
+  { initial:"R", name:"Rohit M", role:"Head of AI", bullets:[" 13+ years of AI and R&D experience"], grad:"linear-gradient(160deg,#A89878 0%,#887858 30%,#504030 70%,#342818 100%)" },
 ];
 
 function Team() {
@@ -424,11 +457,10 @@ function Team() {
 }
 
 const FAQS = [
-  { q:"Do I need an AI team already in place?", a:"No. We work with companies at all stages of AI maturity — from those just starting out to those looking to scale existing systems. We bring the expertise and augment your team as needed." },
-  { q:"How long does it take to see real results?", a:"Most clients see a working proof-of-concept within 2–3 weeks. Production-ready systems typically ship in 6–10 weeks depending on complexity. We're focused on fast time-to-value." },
-  { q:"Can you deploy on-premise or in a private cloud?", a:"Yes — fully. We specialise in secure, on-prem and private cloud deployments. Your data never needs to leave your infrastructure." },
-  { q:"Which industries do you specialise in?", a:"We've delivered production AI across manufacturing, legal tech, e-commerce, healthcare, construction, and enterprise SaaS. Our methodology is sector-agnostic but solutions are always domain-specific." },
-  { q:"What happens after the system is deployed?", a:"Every engagement includes a post-deployment support period. We offer ongoing retainers for model monitoring, drift detection, retraining, and continuous improvement." },
+  { q:"Consulting & Mentorship", a:"Structured programs that help leaders and teams think, plan, and execute with AI clarity." },
+  { q:"Custom Agentic AI Solutions", a:"End-to-end design, development, and deployment of tailored GenAI workflows." },
+  { q:"R&D as a Service", a:"Continuous experimentation, prototype development, and rapid validation of new AI concepts." },
+  { q:"Agents Licensing", a:"Pre-built AI agents that can be quickly deployed to solve domain-specific business problems." },
 ];
 
 function FAQ() {
@@ -440,10 +472,10 @@ function FAQ() {
           <div>
             <Pill>FAQ</Pill>
             <div style={{ fontFamily:font.serif, fontSize:"clamp(34px,3.5vw,46px)", fontWeight:700, lineHeight:1.12, letterSpacing:"-.02em", color:T.ink, marginBottom:16 }}>
-              Your questions<br /><Em>answered.</Em>
+              How We <br /><Em>Help.</Em>
             </div>
             <p style={{ fontSize:14, lineHeight:1.7, color:T.ink60, marginBottom:32, fontFamily:font.sans }}>
-              Everything you need to know about working with us. Still have questions? Talk to us free call and we'll walk you through it.
+              End-to-end LLM solutions from strategy to implementation
             </p>
             <Btn dark href="#contact">talk to us </Btn>
           </div>
