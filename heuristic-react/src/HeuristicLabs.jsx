@@ -488,7 +488,9 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
       >
         Heuristic Labs
       </button>
-      {!isTablet && <Btn dark href="#contact">Talk to us </Btn>}
+      <div style={{ order:isTablet ? 4 : 3, marginLeft:"auto" }}>
+        {!isTablet && <Btn dark href="#contact">Talk to us </Btn>}
+      </div>
     </nav>
   );
 }
