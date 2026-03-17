@@ -147,7 +147,7 @@ function Nav() {
         color:T.ink, textDecoration:"none",
         position:"absolute", left:"50%", transform:"translateX(-50%)",
       }}>Heuristic Labs</a>
-      <Btn dark href="#contact">Book a free call</Btn>
+      <Btn dark href="#contact">Talk to us </Btn>
     </nav>
   );
 }
@@ -167,7 +167,7 @@ function Hero() {
             Most enterprises complicate AI adoption. We built Heuristic Labs to do the opposite — helping businesses cut through the noise and build AI systems that actually deliver results.
           </p>
           <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
-            <Btn dark href="#contact">Book a free call</Btn>
+            <Btn dark href="#contact">Talk to us</Btn>
             <a href="#about" style={{
               display:"inline-flex", alignItems:"center", gap:8,
               padding:"9px 20px", borderRadius:100,
@@ -424,9 +424,9 @@ function FAQ() {
               Your questions<br /><Em>answered.</Em>
             </div>
             <p style={{ fontSize:14, lineHeight:1.7, color:T.ink60, marginBottom:32, fontFamily:font.sans }}>
-              Everything you need to know about working with us. Still have questions? Book a free call and we'll walk you through it.
+              Everything you need to know about working with us. Still have questions? Talk to us free call and we'll walk you through it.
             </p>
-            <Btn dark href="#contact">Book a free call</Btn>
+            <Btn dark href="#contact">talk to us </Btn>
           </div>
           <div style={{ borderTop:`1px solid ${T.ink12}` }}>
             {FAQS.map((f, i) => (
@@ -488,7 +488,7 @@ function Contact() {
                   Start your AI journey <Em light>today.</Em>
                 </div>
                 <p style={{ fontSize:14, color:T.w60, lineHeight:1.65, fontFamily:font.sans }}>
-                  Book a free 30-minute assessment and we'll show you exactly where AI can save you time and money.
+                  Talk to us free 30-minute assessment and we'll show you exactly where AI can save you time and money.
                 </p>
               </div>
             </div>
@@ -541,7 +541,7 @@ function Contact() {
                 border:"none", cursor:"pointer",
                 display:"flex", alignItems:"center", justifyContent:"center", gap:8,
               }}>
-                Book a call
+                Talk to us call
                 <span style={{
                   width:22, height:22, borderRadius:"50%",
                   background:"rgba(255,255,255,.15)",
@@ -560,7 +560,7 @@ function Footer() {
   const cols = [
     { title:"Navigate", links:[["About","#about"],["Services","#services"],["Case Studies","#case-studies"],["Team","#team"],["FAQ","#"]] },
     { title:"Services", links:[["Custom AI Solutions","#"],["Industrial GenAI","#"],["AI Governance","#"],["Strategic Consulting","#"],["R&D as a Service","#"]] },
-    { title:"Connect", links:[["Book a Call","#contact"],["Email Us","mailto:connect@heuristiclabs.ai"],["LinkedIn","#"],["Website","https://heuristiclabs.ai"]] },
+    { title:"Connect", links:[["Talk to us Call","#contact"],["Email Us","mailto:connect@heuristiclabs.ai"],["LinkedIn","#"],["Website","https://heuristiclabs.ai"]] },
   ];
   return (
     <footer style={{ background:T.footer, padding:"64px 48px 40px", fontFamily:font.sans }}>
@@ -575,7 +575,7 @@ function Footer() {
               display:"inline-flex", padding:"9px 20px", borderRadius:100,
               border:"1.5px solid rgba(255,255,255,.18)",
               fontSize:14, color:T.w60, textDecoration:"none",
-            }}>Book a free call</a>
+            }}>Talk to us </a>
           </div>
           {cols.map(col => (
             <div key={col.title}>
