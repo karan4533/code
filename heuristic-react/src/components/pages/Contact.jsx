@@ -54,22 +54,22 @@ function ActionBtn({ href, children, highlight, fullWidth }) {
         justifyContent: "center",
         gap: 12,
         width: fullWidth ? "100%" : "auto",
-        minWidth: fullWidth ? "100%" : 190,
-        padding: "12px 18px",
-        borderRadius: 10,
+        minWidth: fullWidth ? "100%" : 170,
+        padding: "10px 14px",
+        borderRadius: 9,
         border: highlight ? "1px solid transparent" : `1px solid ${T.ink12}`,
         background: highlight ? T.ink : "rgba(255,255,255,.55)",
         color: highlight ? T.w : T.ink,
         textDecoration: "none",
         fontFamily: font.sans,
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 600,
         letterSpacing: ".01em",
         whiteSpace: "nowrap",
       }}
     >
       {children}
-      <span style={{ opacity: 0.95, fontSize: 18, lineHeight: 1 }}>→</span>
+      <span style={{ opacity: 0.95, fontSize: 16, lineHeight: 1 }}>→</span>
     </a>
   );
 }
@@ -135,27 +135,27 @@ export function Contact() {
       style={{
         background: "#E8E3D9",
         padding: isSmallMobile
-          ? "40px 0"
+          ? "30px 0"
           : isMobile
-            ? "56px 0"
-            : "88px 0",
+            ? "44px 0"
+            : "64px 0",
       }}
     >
       <div
         style={{
-          maxWidth: 1160,
+          maxWidth: 1040,
           margin: "0 auto",
           padding: `0 ${isSmallMobile ? 16 : isMobile ? 20 : isTablet ? 28 : 48}px`,
         }}
       >
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: isSmallMobile ? 22 : 32 }}>
+          <div style={{ textAlign: "center", marginBottom: isSmallMobile ? 16 : 24 }}>
             <h2
               style={{
                 margin: 0,
                 fontFamily: font.serif,
                 fontWeight: 700,
-                fontSize: "clamp(28px, 3.5vw, 46px)",
+                fontSize: "clamp(26px, 3vw, 40px)",
                 lineHeight: 1.12,
                 letterSpacing: "-.02em",
                 color: T.ink,
@@ -167,10 +167,10 @@ export function Contact() {
 
           <div
             style={{
-              borderRadius: isSmallMobile ? 18 : 20,
+              borderRadius: isSmallMobile ? 14 : 16,
               border: `1px solid ${T.ink12}`,
               background: "linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.58) 100%)",
-              boxShadow: "0 22px 45px rgba(30,26,16,.10)",
+              boxShadow: "0 14px 30px rgba(30,26,16,.08)",
               overflow: "hidden",
             }}
           >
@@ -181,13 +181,13 @@ export function Contact() {
                   display: "grid",
                   gridTemplateColumns: isMobile ? "1fr" : "auto minmax(0,1fr) auto",
                   alignItems: isMobile ? "start" : "center",
-                  columnGap: isSmallMobile ? 14 : 18,
-                  rowGap: isMobile ? 14 : 8,
-                  padding: isSmallMobile ? "20px 16px" : isMobile ? "24px 20px" : "28px 28px",
+                  columnGap: isSmallMobile ? 10 : 14,
+                  rowGap: isMobile ? 10 : 6,
+                  padding: isSmallMobile ? "14px 12px" : isMobile ? "16px 14px" : "20px 18px",
                   borderBottom: idx === items.length - 1 ? "none" : `1px solid ${T.ink12}`,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 44, height: 44 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36 }}>
                   <ContactIcon type={item.icon} />
                 </div>
 
@@ -197,7 +197,7 @@ export function Contact() {
                       margin: 0,
                       fontFamily: font.serif,
                       fontWeight: 600,
-                      fontSize: isSmallMobile ? 15 : 17,
+                      fontSize: isSmallMobile ? 14 : 16,
                       lineHeight: 1.2,
                       color: T.ink,
                     }}
@@ -208,10 +208,10 @@ export function Contact() {
                     style={{
                       margin: "6px 0 0",
                       fontFamily: font.sans,
-                      fontSize: isSmallMobile ? 12 : 13,
-                      lineHeight: 1.65,
+                      fontSize: isSmallMobile ? 11 : 12,
+                      lineHeight: 1.55,
                       color: T.ink60,
-                      maxWidth: 700,
+                      maxWidth: 620,
                     }}
                   >
                     {item.desc}
