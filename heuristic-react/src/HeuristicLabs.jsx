@@ -543,27 +543,47 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
           animation:"slideDownMenu .3s ease-out",
           zIndex:199,
         }}>
-          {navLinks.map(link => (
-            <button
-              key={link.label}
-              onClick={() => {
-                if (link.onClick) link.onClick();
-                setMobileMenuOpen(false);
-              }}
-              style={{
-                width:"100%", textAlign:"left",
-                padding:"12px 16px", borderRadius:12,
-                background:T.ink07, border:`1px solid ${T.ink12}`,
-                fontSize:14, fontWeight:500, color:T.ink,
-                fontFamily:font.sans, cursor:"pointer",
-                transition:".2s",
-              }}
-              onMouseEnter={(e) => e.target.style.background = T.ink12}
-              onMouseLeave={(e) => e.target.style.background = T.ink07}
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map(link => {
+            const itemStyle = {
+              width:"100%", textAlign:"left",
+              padding:"12px 16px", borderRadius:12,
+              background:T.ink07, border:`1px solid ${T.ink12}`,
+              fontSize:14, fontWeight:500, color:T.ink,
+              fontFamily:font.sans, cursor:"pointer",
+              transition:".2s", textDecoration:"none",
+              display:"block",
+            };
+            
+            if (link.onClick) {
+              return (
+                <button
+                  key={link.label}
+                  onClick={() => {
+                    link.onClick();
+                    setMobileMenuOpen(false);
+                  }}
+                  style={itemStyle}
+                  onMouseEnter={(e) => e.target.style.background = T.ink12}
+                  onMouseLeave={(e) => e.target.style.background = T.ink07}
+                >
+                  {link.label}
+                </button>
+              );
+            } else {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={itemStyle}
+                  onMouseEnter={(e) => e.target.style.background = T.ink12}
+                  onMouseLeave={(e) => e.target.style.background = T.ink07}
+                >
+                  {link.label}
+                </a>
+              );
+            }
+          })}
           <Btn dark href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ width:"100%", justifyContent:"center" }}>
             Talk to us
           </Btn>
