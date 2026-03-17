@@ -304,7 +304,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+          gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",
           gap:16,
           marginTop:26,
         }}>
@@ -347,7 +347,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(3, minmax(0, 1fr))",
+          gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",
           gap:16,
           marginTop:16,
         }}>
@@ -402,8 +402,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
 
 function Nav({ onLogoClick, onHomeClick, isLanding }) {
   const { width, isMobile, isTablet } = useViewport();
-  const isDesktop = width >= 1024;
-  const showDesktopCta = width >= 1280;
+  const isDesktopWide = width >= 1200;
   const navLinks = [
     { label:"Home", onClick: onHomeClick },
     { label:"About", href:"#about" },
@@ -415,8 +414,8 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
   return (
     <nav style={{
       position:"sticky", top:0, zIndex:isLanding ? 200 : 200,
-      display:isDesktop ? "grid" : "flex",
-      gridTemplateColumns:isDesktop ? "1fr auto 1fr" : "none",
+      display:isDesktopWide ? "grid" : "flex",
+      gridTemplateColumns:isDesktopWide ? "1fr auto 1fr" : "none",
       alignItems:"center", justifyContent:"space-between",
       flexWrap:isTablet ? "wrap" : "nowrap",
       rowGap:isMobile ? 8 : isTablet ? 10 : 0,
@@ -436,7 +435,7 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
         justifyContent:isTablet ? "center" : "flex-start",
         flexWrap:isTablet ? "wrap" : "nowrap",
         order:isTablet ? 3 : 1,
-        justifySelf:isDesktop ? "start" : "auto",
+        justifySelf:isDesktopWide ? "start" : "auto",
       }}>
         {navLinks.map(link => (
           <li key={link.label}>
@@ -476,13 +475,13 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
           order:isTablet ? 1 : 2,
           width:isTablet ? "100%" : "auto",
           textAlign:isTablet ? "center" : "left",
-          justifySelf:isDesktop ? "center" : "auto",
+          justifySelf:isDesktopWide ? "center" : "auto",
         }}
       >
         Heuristic Labs
       </button>
-      {isDesktop && showDesktopCta && (
-        <div style={{ justifySelf:isDesktop ? "end" : "auto" }}>
+      {isDesktopWide && (
+        <div style={{ justifySelf:isDesktopWide ? "end" : "auto" }}>
           <Btn dark href="#contact">Talk to us </Btn>
         </div>
       )}
@@ -573,7 +572,7 @@ function WhoWeAre() {
           background:`linear-gradient(130deg, ${T.teal} 0%, ${T.tealMid} 45%, ${T.tealDk} 100%)`,
           padding:isMobile ? "28px 18px" : "48px 40px",
         }}>
-          <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:20 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:20 }}>
             {[
               { num:"92%", label:"End-to-end automation achieved for clients" },
               { num:"8 wks", label:"Average time to first production deployment" },
@@ -619,7 +618,7 @@ function Services() {
           desc="End-to-end AI transformation — from strategy and research to production-grade systems and governance frameworks."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "repeat(2,1fr)", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))", gap:16 }}>
         {SERVICES.map((s, i) => (
           <Reveal key={s.name} delay={i * 0.05}>
             <div style={{
@@ -674,7 +673,7 @@ function CaseStudies() {
           desc="11 production-grade AI systems delivered across industries — each with documented, quantified impact."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:16 }}>
         {visibleCases.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.05}>
             <div style={{
