@@ -185,15 +185,16 @@ function Hero() {
         </Reveal>
         <div style={{ display:"flex", justifyContent:"flex-end", alignItems:"center" }}>
           <div style={{
-            width:420, height:420, borderRadius:20, overflow:"hidden",
-            background:"#EDE8E0",
-            boxShadow:"0 20px 60px rgba(30,26,16,.10)",
+            width:430, height:430, borderRadius:24, overflow:"hidden",
+            background:T.bg,
+            position:"relative",
             display:"flex", alignItems:"center", justifyContent:"center",
           }}>
             <img src={BRAIN_IMG} alt="AI Brain"
               style={{
-                width:"100%", height:"100%", objectFit:"contain",
-                mixBlendMode:"multiply",
+                position:"relative", zIndex:2,
+                width:"92%", height:"92%", objectFit:"contain",
+                mixBlendMode:"multiply", opacity:.98,
                 animation:"floatBrain 7s ease-in-out infinite",
               }} />
           </div>
