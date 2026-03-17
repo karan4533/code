@@ -3,7 +3,7 @@ import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
 import { Btn } from "../shared/Btn";
 
-export function Nav({ onLogoClick, onHomeClick, isLanding }) {
+export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const isDesktopWide = !isTablet;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,10 +13,10 @@ export function Nav({ onLogoClick, onHomeClick, isLanding }) {
     { label: "About", href: "#about" },
     { label: "Service", href: "#services" },
     { label: "Case Studies", href: "#case-studies" },
-    { label: "Contact", href: "#contact" },
+    { label: "Contact", onClick: onContactClick },
   ];
 
-  const handleNavClick = (onClick, href) => {
+  const handleNavClick = (onClick) => {
     if (onClick) onClick();
     setMobileMenuOpen(false);
   };
@@ -181,7 +181,7 @@ export function Nav({ onLogoClick, onHomeClick, isLanding }) {
 
         {/* Talk to Us Button - Desktop Only */}
         <div style={{ order: 3, marginLeft: isDesktopWide ? "auto" : "0" }}>
-          {isDesktopWide && <Btn dark href="#contact">Talk to us</Btn>}
+          {isDesktopWide && <Btn dark onClick={onContactClick}>Talk to us</Btn>}
         </div>
       </nav>
 
@@ -254,8 +254,7 @@ export function Nav({ onLogoClick, onHomeClick, isLanding }) {
           })}
           <Btn
             dark
-            href="#contact"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={() => handleNavClick(onContactClick)}
             style={{ width: "100%", justifyContent: "center" }}
           >
             Talk to us

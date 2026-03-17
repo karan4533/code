@@ -60,6 +60,19 @@ export default function App() {
     setShowLanding(false);
   };
 
+  const handleContactClick = () => {
+    if (showLanding) {
+      setPendingSection("contact");
+      setShowLanding(false);
+      return;
+    }
+
+    const element = document.getElementById("contact");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const handleExitLanding = () => {
     setShowLanding(false);
     setPendingSection(null);
@@ -80,6 +93,7 @@ export default function App() {
       <Nav
         onLogoClick={handleLogoClick}
         onHomeClick={handleHomeClick}
+        onContactClick={handleContactClick}
         isLanding={showLanding}
       />
       {!showLanding && (
