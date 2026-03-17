@@ -48,7 +48,7 @@ export function LandingPage({
           minHeight: headerHeight,
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-start",
+          justifyContent: !isMobile && !isTablet ? "space-between" : "flex-start",
           flexDirection: "row",
           flexWrap: "nowrap",
           gap: 12,
