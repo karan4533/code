@@ -1,0 +1,11 @@
+{
+  "installCommand": "npm install --prefix heuristic-react",
+  "buildCommand": "npm run build --prefix heuristic-react",
+  "outputDirectory": "heuristic-react/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
