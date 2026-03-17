@@ -13,7 +13,7 @@ export function LandingPage({
 }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [landingMenuOpen, setLandingMenuOpen] = useState(false);
-  const headerHeight = isSmallMobile ? 160 : isMobile ? 140 : isTablet ? 88 : 72;
+  const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
   const landingLinks = [
     { label: "Home", onClick: onHome },
     { label: "About", onClick: onAbout },
@@ -48,23 +48,39 @@ export function LandingPage({
           minHeight: headerHeight,
           display: "flex",
           alignItems: "center",
-          justifyContent: isMobile ? "center" : "space-between",
-          flexDirection: isMobile ? "column" : "row",
-          flexWrap: isTablet ? "wrap" : "nowrap",
-          gap: isSmallMobile ? 10 : isMobile ? 12 : isTablet ? 12 : 0,
+          justifyContent: "flex-start",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          gap: 12,
           padding: isSmallMobile
-            ? "10px 12px"
+            ? "8px 12px"
             : isMobile
-              ? "12px 16px"
+              ? "10px 16px"
               : isTablet
                 ? "10px 24px"
                 : "0 48px",
           borderBottom: `1px solid ${T.ink12}`,
+          background: `rgba(232, 227, 217, ${isMobile ? 0.95 : 0.8})`,
+          backdropFilter: "blur(12px)",
           fontFamily: font.sans,
         }}
       >
+        {/* Logo */}
+        <div
+          style={{
+            fontFamily: font.serif,
+            fontSize: isSmallMobile ? 13 : isMobile ? 15 : 17,
+            fontWeight: 600,
+            color: T.ink,
+            flexShrink: 0,
+            textAlign: "left",
+          }}
+        >
+          Heuristic Labs
+        </div>
+
         {/* Hamburger Menu Button - Mobile/Tablet Only */}
-        {isTablet && (
+        {(isMobile || isTablet) && (
           <button
             onClick={() => setLandingMenuOpen(!landingMenuOpen)}
             style={{
@@ -80,7 +96,8 @@ export function LandingPage({
               border: "none",
               cursor: "pointer",
               padding: 0,
-              order: 1,
+              marginLeft: "auto",
+              flexShrink: 0,
             }}
           >
             <span
@@ -120,24 +137,9 @@ export function LandingPage({
           </button>
         )}
 
-        {/* Logo */}
-        <div
-          style={{
-            fontFamily: font.serif,
-            fontSize: isSmallMobile ? 15 : isMobile ? 17 : 19,
-            fontWeight: 600,
-            color: T.ink,
-            order: isTablet ? 2 : 0,
-            flex: isTablet ? 1 : "auto",
-            textAlign: "center",
-          }}
-        >
-          Heuristic Labs
-        </div>
-
         {/* Desktop Navigation - Hidden on Mobile */}
-        {!isTablet && (
-          <nav style={{ width: "auto", order: 0 }}>
+        {!isMobile && !isTablet && (
+          <nav style={{ width: "auto" }}>
             <ul
               style={{
                 display: "flex",
@@ -179,7 +181,7 @@ export function LandingPage({
       </header>
 
       {/* Mobile Menu Dropdown - Landing Page */}
-      {isTablet && landingMenuOpen && (
+      {(isMobile || isTablet) && landingMenuOpen && (
         <div
           style={{
             position: "fixed",
@@ -189,10 +191,10 @@ export function LandingPage({
             background: "rgba(232,227,217,.98)",
             backdropFilter: "blur(16px)",
             borderBottom: `1px solid ${T.ink12}`,
-            padding: "16px 12px",
+            padding: isSmallMobile ? "12px 12px" : "16px 12px",
             display: "flex",
             flexDirection: "column",
-            gap: 8,
+            gap: isSmallMobile ? 6 : 8,
             animation: "slideDownMenu .3s ease-out",
             zIndex: 299,
           }}
@@ -207,11 +209,11 @@ export function LandingPage({
               style={{
                 width: "100%",
                 textAlign: "left",
-                padding: "12px 16px",
+                padding: isSmallMobile ? "10px 12px" : "12px 16px",
                 borderRadius: 12,
                 background: T.ink07,
                 border: `1px solid ${T.ink12}`,
-                fontSize: 14,
+                fontSize: isSmallMobile ? 13 : 14,
                 fontWeight: 500,
                 color: T.ink,
                 fontFamily: font.sans,
@@ -232,19 +234,19 @@ export function LandingPage({
           textAlign: "center",
           animation: "slideUpLanding .8s ease-out",
           padding: isSmallMobile
-            ? "36px 12px 24px"
+            ? "14px 12px 24px"
             : isMobile
-              ? "40px 16px 28px"
+              ? "16px 16px 28px"
               : isTablet
-                ? "32px 24px 34px"
+                ? "20px 24px 34px"
                 : "104px 32px 44px",
           width: "min(1200px, 100%)",
           marginTop: isSmallMobile
-            ? headerHeight + 32
+            ? headerHeight + 12
             : isMobile
-              ? headerHeight + 24
+              ? headerHeight + 12
               : isTablet
-                ? headerHeight + 16
+                ? headerHeight + 12
                 : headerHeight,
           display: "flex",
           flexDirection: "column",
