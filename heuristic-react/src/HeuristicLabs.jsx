@@ -29,6 +29,23 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
+function useViewport() {
+  const getWidth = () => (typeof window === "undefined" ? 1280 : window.innerWidth);
+  const [width, setWidth] = useState(getWidth);
+
+  useEffect(() => {
+    const onResize = () => setWidth(getWidth());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return {
+    width,
+    isMobile: width < 768,
+    isTablet: width < 1024,
+  };
+}
+
 /* ── tokens ── */
 const T = {
   bg:     "#E8E3D9",
@@ -100,29 +117,43 @@ const Btn = ({ children, dark, onClick, href, style }) => {
   return <button style={s} onClick={onClick}>{children}</button>;
 };
 
-const SecHeader = ({ pill, title, desc, light }) => (
-  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:32, alignItems:"start", marginBottom:56 }}>
-    <div>
-      <Pill dark={light}>{pill}</Pill>
-      <H2 light={light}>{title}</H2>
+const SecHeader = ({ pill, title, desc, light }) => {
+  const { isMobile } = useViewport();
+  return (
+    <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isMobile ? 18 : 32, alignItems:"start", marginBottom:isMobile ? 34 : 56 }}>
+      <div>
+        <Pill dark={light}>{pill}</Pill>
+        <H2 light={light}>{title}</H2>
+      </div>
+      <div style={{ paddingTop:isMobile ? 0 : 40 }}>
+        <p style={{ fontSize:15, lineHeight:1.75, color: light ? T.w40 : T.ink60, fontFamily:font.sans }}>{desc}</p>
+      </div>
     </div>
-    <div style={{ paddingTop:40 }}>
-      <p style={{ fontSize:15, lineHeight:1.75, color: light ? T.w40 : T.ink60, fontFamily:font.sans }}>{desc}</p>
-    </div>
-  </div>
-);
+  );
+};
 
-const Section = ({ children, bg, id }) => (
-  <section id={id} style={{ padding:"88px 0", background: bg || T.bg }}>
-    <div style={{ maxWidth:1160, margin:"0 auto", padding:"0 48px" }}>{children}</div>
-  </section>
-);
+const Section = ({ children, bg, id }) => {
+  const { isMobile, isTablet } = useViewport();
+  return (
+    <section id={id} style={{ padding:isMobile ? "56px 0" : "88px 0", background: bg || T.bg }}>
+      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>{children}</div>
+    </section>
+  );
+};
 
 /* ══════════════════════════════════════════════════
    SECTIONS
 ══════════════════════════════════════════════════ */
 
 function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onContact }) {
+  const { isMobile, isTablet } = useViewport();
+  const landingLinks = [
+    { label:"Home", onClick:onHome },
+    { label:"About", onClick:onAbout },
+    { label:"Service", onClick:onService },
+    { label:"Case Studies", onClick:onCaseStudies },
+    { label:"Contact", onClick:onContact },
+  ];
   const capabilities = [
     {
       title: "AI Strategy",
@@ -154,47 +185,54 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
       overflowY:"auto",
     }}>
       <header style={{
-        position:"absolute",
+        position:"sticky",
         top:0,
-        left:0,
+        zIndex:2,
         width:"100%",
-        height:72,
+        minHeight:isMobile ? 140 : isTablet ? 88 : 72,
         display:"flex",
         alignItems:"center",
         justifyContent:"space-between",
-        padding:"0 48px",
+        flexDirection:isMobile ? "column" : "row",
+        flexWrap:isTablet ? "wrap" : "nowrap",
+        gap:isMobile ? 10 : isTablet ? 12 : 0,
+        padding:isMobile ? "10px 16px" : isTablet ? "10px 24px" : "0 48px",
         borderBottom:`1px solid ${T.ink12}`,
         fontFamily:font.sans,
       }}>
         <div style={{
           fontFamily:font.serif,
-          fontSize:19,
+          fontSize:isMobile ? 17 : 19,
           fontWeight:600,
           color:T.ink,
         }}>
           Heuristic Labs
         </div>
-        <nav>
-          <ul style={{ display:"flex", gap:28, listStyle:"none", margin:0, padding:0 }}>
-            {[
-              { label:"Home", onClick:onHome },
-              { label:"About", onClick:onAbout },
-              { label:"Service", onClick:onService },
-              { label:"Case Studies", onClick:onCaseStudies },
-              { label:"Contact", onClick:onContact },
-            ].map((item) => (
+        <nav style={{ width:isMobile ? "100%" : isTablet ? "100%" : "auto" }}>
+          <ul style={{
+            display:"flex",
+            gap:isMobile ? 8 : isTablet ? 12 : 28,
+            listStyle:"none",
+            margin:0,
+            padding:0,
+            justifyContent:isMobile || isTablet ? "center" : "flex-start",
+            flexWrap:isMobile || isTablet ? "wrap" : "nowrap",
+          }}>
+            {landingLinks.map((item) => (
               <li key={item.label}>
                 <button
                   onClick={item.onClick}
                   style={{
                     background:"none",
                     border:"none",
-                    padding:0,
+                    padding:isMobile || isTablet ? "5px 10px" : 0,
+                    borderRadius:999,
                     cursor:"pointer",
                     color:T.ink60,
-                    fontSize:14,
+                    fontSize:isMobile ? 12 : isTablet ? 13 : 14,
                     fontWeight:400,
                     fontFamily:font.sans,
+                    border:isMobile || isTablet ? `1px solid ${T.ink12}` : "none",
                   }}
                 >
                   {item.label}
@@ -207,9 +245,9 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
       <div style={{
         textAlign:"center",
         animation:"slideUpLanding .8s ease-out",
-        padding:"104px 32px 44px",
+        padding:isMobile ? "18px 16px 26px" : isTablet ? "18px 24px 34px" : "40px 32px 44px",
         width:"min(1200px, 100%)",
-        marginTop:72,
+        marginTop:0,
         display:"flex",
         flexDirection:"column",
         alignItems:"center",
@@ -217,7 +255,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
       
         <p style={{
           fontFamily:font.serif,
-          fontSize:"clamp(54px, 6.2vw, 86px)",
+          fontSize:isMobile ? "clamp(40px, 12vw, 56px)" : "clamp(54px, 6.2vw, 86px)",
           fontWeight:700,
           lineHeight:1.03,
           letterSpacing:"-.02em",
@@ -232,7 +270,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         </p>
         <p style={{
           fontFamily:font.sans,
-          fontSize:18,
+          fontSize:isMobile ? 16 : 18,
           lineHeight:1.75,
           color:T.ink60,
           maxWidth:840,
@@ -267,7 +305,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:"repeat(3, minmax(0, 1fr))",
+          gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",
           gap:16,
           marginTop:26,
         }}>
@@ -310,7 +348,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
         <div style={{
           width:"100%",
           display:"grid",
-          gridTemplateColumns:"repeat(3, minmax(0, 1fr))",
+          gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))",
           gap:16,
           marginTop:16,
         }}>
@@ -364,6 +402,8 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
 }
 
 function Nav({ onLogoClick, onHomeClick, isLanding }) {
+  const { width, isMobile, isTablet } = useViewport();
+  const isDesktopWide = width >= 1200;
   const navLinks = [
     { label:"Home", onClick: onHomeClick },
     { label:"About", href:"#about" },
@@ -375,21 +415,38 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
   return (
     <nav style={{
       position:"sticky", top:0, zIndex:isLanding ? 200 : 200,
-      display:"flex", alignItems:"center", justifyContent:"space-between",
-      padding:"0 48px", height:60,
+      display:isDesktopWide ? "grid" : "flex",
+      gridTemplateColumns:isDesktopWide ? "1fr auto 1fr" : "none",
+      alignItems:"center", justifyContent:"space-between",
+      flexWrap:isTablet ? "wrap" : "nowrap",
+      rowGap:isMobile ? 8 : isTablet ? 10 : 0,
+      padding:isMobile ? "10px 16px" : isTablet ? "0 24px" : "0 48px",
+      height:isTablet ? "auto" : 60,
       background:"rgba(232,227,217,.94)", backdropFilter:"blur(16px)",
       borderBottom:`1px solid ${T.ink12}`,
       fontFamily:font.sans,
     }}>
-      <ul style={{ display:"flex", gap:28, listStyle:"none", padding:0, margin:0 }}>
+      <ul style={{
+        display:"flex",
+        gap:isMobile ? 8 : isDesktopWide ? 24 : 10,
+        listStyle:"none",
+        padding:0,
+        margin:0,
+        width:isTablet ? "100%" : "auto",
+        justifyContent:isTablet ? "center" : "flex-start",
+        flexWrap:isTablet ? "wrap" : "nowrap",
+        order:isTablet ? 3 : 1,
+        justifySelf:isDesktopWide ? "start" : "auto",
+      }}>
         {navLinks.map(link => (
           <li key={link.label}>
             {link.onClick ? (
               <button
                 onClick={link.onClick}
                 style={{
-                  fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none",
-                  background:"none", border:"none", cursor:"pointer", padding:0,
+                  fontSize:isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
+                  background:"none", border:isTablet ? `1px solid ${T.ink12}` : "none", cursor:"pointer", padding:isTablet ? "5px 10px" : 0,
+                  borderRadius:isTablet ? 999 : 0,
                   fontFamily:font.sans,
                 }}
               >
@@ -397,7 +454,11 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
               </button>
             ) : (
               <a href={link.href}
-                style={{ fontSize:14, fontWeight:400, color:T.ink60, textDecoration:"none" }}>
+                style={{
+                  fontSize:isMobile ? 12 : isTablet ? 13 : 14, fontWeight:400, color:T.ink60, textDecoration:"none",
+                  border:isTablet ? `1px solid ${T.ink12}` : "none", padding:isTablet ? "5px 10px" : 0,
+                  borderRadius:isTablet ? 999 : 0,
+                }}>
                 {link.label}
               </a>
             )}
@@ -407,26 +468,36 @@ function Nav({ onLogoClick, onHomeClick, isLanding }) {
       <button
         onClick={onLogoClick}
         style={{
-          fontFamily:font.serif, fontSize:19, fontWeight:600,
+          fontFamily:font.serif, fontSize:isMobile ? 17 : 19, fontWeight:600,
           color:T.ink, textDecoration:"none",
-          position:"absolute", left:"50%", transform:"translateX(-50%)",
+          position:"static",
+          transform:"none",
           background:"none", border:"none", cursor:"pointer", padding:0,
+          order:isTablet ? 1 : 2,
+          width:isTablet ? "100%" : "auto",
+          textAlign:isTablet ? "center" : "left",
+          justifySelf:isDesktopWide ? "center" : "auto",
         }}
       >
         Heuristic Labs
       </button>
-      <Btn dark href="#contact">Talk to us </Btn>
+      {isDesktopWide && (
+        <div style={{ justifySelf:isDesktopWide ? "end" : "auto" }}>
+          <Btn dark href="#contact">Talk to us </Btn>
+        </div>
+      )}
     </nav>
   );
 }
 
 function Hero() {
+  const { isMobile, isTablet } = useViewport();
   return (
-    <div style={{ maxWidth:1160, margin:"0 auto", padding:"0 48px" }}>
+    <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>
       <div style={{
-        display:"grid", gridTemplateColumns:"1fr 1fr",
-        alignItems:"center", gap:40,
-        minHeight:"calc(100vh - 60px)", padding:"60px 0 80px",
+        display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1fr",
+        alignItems:"center", gap:isMobile ? 28 : 40,
+        minHeight:isTablet ? "auto" : "calc(100vh - 60px)", padding:isMobile ? "36px 0 56px" : "60px 0 80px",
       }}>
         <Reveal>
           <Pill>About us</Pill>
@@ -456,10 +527,10 @@ function Hero() {
             </a>
           </div>
         </Reveal>
-        <div style={{ display:"flex", justifyContent:"flex-end", alignItems:"center" }}>
+        <div style={{ display:"flex", justifyContent:isTablet ? "center" : "flex-end", alignItems:"center" }}>
           <div style={{
-            width:"clamp(340px, 38vw, 500px)",
-            height:"clamp(340px, 38vw, 500px)",
+            width:isMobile ? "min(88vw, 420px)" : "clamp(340px, 38vw, 500px)",
+            height:isMobile ? "min(88vw, 420px)" : "clamp(340px, 38vw, 500px)",
             borderRadius:24, overflow:"hidden",
             background:T.bg,
             position:"relative",
@@ -479,6 +550,7 @@ function Hero() {
 }
 
 function WhoWeAre() {
+  const { isMobile, isTablet } = useViewport();
   return (
     <Section id="about">
       <Reveal>
@@ -499,9 +571,9 @@ function WhoWeAre() {
         <div style={{
           borderRadius:20, overflow:"hidden",
           background:`linear-gradient(130deg, ${T.teal} 0%, ${T.tealMid} 45%, ${T.tealDk} 100%)`,
-          padding:"48px 40px",
+          padding:isMobile ? "28px 18px" : "48px 40px",
         }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))", gap:20 }}>
             {[
               { num:"92%", label:"End-to-end automation achieved for clients" },
               { num:"8 wks", label:"Average time to first production deployment" },
@@ -537,6 +609,7 @@ const SERVICES = [
 ];
 
 function Services() {
+  const { isMobile } = useViewport();
   return (
     <Section id="services">
       <Reveal>
@@ -546,7 +619,7 @@ function Services() {
           desc="End-to-end AI transformation — from strategy and research to production-grade systems and governance frameworks."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))", gap:16 }}>
         {SERVICES.map((s, i) => (
           <Reveal key={s.name} delay={i * 0.05}>
             <div style={{
@@ -587,6 +660,7 @@ const CASES = [
 ];
 
 function CaseStudies() {
+  const { isMobile, isTablet } = useViewport();
   const [showAllCases, setShowAllCases] = useState(false);
   const initialVisible = 6;
   const visibleCases = showAllCases ? CASES : CASES.slice(0, initialVisible);
@@ -600,7 +674,7 @@ function CaseStudies() {
           desc="11 production-grade AI systems delivered across industries — each with documented, quantified impact."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(260px, 1fr))", gap:16 }}>
         {visibleCases.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.05}>
             <div style={{
@@ -668,6 +742,7 @@ const TEAM = [
 ];
 
 function Team() {
+  const { isMobile, isTablet } = useViewport();
   return (
     <Section id="team">
       <Reveal>
@@ -677,7 +752,7 @@ function Team() {
           desc="No layers of management. You work directly with the specialists who understand your business and build your AI systems from first principles to production."
         />
       </Reveal>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))", gap:20 }}>
         {TEAM.map((m, i) => (
           <Reveal key={m.name} delay={i * 0.08}>
             <div style={{
@@ -724,11 +799,12 @@ const FAQS = [
 ];
 
 function FAQ() {
+  const { isMobile } = useViewport();
   const [open, setOpen] = useState(null);
   return (
     <Section>
       <Reveal>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:64, alignItems:"start" }}>
+        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:isMobile ? 30 : 64, alignItems:"start" }}>
           <div>
             <Pill>FAQ</Pill>
             <div style={{ fontFamily:font.serif, fontSize:"clamp(34px,3.5vw,46px)", fontWeight:700, lineHeight:1.12, letterSpacing:"-.02em", color:T.ink, marginBottom:16 }}>
@@ -774,15 +850,16 @@ function FAQ() {
 }
 
 function Contact() {
+  const { isMobile, isTablet } = useViewport();
   const [chips, setChips] = useState([]);
   const toggle = (c) => setChips(p => p.includes(c) ? p.filter(x=>x!==c) : [...p,c]);
   const chipList = ["Custom AI Build","AI Strategy","GenAI Automation","Need to scale operations","R&D Partnership","Security & compliance"];
 
   return (
-    <section id="contact" style={{ background:T.bg2, padding:"80px 0" }}>
-      <div style={{ maxWidth:1160, margin:"0 auto", padding:"0 48px" }}>
+    <section id="contact" style={{ background:T.bg2, padding:isMobile ? "56px 0" : "80px 0" }}>
+      <div style={{ maxWidth:1160, margin:"0 auto", padding:`0 ${isMobile ? 20 : isTablet ? 28 : 48}px` }}>
         <Reveal>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1.4fr", gap:32, alignItems:"start" }}>
+          <div style={{ display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1.4fr", gap:32, alignItems:"start" }}>
             {/* left teal card */}
             <div style={{
               borderRadius:20, overflow:"hidden",
@@ -806,7 +883,7 @@ function Contact() {
 
             {/* right form */}
             <div style={{ padding:"8px 0" }}>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:12, marginBottom:16 }}>
                 {["Name*","Email*"].map(ph => (
                   <input key={ph} placeholder={ph} style={{
                     width:"100%", padding:"12px 16px",
@@ -817,7 +894,7 @@ function Contact() {
                 ))}
               </div>
               <p style={{ fontSize:13, color:T.ink60, marginBottom:12, fontFamily:font.sans }}>What services are you interested in?</p>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:16 }}>
+              <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : "1fr 1fr", gap:8, marginBottom:16 }}>
                 {chipList.map(c => (
                   <div key={c} onClick={() => toggle(c)} style={{
                     padding:"9px 14px", borderRadius:10, cursor:"pointer",
@@ -868,15 +945,16 @@ function Contact() {
 }
 
 function Footer() {
+  const { isMobile, isTablet } = useViewport();
   const cols = [
     { title:"Navigate", links:[["About","#about"],["Services","#services"],["Case Studies","#case-studies"],["Team","#team"],["FAQ","#"]] },
     { title:"Services", links:[["Custom AI Solutions","#"],["Industrial GenAI","#"],["AI Governance","#"],["Strategic Consulting","#"],["R&D as a Service","#"]] },
     { title:"Connect", links:[["Talk to us Call","#contact"],["Email Us","mailto:connect@heuristiclabs.ai"],["LinkedIn","#"],["Website","https://heuristiclabs.ai"]] },
   ];
   return (
-    <footer style={{ background:T.footer, padding:"64px 48px 40px", fontFamily:font.sans }}>
+    <footer style={{ background:T.footer, padding:isMobile ? "48px 20px 28px" : isTablet ? "56px 28px 34px" : "64px 48px 40px", fontFamily:font.sans }}>
       <div style={{ maxWidth:1160, margin:"0 auto" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1.6fr 1fr 1fr 1fr", gap:48, paddingBottom:48, borderBottom:"1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "1fr 1fr" : "1.6fr 1fr 1fr 1fr", gap:isMobile ? 28 : 48, paddingBottom:48, borderBottom:"1px solid rgba(255,255,255,.08)" }}>
           <div>
             <div style={{ fontFamily:font.serif, fontSize:20, fontWeight:600, color:T.w, marginBottom:12 }}>Heuristic Labs</div>
             <p style={{ fontSize:13, color:T.w40, lineHeight:1.7, marginBottom:24, maxWidth:280 }}>
@@ -899,7 +977,7 @@ function Footer() {
             </div>
           ))}
         </div>
-        <div style={{ paddingTop:28, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div style={{ paddingTop:28, display:"flex", justifyContent:"space-between", alignItems:isMobile ? "flex-start" : "center", flexDirection:isMobile ? "column" : "row", gap:isMobile ? 8 : 0 }}>
           <span style={{ fontSize:12, color:"rgba(255,255,255,.22)" }}>© 2026 Heuristic Labs (Frux Consulting LLP). All rights reserved.</span>
           <span style={{ fontSize:12, color:"rgba(255,255,255,.22)" }}>www.heuristiclabs.ai</span>
         </div>
