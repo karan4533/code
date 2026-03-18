@@ -45,9 +45,13 @@ function ContactIcon({ type }) {
 }
 
 function ActionBtn({ href, children, highlight, fullWidth }) {
+  const isExternal = /^https?:\/\//.test(href);
+
   return (
     <a
       href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -58,7 +62,7 @@ function ActionBtn({ href, children, highlight, fullWidth }) {
         padding: "10px 14px",
         borderRadius: 9,
         border: highlight ? "1px solid transparent" : `1px solid ${T.ink12}`,
-        background: highlight ? T.ink : "rgba(255,255,255,.55)",
+        background: highlight ? T.ink : "rgba(221,216,206,.72)",
         color: highlight ? T.w : T.ink,
         textDecoration: "none",
         fontFamily: font.sans,
@@ -133,7 +137,7 @@ export function Contact() {
     <section
       id="contact"
       style={{
-        background: "#E8E3D9",
+        background: "#DDD8CE",
         padding: isSmallMobile
           ? "30px 0"
           : isMobile
@@ -169,7 +173,7 @@ export function Contact() {
             style={{
               borderRadius: isSmallMobile ? 14 : 16,
               border: `1px solid ${T.ink12}`,
-              background: "linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.58) 100%)",
+              background: "linear-gradient(180deg, #E6E1D8 0%, #DED8CD 100%)",
               boxShadow: "0 14px 30px rgba(30,26,16,.08)",
               overflow: "hidden",
             }}
