@@ -28,10 +28,9 @@ function ContactIcon({ type }) {
   if (type === "linkedin") {
     return (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="3" y="9" width="4" height="12" rx="1" stroke={stroke} strokeWidth="2" />
-        <circle cx="5" cy="5" r="2" stroke={stroke} strokeWidth="2" />
-        <path d="M11 21V13.5C11 11.6 12.6 10 14.5 10C16.4 10 18 11.6 18 13.5V21" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-        <path d="M18 21H21" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
+        <circle cx="6.8" cy="6.6" r="1.6" fill={stroke} />
+        <path d="M6.8 9.8V18" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
+        <path d="M10.6 18V13.6C10.6 12 11.85 10.8 13.45 10.8C15.05 10.8 16.3 12 16.3 13.6V18" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
@@ -212,7 +211,7 @@ export function Contact() {
                     style={{
                       margin: "6px 0 0",
                       fontFamily: font.sans,
-                      fontSize: isSmallMobile ? 11 : 12,
+                      fontSize: isSmallMobile ? 13 : 14,
                       lineHeight: 1.55,
                       color: T.ink60,
                       maxWidth: 620,
