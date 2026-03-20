@@ -431,7 +431,7 @@ export function LandingPage({
               boxShadow: "0 6px 18px rgba(79,87,204,.12)",
             }}
           >
-            Clarity-first AI systems for enterprises
+            Clarity-First AI Systems for Enterprises
           </span>
         </div>
 

@@ -16,6 +16,6 @@ export const CAPABILITIES = [
 
 export const STATS = [
   { value: "50+", label: "AI engagements shipped" },
-  { value: "6-10 wks", label: "Typical production timeline" },
+  { value: "6-10 weeks", label: "Typical production timeline" },
   { value: "92%", label: "Automation coverage on average" },
 ];

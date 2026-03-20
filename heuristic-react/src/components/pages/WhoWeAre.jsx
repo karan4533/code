@@ -54,7 +54,7 @@ export function WhoWeAre() {
                 label: "End-to-end automation achieved for clients",
               },
               {
-                num: "8 wks",
+                num: "8 weeks",
                 label:
                   "Average time to first production deployment",
               },

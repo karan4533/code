@@ -174,7 +174,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
 
   const stats = [
     { value: "50+", label: "AI engagements shipped" },
-    { value: "6-10 wks", label: "Typical production timeline" },
+    { value: "6-10 weeks", label: "Typical production timeline" },
     { value: "92%", label: "Automation coverage on average" },
   ];
 
@@ -748,7 +748,7 @@ function WhoWeAre() {
           <div style={{ display:"grid", gridTemplateColumns:isMobile ? "1fr" : isTablet ? "repeat(2,1fr)" : "repeat(3,1fr)", gap:isSmallMobile ? 12 : 20 }}>
             {[
               { num:"92%", label:"End-to-end automation achieved for clients" },
-              { num:"8 wks", label:"Average time to first production deployment" },
+              { num:"8 weeks", label:"Average time to first production deployment" },
               { num:"50+", label:"Years of combined AI leadership experience" },
             ].map(s => (
               <div key={s.num} style={{
