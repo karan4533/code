@@ -54,7 +54,7 @@ export default function App() {
         onLogoClick={handleLogoClick}
         onHomeClick={handleHomeClick}
         onContactClick={handleContactClick}
-        isLanding={false}
+        isLanding={true}
       />
       <LandingPage
         onExit={handleExitLanding}

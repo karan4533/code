@@ -9,6 +9,10 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [brandHovered, setBrandHovered] = useState(false);
   const [brandPressed, setBrandPressed] = useState(false);
+  const navHeight = isLanding ? 72 : 60;
+  const linkSize = isLanding ? 14 : 13;
+  const brandSize = isSmallMobile ? 14 : isMobile ? 16 : isTablet ? 17 : isLanding ? 21 : 19;
+  const logoSize = isSmallMobile ? 24 : isMobile ? 27 : isLanding ? 34 : 31;
 
   const navLinks = [
     { label: "Home", onClick: onHomeClick },
@@ -36,12 +40,15 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               ? "10px 16px"
               : isTablet
                 ? "0 24px"
-                : "0 48px",
-          height: isDesktopWide ? 60 : "auto",
-          background: "rgba(232,227,217,.94)",
+                : isLanding
+                  ? "0 56px"
+                  : "0 48px",
+          height: isDesktopWide ? navHeight : "auto",
+          background: isLanding ? "rgba(232,227,217,.9)" : "rgba(232,227,217,.94)",
           backdropFilter: "blur(16px)",
           borderBottom: `1px solid ${T.ink12}`,
           fontFamily: font.sans,
+          transition: "padding .25s ease, height .25s ease, background .25s ease",
         }}
       >
         {/* Hamburger Menu Button - Mobile Only */}
@@ -107,7 +114,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
           <ul
             style={{
               display: "flex",
-              gap: isSmallMobile ? 6 : isMobile ? 8 : 24,
+              gap: isSmallMobile ? 6 : isMobile ? 8 : isLanding ? 28 : 24,
               listStyle: "none",
               padding: 0,
               margin: 0,
@@ -121,7 +128,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   <button
                     onClick={link.onClick}
                     style={{
-                      fontSize: 13,
+                      fontSize: linkSize,
                       fontWeight: 500,
                       letterSpacing: ".01em",
                       color: T.ink60,
@@ -140,7 +147,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   <a
                     href={link.href}
                     style={{
-                      fontSize: 13,
+                      fontSize: linkSize,
                       fontWeight: 500,
                       letterSpacing: ".01em",
                       color: T.ink60,
@@ -169,9 +176,9 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 8,
+            gap: isLanding ? 10 : 8,
             fontFamily: font.serif,
-            fontSize: isSmallMobile ? 13 : isMobile ? 14 : isTablet ? 15 : 17,
+            fontSize: brandSize,
             fontWeight: 700,
             color: T.ink,
             textDecoration: "none",
@@ -179,7 +186,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
             border: "none",
             borderRadius: 10,
             cursor: "pointer",
-            padding: isSmallMobile ? "3px 5px" : "4px 6px",
+            padding: isSmallMobile ? "4px 6px" : isLanding ? "6px 10px" : "5px 8px",
             order: 1,
             flex: "0 0 auto",
             textAlign: "left",
@@ -191,8 +198,8 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
             src={companyLogo}
             alt="Heuristic Labs logo"
             style={{
-              width: isSmallMobile ? 22 : isMobile ? 24 : 27,
-              height: isSmallMobile ? 22 : isMobile ? 24 : 27,
+              width: logoSize,
+              height: logoSize,
               objectFit: "contain",
               filter: "brightness(0) saturate(100%)",
               flexShrink: 0,

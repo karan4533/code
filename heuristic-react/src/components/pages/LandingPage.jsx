@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
 import { CAPABILITIES, STATS } from "../../constants/data/customizations";
@@ -14,8 +14,11 @@ export function LandingPage({
 }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [landingMenuOpen, setLandingMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
+  const parallaxOffset = Math.min(scrollY * 0.08, 26);
+  const contentLift = Math.min(scrollY * 0.035, 12);
   const landingLinks = [
     { label: "Home", onClick: onHome },
     { label: "About", onClick: onAbout },
@@ -23,6 +26,13 @@ export function LandingPage({
     { label: "Case Studies", onClick: onCaseStudies },
     { label: "Contact", onClick: onContact },
   ];
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY || 0);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div
@@ -39,6 +49,52 @@ export function LandingPage({
         overflow: "hidden",
       }}
     >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          zIndex: 0,
+          opacity: 0.65,
+          background:
+            "radial-gradient(42rem 30rem at 15% 20%, rgba(241,177,86,0.22), transparent 70%), radial-gradient(34rem 28rem at 82% 24%, rgba(78,93,206,0.16), transparent 72%), radial-gradient(28rem 20rem at 55% 78%, rgba(24,96,171,0.12), transparent 68%)",
+          transform: `translateY(${parallaxOffset * -0.65}px)`,
+          transition: "transform .35s ease-out",
+          animation: "heroBlobFloat 14s ease-in-out infinite",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          zIndex: 0,
+          opacity: 0.18,
+          background:
+            "linear-gradient(rgba(30,26,16,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(30,26,16,0.08) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage:
+            "radial-gradient(circle at 50% 40%, rgba(0,0,0,0.7), rgba(0,0,0,0.05) 72%)",
+          transform: `translateY(${parallaxOffset * -0.35}px)`,
+          transition: "transform .35s ease-out",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          zIndex: 0,
+          opacity: 0.11,
+          mixBlendMode: "multiply",
+          backgroundImage:
+            "radial-gradient(rgba(27,24,16,0.3) 0.8px, transparent 0.9px)",
+          backgroundSize: "3px 3px",
+        }}
+      />
       {showLocalHeader && (
         <header
           style={{
@@ -249,26 +305,61 @@ export function LandingPage({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          position: "relative",
+          zIndex: 1,
+          transform: `translateY(${contentLift * -1}px)`,
+          transition: "transform .35s ease-out",
         }}
       >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            width: isMobile ? 210 : 300,
+            height: isMobile ? 210 : 300,
+            borderRadius: "50%",
+            top: isMobile ? -36 : -48,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background:
+              "conic-gradient(from 50deg, rgba(241,177,86,.26), rgba(78,93,206,.12), rgba(24,96,171,.18), rgba(241,177,86,.26))",
+            animation: "heroHaloSpin 18s linear infinite",
+            opacity: 0.42,
+            pointerEvents: "none",
+          }}
+        />
         <p
           style={{
             fontFamily: font.serif,
             fontSize: isMobile
-              ? "clamp(34px, 10vw, 48px)"
-              : "clamp(44px, 5.4vw, 70px)",
+              ? "clamp(48px, 12.2vw, 68px)"
+              : "clamp(66px, 7.1vw, 100px)",
             fontWeight: 700,
-            lineHeight: 1.05,
-            letterSpacing: "-.02em",
+            lineHeight: 1.03,
+            letterSpacing: "-.028em",
             color: T.ink,
             maxWidth: 860,
-            margin: "6px auto 18px",
-            animation: `revealSoftUp .85s ${introEase} .18s both`,
+            margin: "8px auto 22px",
+            animation: `heroHeadlineIn .95s ${introEase} .14s both`,
+            position: "relative",
+            zIndex: 1,
           }}
         >
           <span>From AI confusion</span>
           <span style={{ display: "block", marginTop: 2 }}>
-            to <span style={{ color: T.amber }}>clarity</span>.
+            to{" "}
+            <span
+              style={{
+                background:
+                  "linear-gradient(100deg, #d47f21 0%, #f1b156 44%, #6f7bd6 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              clarity
+            </span>
+            .
           </span>
         </p>
 
@@ -276,11 +367,13 @@ export function LandingPage({
           style={{
             fontFamily: font.sans,
             fontSize: isSmallMobile ? 13 : isMobile ? 15 : 16,
-            lineHeight: 1.68,
+            lineHeight: 1.76,
             color: T.ink60,
             maxWidth: 760,
-            margin: "0 auto 18px",
-            animation: `revealSoftUp .85s ${introEase} .28s both`,
+            margin: "0 auto 22px",
+            animation: `revealSoftUp .9s ${introEase} .3s both`,
+            position: "relative",
+            zIndex: 1,
           }}
         >
           Heuristic Labs helps enterprises turn AI ambition into reliable
@@ -292,21 +385,32 @@ export function LandingPage({
           onClick={onExit}
           style={{
             marginTop: 2,
-            padding: "12px 30px",
+            padding: "13px 34px",
             borderRadius: 100,
-            background: T.ink,
+            background: "linear-gradient(120deg, #221f17 0%, #393327 100%)",
             color: T.w,
             border: "none",
             fontFamily: font.sans,
             fontSize: 13,
             fontWeight: 600,
             cursor: "pointer",
-            transition: ".3s",
-            boxShadow: "0 10px 30px rgba(30,26,16,.16)",
-            animation: `revealSoftUp .8s ${introEase} .36s both`,
+            transition:
+              "transform .26s ease, box-shadow .26s ease, filter .26s ease, opacity .26s ease",
+            boxShadow: "0 12px 28px rgba(30,26,16,.22)",
+            animation: `heroButtonPop .72s ${introEase} .44s both`,
+            position: "relative",
+            zIndex: 1,
           }}
-          onMouseEnter={(e) => (e.target.style.opacity = "0.8")}
-          onMouseLeave={(e) => (e.target.style.opacity = "1")}
+          onMouseEnter={(e) => {
+            e.target.style.transform = "translateY(-2px) scale(1.03)";
+            e.target.style.boxShadow = "0 16px 34px rgba(30,26,16,.3)";
+            e.target.style.filter = "brightness(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "translateY(0) scale(1)";
+            e.target.style.boxShadow = "0 12px 28px rgba(30,26,16,.22)";
+            e.target.style.filter = "brightness(1)";
+          }}
         >
           Explore ➜
         </button>
@@ -321,7 +425,7 @@ export function LandingPage({
                 ? "repeat(2, minmax(0, 1fr))"
                 : "repeat(3, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 16 : 22,
+            marginTop: isSmallMobile ? 20 : 28,
           }}
         >
           {CAPABILITIES.map((item, i) => (
@@ -340,7 +444,19 @@ export function LandingPage({
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                animation: `revealSoftUp .72s ${introEase} ${0.44 + i * 0.06}s both`,
+                animation: `revealSoftUp .72s ${introEase} ${0.52 + i * 0.08}s both`,
+                transition:
+                  "transform .28s ease, box-shadow .28s ease, border-color .28s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow = "0 16px 28px rgba(30,26,16,.12)";
+                e.currentTarget.style.borderColor = "rgba(30,26,16,.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.borderColor = T.ink12;
               }}
             >
               <div
@@ -377,7 +493,7 @@ export function LandingPage({
                 ? "repeat(2, minmax(0, 1fr))"
                 : "repeat(3, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 12 : 14,
+            marginTop: isSmallMobile ? 14 : 18,
           }}
         >
           {STATS.map((item, i) => (
@@ -390,7 +506,19 @@ export function LandingPage({
                 textAlign: "left",
                 background: "rgba(255,255,255,.2)",
                 minHeight: isSmallMobile ? 72 : 84,
-                animation: `revealSoftUp .72s ${introEase} ${0.6 + i * 0.06}s both`,
+                animation: `revealSoftUp .72s ${introEase} ${0.72 + i * 0.08}s both`,
+                transition:
+                  "transform .28s ease, box-shadow .28s ease, border-color .28s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = "0 12px 20px rgba(30,26,16,.1)";
+                e.currentTarget.style.borderColor = "rgba(30,26,16,.24)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.borderColor = T.ink12;
               }}
             >
               <div
