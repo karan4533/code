@@ -2,7 +2,7 @@ import { T, font } from "../../constants/designTokens";
 import { Em } from "./Typography";
 import { useViewport } from "../../hooks/useViewport";
 
-export const SecHeader = ({ pill, title, desc, light }) => {
+export const SecHeader = ({ pill, title, desc, light, pillSize }) => {
   const { isMobile, isSmallMobile } = useViewport();
   return (
     <div style={{ marginBottom: 32, textAlign: "center" }}>
@@ -12,7 +12,7 @@ export const SecHeader = ({ pill, title, desc, light }) => {
           padding: "6px 12px",
           borderRadius: 100,
           background: light ? "rgba(255,255,255,.18)" : T.ink07,
-          fontSize: 11,
+          fontSize: pillSize ?? 11,
           fontWeight: 600,
           color: light ? T.w60 : T.ink60,
           letterSpacing: ".08em",

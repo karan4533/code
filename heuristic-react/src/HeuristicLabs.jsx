@@ -728,13 +728,13 @@ function WhoWeAre() {
       <Reveal>
         <SecHeader
           pill="Who we are"
-          title={<>Your <Em>On-Demand</Em> AI Research Partner</>}
+          title={<>Your <Em>On-Demand</Em> AI Partner</>}
           desc={
             <>
               The world of GenAI is evolving too fast for any one team to track. Our applied AI research team evaluates emerging GenAI technologies so you don't have to.
               <br />
               <br />
-              We build a library of AI agents and accelerators that forms the foundation for custom, production-ready solutions, helping you stay ahead while keeping innovation costs low.
+              We build a library of AI agents and accelerators that forms the foundation for custom, production-ready solutions, helping you stay ahead while keeping innovation costs low with high safety governance.
             </>
           }
         />

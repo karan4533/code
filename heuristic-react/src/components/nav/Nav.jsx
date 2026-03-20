@@ -222,7 +222,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
             fontWeight: 700,
             color: T.ink,
             textDecoration: "none",
-            background: brandHovered ? "rgba(255,255,255,.45)" : "transparent",
+            background: brandHovered ? "rgba(236,230,219,.72)" : "transparent",
             border: "none",
             borderRadius: 14,
             cursor: "pointer",
@@ -287,7 +287,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               textAlign: "left",
               padding: "12px 16px",
               borderRadius: 12,
-              background: "rgba(255,255,255,.68)",
+              background: "rgba(236,230,219,.82)",
               border: `1px solid rgba(30,26,16,.1)`,
               fontSize: 13,
               fontWeight: 500,
@@ -310,11 +310,11 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   }}
                   style={itemStyle}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,.92)";
+                    e.currentTarget.style.background = "rgba(232,226,214,.96)";
                     e.currentTarget.style.transform = "translateY(-1px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,.68)";
+                    e.currentTarget.style.background = "rgba(236,230,219,.82)";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
@@ -329,11 +329,11 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   onClick={() => setMobileMenuOpen(false)}
                   style={itemStyle}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,.92)";
+                    e.currentTarget.style.background = "rgba(232,226,214,.96)";
                     e.currentTarget.style.transform = "translateY(-1px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,.68)";
+                    e.currentTarget.style.background = "rgba(236,230,219,.82)";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >

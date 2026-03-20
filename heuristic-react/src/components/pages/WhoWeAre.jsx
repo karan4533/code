@@ -9,9 +9,10 @@ export function WhoWeAre() {
       <Reveal>
         <SecHeader
           pill="Who we are"
+          pillSize={12}
           title={
             <>
-              Your <Em>On-Demand</Em> AI Research Partner
+              Your <Em>On-Demand</Em> AI Partner
             </>
           }
           desc={
@@ -23,7 +24,7 @@ export function WhoWeAre() {
               <br />
               We build a library of AI agents and accelerators that forms the
               foundation for custom, production-ready solutions, helping you
-              stay ahead while keeping innovation costs low.
+              stay ahead while keeping innovation costs low with high safety governance.
             </>
           }
         />
