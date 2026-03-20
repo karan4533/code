@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
-import { CAPABILITIES, STATS } from "../../constants/data/customizations";
+import { STATS } from "../../constants/data/customizations";
 
 export function LandingPage({
   onExit,
@@ -25,6 +25,17 @@ export function LandingPage({
     "Ship outcomes, not prototypes.",
     "Turn strategy into working systems.",
   ];
+  const companyList = [
+    "GAP",
+    "AJIO",
+    "NAUTICA",
+    "LIFESTYLE",
+    "MYNTRA",
+    "FRENCH CONNECTION",
+    "HAMLEYS",
+    "GERBER",
+  ];
+  const marqueeCompanies = [...companyList, ...companyList];
   const landingLinks = [
     { label: "Home", onClick: onHome },
     { label: "About", onClick: onAbout },
@@ -428,106 +439,66 @@ export function LandingPage({
           R&D.
         </p>
 
-        <button
-          onClick={onExit}
-          style={{
-            marginTop: 2,
-            padding: "13px 34px",
-            borderRadius: 100,
-            background: "linear-gradient(120deg, #221f17 0%, #393327 100%)",
-            color: T.w,
-            border: "none",
-            fontFamily: font.sans,
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: "pointer",
-            transition:
-              "transform .26s ease, box-shadow .26s ease, filter .26s ease, opacity .26s ease",
-            boxShadow: "0 12px 28px rgba(30,26,16,.22)",
-            animation: `heroButtonPop .72s ${introEase} .44s both`,
-            position: "relative",
-            zIndex: 1,
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.transform = "translateY(-2px) scale(1.03)";
-            e.target.style.boxShadow = "0 16px 34px rgba(30,26,16,.3)";
-            e.target.style.filter = "brightness(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = "translateY(0) scale(1)";
-            e.target.style.boxShadow = "0 12px 28px rgba(30,26,16,.22)";
-            e.target.style.filter = "brightness(1)";
-          }}
-        >
-          Explore ➜
-        </button>
-
         <div
           style={{
             width: "100%",
-            display: "grid",
-            gridTemplateColumns: isMobile
-              ? "1fr"
-              : isTablet
-                ? "repeat(2, minmax(0, 1fr))"
-                : "repeat(3, minmax(0, 1fr))",
-            gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 20 : 28,
+            marginTop: isSmallMobile ? 8 : 12,
+            paddingTop: isSmallMobile ? 10 : 12,
+            borderTop: `1px dashed ${T.ink12}`,
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          {CAPABILITIES.map((item, i) => (
+          <p
+            style={{
+              marginBottom: isSmallMobile ? 10 : 12,
+              fontFamily: font.sans,
+              fontSize: isSmallMobile ? 12 : 14,
+              color: T.ink60,
+              letterSpacing: ".01em",
+              textAlign: "center",
+            }}
+          >
+            Loved by teams who ship every week
+          </p>
+
+          <div
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            }}
+          >
             <div
-              key={item.title}
               style={{
-                background: "rgba(255,255,255,.42)",
-                border: `1px solid ${T.ink12}`,
-                borderRadius: 18,
-                padding: isSmallMobile
-                  ? "14px 14px 12px"
-                  : "17px 17px 15px",
-                textAlign: "left",
-                backdropFilter: "blur(3px)",
-                minHeight: isSmallMobile ? 126 : 138,
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                animation: `revealSoftUp .72s ${introEase} ${0.52 + i * 0.08}s both`,
-                transition:
-                  "transform .28s ease, box-shadow .28s ease, border-color .28s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow = "0 16px 28px rgba(30,26,16,.12)";
-                e.currentTarget.style.borderColor = "rgba(30,26,16,.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
-                e.currentTarget.style.borderColor = T.ink12;
+                alignItems: "center",
+                gap: isSmallMobile ? 28 : isMobile ? 38 : 56,
+                width: "max-content",
+                animation: `heroCompanyMarquee ${isMobile ? 22 : 30}s linear infinite`,
+                padding: isSmallMobile ? "8px 0 2px" : "10px 0 4px",
               }}
             >
-              <div
-                style={{
-                  fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 18 : 20,
-                  color: T.ink,
-                  marginBottom: 8,
-                }}
-              >
-                {item.title}
-              </div>
-              <div
-                style={{
-                  fontFamily: font.sans,
-                  fontSize: isSmallMobile ? 13 : 14,
-                  lineHeight: 1.6,
-                  color: T.ink60,
-                }}
-              >
-                {item.detail}
-              </div>
+              {marqueeCompanies.map((name, idx) => (
+                <span
+                  key={`${name}-${idx}`}
+                  style={{
+                    fontFamily: font.sans,
+                    fontSize: isSmallMobile ? 16 : isMobile ? 18 : 22,
+                    fontWeight: 600,
+                    color: "rgba(30,26,16,.42)",
+                    letterSpacing: ".04em",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {name}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
         <div
@@ -540,7 +511,7 @@ export function LandingPage({
                 ? "repeat(2, minmax(0, 1fr))"
                 : "repeat(3, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 14 : 18,
+            marginTop: isSmallMobile ? 18 : 24,
           }}
         >
           {STATS.map((item, i) => (
@@ -593,19 +564,6 @@ export function LandingPage({
           ))}
         </div>
 
-        <p
-          style={{
-            marginTop: 10,
-            marginBottom: 8,
-            fontFamily: font.sans,
-            fontSize: 11,
-            color: T.ink40,
-            letterSpacing: ".03em",
-            textTransform: "uppercase",
-          }}
-        >
-
-        </p>
       </div>
     </div>
   );
