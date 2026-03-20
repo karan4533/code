@@ -15,10 +15,16 @@ export function LandingPage({
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [landingMenuOpen, setLandingMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [phraseIndex, setPhraseIndex] = useState(0);
   const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
   const parallaxOffset = Math.min(scrollY * 0.08, 26);
   const contentLift = Math.min(scrollY * 0.035, 12);
+  const rotatingPhrases = [
+    "Build your next AI launch.",
+    "Ship outcomes, not prototypes.",
+    "Turn strategy into working systems.",
+  ];
   const landingLinks = [
     { label: "Home", onClick: onHome },
     { label: "About", onClick: onAbout },
@@ -33,6 +39,14 @@ export function LandingPage({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const phraseTimer = window.setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
+    }, 1800);
+
+    return () => window.clearInterval(phraseTimer);
+  }, [rotatingPhrases.length]);
 
   return (
     <div
@@ -362,6 +376,39 @@ export function LandingPage({
             .
           </span>
         </p>
+
+        <div
+          style={{
+            height: isSmallMobile ? 34 : isMobile ? 40 : 46,
+            overflow: "hidden",
+            margin: "2px auto 14px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <p
+            key={phraseIndex}
+            style={{
+              fontFamily: font.serif,
+              fontStyle: "normal",
+              fontWeight: 600,
+              fontSize: isSmallMobile
+                ? "clamp(24px, 7.1vw, 30px)"
+                : isMobile
+                  ? "clamp(27px, 6.4vw, 36px)"
+                  : "clamp(32px, 3.8vw, 46px)",
+              lineHeight: 1.04,
+              letterSpacing: "-.02em",
+              color: "rgba(30,26,16,.78)",
+              animation: `heroPhraseSlideUp .58s ${introEase} both`,
+            }}
+          >
+            {rotatingPhrases[phraseIndex]}
+          </p>
+        </div>
 
         <p
           style={{
