@@ -360,7 +360,7 @@ export function LandingPage({
             flexDirection: "column",
             alignItems: "center",
             gap: isSmallMobile ? 8 : 10,
-            marginTop: isSmallMobile ? -4 : -12,
+            marginTop: isSmallMobile ? 4 : isMobile ? -2 : -10,
             marginBottom: isSmallMobile ? 4 : 8,
             position: "relative",
             zIndex: 1,
