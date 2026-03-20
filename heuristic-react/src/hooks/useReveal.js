@@ -1,18 +1,38 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useReveal() {
   const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
-    const o = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          e.target.style.animation = getComputedStyle(e.target).animation;
-        }
+    const node = ref.current;
+    if (!node) return;
+
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        observer.unobserve(entry.target);
       },
-      { threshold: 0 }
+      {
+        threshold: 0.14,
+        rootMargin: "0px 0px -8% 0px",
+      }
     );
-    if (ref.current) o.observe(ref.current);
-    return () => o && ref.current && o.unobserve(ref.current);
+
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
-  return ref;
+
+  return [ref, isVisible];
 }

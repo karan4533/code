@@ -22,9 +22,10 @@ export function CaseStudies() {
               <Em>Measurable</Em> results.
             </>
           }
-          desc="11 production-grade AI systems delivered across industries — each with documented, quantified impact."
+          desc="11 production-grade AI systems delivered across industries - each with documented, quantified impact."
         />
       </Reveal>
+
       <div
         style={{
           display: "grid",
@@ -33,46 +34,68 @@ export function CaseStudies() {
             : isTablet
               ? "repeat(2,1fr)"
               : "repeat(3,1fr)",
-          gap: isSmallMobile ? 12 : 16,
+          gap: isSmallMobile ? 12 : 18,
         }}
       >
         {visibleCases.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.05}>
             <div
               style={{
-                background: T.bg2,
+                position: "relative",
+                overflow: "hidden",
+                background: `linear-gradient(165deg, ${T.bg2} 0%, #E2DBD0 55%, #D7D0C4 100%)`,
                 border: `1px solid ${T.ink12}`,
-                borderRadius: 16,
-                padding: isSmallMobile ? "20px 18px 24px" : "28px 24px 32px",
+                borderRadius: 18,
+                padding: isSmallMobile ? "18px 16px 20px" : "24px 22px 26px",
                 height: "100%",
+                boxShadow: "0 10px 24px rgba(30,26,16,.06)",
               }}
             >
               <div
                 style={{
+                  position: "absolute",
+                  top: -50,
+                  right: -40,
+                  width: 130,
+                  height: 130,
+                  borderRadius: "50%",
+                  background: i % 2 === 0 ? "rgba(12,96,96,.10)" : "rgba(176,120,69,.12)",
+                }}
+              />
+
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  marginBottom: isSmallMobile ? 12 : 18,
+                  marginBottom: isSmallMobile ? 10 : 14,
                 }}
               >
                 <span
                   style={{
-                    fontSize: isSmallMobile ? 9 : 10,
+                    fontSize: isSmallMobile ? 10 : 11,
                     fontWeight: 600,
-                    letterSpacing: ".1em",
+                    letterSpacing: ".08em",
                     textTransform: "uppercase",
-                    color: T.ink40,
+                    color: T.ink60,
                     fontFamily: font.sans,
+                    background: "rgba(255,255,255,.5)",
+                    border: `1px solid ${T.ink12}`,
+                    borderRadius: 100,
+                    padding: "4px 9px",
                   }}
                 >
                   {c.cat}
                 </span>
+
                 <span
                   style={{
                     fontSize: isSmallMobile ? 10 : 11,
-                    fontWeight: 500,
-                    color: T.ink60,
-                    background: T.ink07,
+                    fontWeight: 600,
+                    color: T.ink,
+                    background: "rgba(255,255,255,.55)",
                     border: `1px solid ${T.ink12}`,
                     padding: isSmallMobile ? "2px 8px" : "3px 10px",
                     borderRadius: 100,
@@ -82,55 +105,74 @@ export function CaseStudies() {
                   {c.weeks}
                 </span>
               </div>
+
               <div
                 style={{
+                  position: "relative",
+                  zIndex: 1,
                   fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 15 : 17,
+                  fontSize: isSmallMobile ? 17 : 19,
                   fontWeight: 600,
                   color: T.ink,
-                  marginBottom: 10,
-                  lineHeight: 1.35,
+                  marginBottom: 8,
+                  lineHeight: 1.3,
                 }}
               >
                 {c.title}
               </div>
+
               <p
                 style={{
+                  position: "relative",
+                  zIndex: 1,
                   fontSize: isSmallMobile ? 12 : 13,
-                  lineHeight: 1.65,
+                  lineHeight: 1.6,
                   color: T.ink60,
-                  marginBottom: 16,
+                  marginBottom: 14,
                   fontFamily: font.sans,
                 }}
               >
                 {c.body}
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: isSmallMobile ? 5 : 6 }}>
+
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  display: "grid",
+                  gridTemplateColumns: isSmallMobile ? "1fr" : "repeat(2,minmax(0,1fr))",
+                  gap: isSmallMobile ? 8 : 10,
+                }}
+              >
                 {c.metrics.map((m) => (
                   <div
                     key={m.label}
                     style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      gap: 6,
+                      border: `1px solid ${T.ink12}`,
+                      background: "rgba(255,255,255,.42)",
+                      borderRadius: 10,
+                      padding: isSmallMobile ? "8px 10px" : "9px 11px",
                     }}
                   >
                     <span
                       style={{
+                        display: "block",
                         fontFamily: font.serif,
-                        fontSize: isSmallMobile ? 18 : 22,
+                        fontSize: isSmallMobile ? 20 : 24,
                         fontWeight: 700,
                         color: T.ink,
                         lineHeight: 1,
+                        marginBottom: 4,
                       }}
                     >
                       {m.val}
                     </span>
                     <span
                       style={{
-                        fontSize: isSmallMobile ? 11 : 12,
+                        fontSize: isSmallMobile ? 11 : 11.5,
                         color: T.ink60,
                         fontFamily: font.sans,
+                        lineHeight: 1.35,
                       }}
                     >
                       {m.label}
@@ -142,6 +184,7 @@ export function CaseStudies() {
           </Reveal>
         ))}
       </div>
+
       {CASES.length > initialVisible && (
         <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
           <button
@@ -172,13 +215,11 @@ export function CaseStudies() {
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 11,
-                transform: showAllCases
-                  ? "rotate(-90deg)"
-                  : "rotate(90deg)",
+                transform: showAllCases ? "rotate(-90deg)" : "rotate(90deg)",
                 transition: "transform .2s ease",
               }}
             >
-              ➜
+              {"->"}
             </span>
           </button>
         </div>

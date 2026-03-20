@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
-import { Btn } from "../shared/Btn";
+import companyLogo from "../../assets/logo (1).png";
 
 export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const isDesktopWide = !isTablet;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [brandHovered, setBrandHovered] = useState(false);
+  const [brandPressed, setBrandPressed] = useState(false);
 
   const navLinks = [
     { label: "Home", onClick: onHomeClick },
@@ -15,11 +17,6 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
     { label: "Case Studies", href: "#case-studies" },
     { label: "Contact", onClick: onContactClick },
   ];
-
-  const handleNavClick = (onClick) => {
-    if (onClick) onClick();
-    setMobileMenuOpen(false);
-  };
 
   return (
     <>
@@ -64,7 +61,8 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               border: "none",
               cursor: "pointer",
               padding: 0,
-              order: 1,
+              order: 2,
+              marginLeft: "auto",
             }}
           >
             <span
@@ -109,11 +107,12 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
           <ul
             style={{
               display: "flex",
-              gap: isSmallMobile ? 6 : isMobile ? 8 : 28,
+              gap: isSmallMobile ? 6 : isMobile ? 8 : 24,
               listStyle: "none",
               padding: 0,
               margin: 0,
-              order: 1,
+              order: 2,
+              marginLeft: "auto",
             }}
           >
             {navLinks.map((link) => (
@@ -122,8 +121,9 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   <button
                     onClick={link.onClick}
                     style={{
-                      fontSize: 14,
-                      fontWeight: 400,
+                      fontSize: 13,
+                      fontWeight: 500,
+                      letterSpacing: ".01em",
                       color: T.ink60,
                       textDecoration: "none",
                       background: "none",
@@ -140,8 +140,9 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   <a
                     href={link.href}
                     style={{
-                      fontSize: 14,
-                      fontWeight: 400,
+                      fontSize: 13,
+                      fontWeight: 500,
+                      letterSpacing: ".01em",
                       color: T.ink60,
                       textDecoration: "none",
                       whiteSpace: "nowrap",
@@ -155,34 +156,60 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
           </ul>
         )}
 
-        {/* Logo - Desktop Center, Mobile Left */}
+        {/* Logo - Left aligned */}
         <button
           onClick={onLogoClick}
+          onMouseEnter={() => setBrandHovered(true)}
+          onMouseLeave={() => {
+            setBrandHovered(false);
+            setBrandPressed(false);
+          }}
+          onMouseDown={() => setBrandPressed(true)}
+          onMouseUp={() => setBrandPressed(false)}
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
             fontFamily: font.serif,
-            fontSize: isSmallMobile ? 15 : isMobile ? 17 : 19,
-            fontWeight: 600,
+            fontSize: isSmallMobile ? 13 : isMobile ? 14 : isTablet ? 15 : 17,
+            fontWeight: 700,
             color: T.ink,
             textDecoration: "none",
-            position: isDesktopWide ? "absolute" : "static",
-            left: isDesktopWide ? "50%" : "auto",
-            transform: isDesktopWide ? "translateX(-50%)" : "none",
-            background: "none",
+            background: brandHovered ? "#E8E3D9F0" : "transparent",
             border: "none",
+            borderRadius: 10,
             cursor: "pointer",
-            padding: 0,
-            order: isTablet ? 2 : 2,
-            flex: isTablet ? 1 : "auto",
-            textAlign: "center",
+            padding: isSmallMobile ? "3px 5px" : "4px 6px",
+            order: 1,
+            flex: "0 0 auto",
+            textAlign: "left",
+            transform: brandPressed ? "translateY(1px)" : "translateY(0)",
+            transition: "background .2s ease, transform .15s ease",
           }}
         >
-          Heuristic Labs
+          <img
+            src={companyLogo}
+            alt="Heuristic Labs logo"
+            style={{
+              width: isSmallMobile ? 22 : isMobile ? 24 : 27,
+              height: isSmallMobile ? 22 : isMobile ? 24 : 27,
+              objectFit: "contain",
+              filter: "brightness(0) saturate(100%)",
+              flexShrink: 0,
+              transform: brandHovered ? "scale(1.08)" : "scale(1)",
+              transition: "transform .2s ease",
+            }}
+          />
+          <span
+            style={{
+              whiteSpace: "nowrap",
+              letterSpacing: brandHovered ? ".01em" : "0em",
+              transition: "letter-spacing .2s ease",
+            }}
+          >
+            Heuristic Labs
+          </span>
         </button>
-
-        {/* Talk to Us Button - Desktop Only */}
-        <div style={{ order: 3, marginLeft: isDesktopWide ? "auto" : "0" }}>
-          {isDesktopWide && <Btn dark onClick={onContactClick}>Talk to us</Btn>}
-        </div>
       </nav>
 
       {/* Mobile Menu Dropdown */}
@@ -212,8 +239,9 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               borderRadius: 12,
               background: T.ink07,
               border: `1px solid ${T.ink12}`,
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: 500,
+              letterSpacing: ".01em",
               color: T.ink,
               fontFamily: font.sans,
               cursor: "pointer",
@@ -252,13 +280,6 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               );
             }
           })}
-          <Btn
-            dark
-            onClick={() => handleNavClick(onContactClick)}
-            style={{ width: "100%", justifyContent: "center" }}
-          >
-            Talk to us
-          </Btn>
         </div>
       )}
     </>

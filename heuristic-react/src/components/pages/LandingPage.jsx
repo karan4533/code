@@ -10,9 +10,11 @@ export function LandingPage({
   onService,
   onCaseStudies,
   onContact,
+  showLocalHeader = true,
 }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const [landingMenuOpen, setLandingMenuOpen] = useState(false);
+  const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
   const landingLinks = [
     { label: "Home", onClick: onHome },
@@ -24,47 +26,47 @@ export function LandingPage({
 
   return (
     <div
+      id="home"
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
+        position: "relative",
         width: "100%",
-        height: "100%",
+        minHeight: "100vh",
         background: `radial-gradient(circle at 80% 15%, ${T.bg3} 0%, ${T.bg} 40%, ${T.bg} 100%)`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        zIndex: 300,
-        animation: "fadeInLanding .8s ease-out",
-        overflowY: "auto",
+        animation: `landingCinematicIn .95s ${introEase} both`,
+        overflow: "hidden",
       }}
     >
-      <header
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          minHeight: headerHeight,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: !isMobile && !isTablet ? "space-between" : "flex-start",
-          flexDirection: "row",
-          flexWrap: "nowrap",
-          gap: 12,
-          padding: isSmallMobile
-            ? "8px 12px"
-            : isMobile
-              ? "10px 16px"
-              : isTablet
-                ? "10px 24px"
-                : "0 48px",
-          borderBottom: `1px solid ${T.ink12}`,
-          background: `rgba(232, 227, 217, ${isMobile ? 0.95 : 0.8})`,
-          backdropFilter: "blur(12px)",
-          fontFamily: font.sans,
-        }}
-      >
+      {showLocalHeader && (
+        <header
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            minHeight: headerHeight,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: !isMobile && !isTablet ? "space-between" : "flex-start",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            gap: 12,
+            padding: isSmallMobile
+              ? "8px 12px"
+              : isMobile
+                ? "10px 16px"
+                : isTablet
+                  ? "10px 24px"
+                  : "0 48px",
+            borderBottom: `1px solid ${T.ink12}`,
+            background: `rgba(232, 227, 217, ${isMobile ? 0.95 : 0.8})`,
+            backdropFilter: "blur(12px)",
+            fontFamily: font.sans,
+            animation: `revealSoftUp .7s ${introEase} .06s both`,
+          }}
+        >
         {/* Logo */}
         <div
           style={{
@@ -178,10 +180,11 @@ export function LandingPage({
             </ul>
           </nav>
         )}
-      </header>
+        </header>
+      )}
 
       {/* Mobile Menu Dropdown - Landing Page */}
-      {(isMobile || isTablet) && landingMenuOpen && (
+      {showLocalHeader && (isMobile || isTablet) && landingMenuOpen && (
         <div
           style={{
             position: "fixed",
@@ -232,16 +235,16 @@ export function LandingPage({
       <div
         style={{
           textAlign: "center",
-          animation: "slideUpLanding .8s ease-out",
+          animation: `revealSoftUp .9s ${introEase} .12s both`,
           padding: isSmallMobile
             ? "8px 12px 24px"
             : isMobile
               ? "8px 16px 28px"
               : isTablet
                 ? "12px 24px 34px"
-                : "104px 32px 44px",
-          width: "min(1200px, 100%)",
-          marginTop: headerHeight,
+                    : "86px 28px 34px",
+                  width: "min(1080px, 100%)",
+          marginTop: showLocalHeader ? headerHeight : 0,
           alignSelf: isMobile || isTablet ? "flex-start" : "center",
           display: "flex",
           flexDirection: "column",
@@ -252,14 +255,15 @@ export function LandingPage({
           style={{
             fontFamily: font.serif,
             fontSize: isMobile
-              ? "clamp(40px, 12vw, 56px)"
-              : "clamp(54px, 6.2vw, 86px)",
+              ? "clamp(34px, 10vw, 48px)"
+              : "clamp(44px, 5.4vw, 70px)",
             fontWeight: 700,
-            lineHeight: 1.03,
+            lineHeight: 1.05,
             letterSpacing: "-.02em",
             color: T.ink,
-            maxWidth: 980,
-            margin: "6px auto 24px",
+            maxWidth: 860,
+            margin: "6px auto 18px",
+            animation: `revealSoftUp .85s ${introEase} .18s both`,
           }}
         >
           <span>From AI confusion</span>
@@ -271,11 +275,12 @@ export function LandingPage({
         <p
           style={{
             fontFamily: font.sans,
-            fontSize: isSmallMobile ? 14 : isMobile ? 16 : 18,
-            lineHeight: 1.75,
+            fontSize: isSmallMobile ? 13 : isMobile ? 15 : 16,
+            lineHeight: 1.68,
             color: T.ink60,
-            maxWidth: 840,
-            margin: "0 auto 24px",
+            maxWidth: 760,
+            margin: "0 auto 18px",
+            animation: `revealSoftUp .85s ${introEase} .28s both`,
           }}
         >
           Heuristic Labs helps enterprises turn AI ambition into reliable
@@ -287,17 +292,18 @@ export function LandingPage({
           onClick={onExit}
           style={{
             marginTop: 2,
-            padding: "13px 34px",
+            padding: "12px 30px",
             borderRadius: 100,
             background: T.ink,
             color: T.w,
             border: "none",
             fontFamily: font.sans,
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: 600,
             cursor: "pointer",
             transition: ".3s",
             boxShadow: "0 10px 30px rgba(30,26,16,.16)",
+            animation: `revealSoftUp .8s ${introEase} .36s both`,
           }}
           onMouseEnter={(e) => (e.target.style.opacity = "0.8")}
           onMouseLeave={(e) => (e.target.style.opacity = "1")}
@@ -315,10 +321,10 @@ export function LandingPage({
                 ? "repeat(2, minmax(0, 1fr))"
                 : "repeat(3, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 20 : 26,
+            marginTop: isSmallMobile ? 16 : 22,
           }}
         >
-          {CAPABILITIES.map((item) => (
+          {CAPABILITIES.map((item, i) => (
             <div
               key={item.title}
               style={{
@@ -326,22 +332,23 @@ export function LandingPage({
                 border: `1px solid ${T.ink12}`,
                 borderRadius: 18,
                 padding: isSmallMobile
-                  ? "16px 16px 14px"
-                  : "20px 20px 18px",
+                  ? "14px 14px 12px"
+                  : "17px 17px 15px",
                 textAlign: "left",
                 backdropFilter: "blur(3px)",
-                minHeight: isSmallMobile ? 140 : 152,
+                minHeight: isSmallMobile ? 126 : 138,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                animation: `revealSoftUp .72s ${introEase} ${0.44 + i * 0.06}s both`,
               }}
             >
               <div
                 style={{
                   fontFamily: font.serif,
-                  fontSize: 22,
+                  fontSize: isSmallMobile ? 18 : 20,
                   color: T.ink,
-                  marginBottom: 10,
+                  marginBottom: 8,
                 }}
               >
                 {item.title}
@@ -349,8 +356,8 @@ export function LandingPage({
               <div
                 style={{
                   fontFamily: font.sans,
-                  fontSize: 14,
-                  lineHeight: 1.7,
+                  fontSize: isSmallMobile ? 13 : 14,
+                  lineHeight: 1.6,
                   color: T.ink60,
                 }}
               >
@@ -370,28 +377,29 @@ export function LandingPage({
                 ? "repeat(2, minmax(0, 1fr))"
                 : "repeat(3, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
-            marginTop: isSmallMobile ? 14 : 16,
+            marginTop: isSmallMobile ? 12 : 14,
           }}
         >
-          {STATS.map((item) => (
+          {STATS.map((item, i) => (
             <div
               key={item.label}
               style={{
                 border: `1px dashed ${T.ink12}`,
                 borderRadius: 16,
-                padding: isSmallMobile ? "12px 14px" : "14px 16px",
+                padding: isSmallMobile ? "10px 12px" : "12px 14px",
                 textAlign: "left",
                 background: "rgba(255,255,255,.2)",
-                minHeight: isSmallMobile ? 80 : 92,
+                minHeight: isSmallMobile ? 72 : 84,
+                animation: `revealSoftUp .72s ${introEase} ${0.6 + i * 0.06}s both`,
               }}
             >
               <div
                 style={{
                   fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 26 : 30,
+                  fontSize: isSmallMobile ? 22 : 26,
                   lineHeight: 1,
                   color: T.ink,
-                  marginBottom: 6,
+                  marginBottom: 5,
                 }}
               >
                 {item.value}
@@ -399,7 +407,7 @@ export function LandingPage({
               <div
                 style={{
                   fontFamily: font.sans,
-                  fontSize: 12,
+                  fontSize: 11,
                   letterSpacing: ".02em",
                   color: T.ink60,
                 }}
@@ -412,17 +420,16 @@ export function LandingPage({
 
         <p
           style={{
-            marginTop: 12,
+            marginTop: 10,
             marginBottom: 8,
             fontFamily: font.sans,
-            fontSize: 12,
+            fontSize: 11,
             color: T.ink40,
             letterSpacing: ".03em",
             textTransform: "uppercase",
           }}
         >
-          Trusted by teams in manufacturing, legal, healthcare, and enterprise
-          SaaS
+
         </p>
       </div>
     </div>

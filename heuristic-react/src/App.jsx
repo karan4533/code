@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
 import "./styles/global.css";
 import { Nav } from "./components/nav";
 import { LandingPage } from "./components/pages/LandingPage";
-import { Hero } from "./components/pages/Hero";
 import { WhoWeAre } from "./components/pages/WhoWeAre";
 import { Services } from "./components/pages/Services";
 import { CaseStudies } from "./components/pages/CaseStudies";
@@ -12,102 +10,68 @@ import { Contact } from "./components/pages/Contact";
 import { Footer } from "./components/pages/Footer";
 
 export default function App() {
-  const [showLanding, setShowLanding] = useState(true);
-  const [pendingSection, setPendingSection] = useState(null);
-
-  useEffect(() => {
-    if (showLanding || !pendingSection) return;
-
-    const scrollToSection = () => {
-      const element = document.getElementById(pendingSection);
-      if (!element) return;
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      setPendingSection(null);
-    };
-
-    const frame = window.requestAnimationFrame(scrollToSection);
-    return () => window.cancelAnimationFrame(frame);
-  }, [pendingSection, showLanding]);
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (!element) return;
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const handleLogoClick = () => {
-    setShowLanding(true);
-    setPendingSection(null);
+    scrollToSection("home");
   };
 
   const handleHomeClick = () => {
-    setShowLanding(false);
-    setPendingSection(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToSection("home");
   };
 
   const handleLandingAbout = () => {
-    setPendingSection("about");
-    setShowLanding(false);
+    scrollToSection("about");
   };
 
   const handleLandingService = () => {
-    setPendingSection("services");
-    setShowLanding(false);
+    scrollToSection("services");
   };
 
   const handleLandingCaseStudies = () => {
-    setPendingSection("case-studies");
-    setShowLanding(false);
+    scrollToSection("case-studies");
   };
 
   const handleLandingContact = () => {
-    setPendingSection("contact");
-    setShowLanding(false);
+    scrollToSection("contact");
   };
 
   const handleContactClick = () => {
-    if (showLanding) {
-      setPendingSection("contact");
-      setShowLanding(false);
-      return;
-    }
-
-    const element = document.getElementById("contact");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    scrollToSection("contact");
   };
 
   const handleExitLanding = () => {
-    setShowLanding(false);
-    setPendingSection(null);
+    scrollToSection("about");
   };
 
   return (
     <>
-      {showLanding && (
-        <LandingPage
-          onExit={handleExitLanding}
-          onHome={handleHomeClick}
-          onAbout={handleLandingAbout}
-          onService={handleLandingService}
-          onCaseStudies={handleLandingCaseStudies}
-          onContact={handleLandingContact}
-        />
-      )}
       <Nav
         onLogoClick={handleLogoClick}
         onHomeClick={handleHomeClick}
         onContactClick={handleContactClick}
-        isLanding={showLanding}
+        isLanding={false}
       />
-      {!showLanding && (
-        <>
-          <Hero />
-          <WhoWeAre />
-          <Services />
-          <CaseStudies />
-          <Team />
-          <FAQ />
-          <Contact />
-          <Footer />
-        </>
-      )}
+      <LandingPage
+        onExit={handleExitLanding}
+        onHome={handleHomeClick}
+        onAbout={handleLandingAbout}
+        onService={handleLandingService}
+        onCaseStudies={handleLandingCaseStudies}
+        onContact={handleLandingContact}
+        showLocalHeader={false}
+      />
+      <WhoWeAre />
+      <Services />
+      <CaseStudies />
+      <Team />
+      <FAQ />
+      <Contact />
+      <Footer />
     </>
   );
 }
