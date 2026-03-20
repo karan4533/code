@@ -332,8 +332,8 @@ export function LandingPage({
           style={{
             fontFamily: font.serif,
             fontSize: isMobile
-              ? "clamp(48px, 12.2vw, 68px)"
-              : "clamp(66px, 7.1vw, 100px)",
+              ? "clamp(44px, 11.6vw, 62px)"
+              : "clamp(60px, 6.7vw, 90px)",
             fontWeight: 700,
             lineHeight: 1.03,
             letterSpacing: "-.028em",
