@@ -18,8 +18,8 @@ export function LandingPage({
   const [phraseIndex, setPhraseIndex] = useState(0);
   const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
-  const parallaxOffset = Math.min(scrollY * 0.08, 26);
-  const contentLift = Math.min(scrollY * 0.035, 12);
+  const parallaxOffset = Math.min(scrollY * 0.05, 18);
+  const contentLift = Math.min(scrollY * 0.02, 8);
   const rotatingPhrases = [
     "Build your next AI launch.",
     "Ship outcomes, not prototypes.",
@@ -54,7 +54,7 @@ export function LandingPage({
   useEffect(() => {
     const phraseTimer = window.setInterval(() => {
       setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
-    }, 1800);
+    }, 2200);
 
     return () => window.clearInterval(phraseTimer);
   }, [rotatingPhrases.length]);
@@ -66,7 +66,7 @@ export function LandingPage({
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        background: `radial-gradient(circle at 80% 15%, ${T.bg3} 0%, ${T.bg} 40%, ${T.bg} 100%)`,
+        background: "var(--site-base-bg)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -81,7 +81,7 @@ export function LandingPage({
           inset: 0,
           pointerEvents: "none",
           zIndex: 0,
-          opacity: 0.65,
+          opacity: 0.52,
           background:
             "radial-gradient(42rem 30rem at 15% 20%, rgba(241,177,86,0.22), transparent 70%), radial-gradient(34rem 28rem at 82% 24%, rgba(78,93,206,0.16), transparent 72%), radial-gradient(28rem 20rem at 55% 78%, rgba(24,96,171,0.12), transparent 68%)",
           transform: `translateY(${parallaxOffset * -0.65}px)`,
@@ -96,7 +96,7 @@ export function LandingPage({
           inset: 0,
           pointerEvents: "none",
           zIndex: 0,
-          opacity: 0.18,
+          opacity: 0.12,
           background:
             "linear-gradient(rgba(30,26,16,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(30,26,16,0.08) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
@@ -113,7 +113,7 @@ export function LandingPage({
           inset: 0,
           pointerEvents: "none",
           zIndex: 0,
-          opacity: 0.11,
+          opacity: 0.07,
           mixBlendMode: "multiply",
           backgroundImage:
             "radial-gradient(rgba(27,24,16,0.3) 0.8px, transparent 0.9px)",
@@ -320,10 +320,10 @@ export function LandingPage({
           padding: isSmallMobile
             ? "8px 12px 24px"
             : isMobile
-              ? "8px 16px 28px"
+              ? "11px 16px 28px"
               : isTablet
-                ? "12px 24px 34px"
-                    : "86px 28px 34px",
+                ? "16px 24px 34px"
+                    : "46px 28px 34px",
                   width: "min(1080px, 100%)",
           marginTop: showLocalHeader ? headerHeight : 0,
           alignSelf: isMobile || isTablet ? "flex-start" : "center",
@@ -349,10 +349,92 @@ export function LandingPage({
             background:
               "conic-gradient(from 50deg, rgba(241,177,86,.26), rgba(78,93,206,.12), rgba(24,96,171,.18), rgba(241,177,86,.26))",
             animation: "heroHaloSpin 18s linear infinite",
-            opacity: 0.42,
+            opacity: 0.26,
             pointerEvents: "none",
           }}
         />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: isSmallMobile ? 8 : 10,
+            marginTop: isSmallMobile ? -4 : -12,
+            marginBottom: isSmallMobile ? 4 : 8,
+            position: "relative",
+            zIndex: 1,
+            animation: `revealSoftUp .78s ${introEase} .08s both`,
+          }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              width: isSmallMobile ? 140 : isMobile ? 170 : 220,
+              height: 12,
+              position: "relative",
+              opacity: 0.72,
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                top: "50%",
+                width: "40%",
+                height: 1,
+                background:
+                  "linear-gradient(90deg, rgba(30,26,16,0), rgba(30,26,16,.28), rgba(30,26,16,0))",
+              }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                right: 0,
+                top: "50%",
+                width: "40%",
+                height: 1,
+                background:
+                  "linear-gradient(90deg, rgba(30,26,16,0), rgba(30,26,16,.28), rgba(30,26,16,0))",
+              }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                color: "rgba(30,26,16,.36)",
+                fontSize: isSmallMobile ? 13 : 16,
+                lineHeight: 1,
+              }}
+            >
+              ✦
+            </span>
+          </div>
+
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: isSmallMobile ? "8px 14px" : "10px 18px",
+              borderRadius: 999,
+              fontFamily: font.sans,
+              fontSize: isSmallMobile ? 12 : 13,
+              fontWeight: 600,
+              letterSpacing: ".01em",
+              color: "#4f57cc",
+              background:
+                "linear-gradient(180deg, rgba(234,239,255,.92), rgba(226,233,255,.76))",
+              border: "1px solid rgba(126,142,232,.26)",
+              boxShadow: "0 6px 18px rgba(79,87,204,.12)",
+            }}
+          >
+            Clarity-first AI systems for enterprises
+          </span>
+        </div>
+
         <p
           style={{
             fontFamily: font.serif,
@@ -364,7 +446,7 @@ export function LandingPage({
             letterSpacing: "-.028em",
             color: T.ink,
             maxWidth: 860,
-            margin: "8px auto 22px",
+            margin: "12px auto 26px",
             animation: `heroHeadlineIn .95s ${introEase} .14s both`,
             position: "relative",
             zIndex: 1,
@@ -380,6 +462,7 @@ export function LandingPage({
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 color: "transparent",
+                filter: "drop-shadow(0 4px 10px rgba(111,123,214,.14))",
               }}
             >
               clarity
@@ -407,13 +490,13 @@ export function LandingPage({
               fontStyle: "normal",
               fontWeight: 600,
               fontSize: isSmallMobile
-                ? "clamp(24px, 7.1vw, 30px)"
+                ? "clamp(22px, 6.6vw, 28px)"
                 : isMobile
-                  ? "clamp(27px, 6.4vw, 36px)"
-                  : "clamp(32px, 3.8vw, 46px)",
+                  ? "clamp(25px, 5.8vw, 33px)"
+                  : "clamp(30px, 3.4vw, 40px)",
               lineHeight: 1.04,
               letterSpacing: "-.02em",
-              color: "rgba(30,26,16,.78)",
+              color: "rgba(30,26,16,.74)",
               animation: `heroPhraseSlideUp .58s ${introEase} both`,
             }}
           >
@@ -442,11 +525,14 @@ export function LandingPage({
         <div
           style={{
             width: "100%",
-            marginTop: isSmallMobile ? 8 : 12,
-            paddingTop: isSmallMobile ? 10 : 12,
+            marginTop: isSmallMobile ? 12 : 16,
+            paddingTop: isSmallMobile ? 10 : 14,
+            paddingBottom: isSmallMobile ? 4 : 7,
             borderTop: `1px dashed ${T.ink12}`,
             position: "relative",
             overflow: "hidden",
+            background: "linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0))",
+            borderRadius: 16,
           }}
         >
           <p
@@ -454,8 +540,8 @@ export function LandingPage({
               marginBottom: isSmallMobile ? 10 : 12,
               fontFamily: font.sans,
               fontSize: isSmallMobile ? 12 : 14,
-              color: T.ink60,
-              letterSpacing: ".01em",
+              color: "rgba(30,26,16,.6)",
+              letterSpacing: ".015em",
               textAlign: "center",
             }}
           >
@@ -467,9 +553,9 @@ export function LandingPage({
               position: "relative",
               overflow: "hidden",
               WebkitMaskImage:
-                "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
               maskImage:
-                "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
             }}
           >
             <div
@@ -478,8 +564,8 @@ export function LandingPage({
                 alignItems: "center",
                 gap: isSmallMobile ? 28 : isMobile ? 38 : 56,
                 width: "max-content",
-                animation: `heroCompanyMarquee ${isMobile ? 22 : 30}s linear infinite`,
-                padding: isSmallMobile ? "8px 0 2px" : "10px 0 4px",
+                animation: `heroCompanyMarquee ${isMobile ? 26 : 34}s linear infinite`,
+                padding: isSmallMobile ? "8px 0 5px" : "10px 0 6px",
               }}
             >
               {marqueeCompanies.map((name, idx) => (
@@ -487,9 +573,9 @@ export function LandingPage({
                   key={`${name}-${idx}`}
                   style={{
                     fontFamily: font.sans,
-                    fontSize: isSmallMobile ? 16 : isMobile ? 18 : 22,
-                    fontWeight: 600,
-                    color: "rgba(30,26,16,.42)",
+                    fontSize: isSmallMobile ? 18 : isMobile ? 20 : 24,
+                    fontWeight: 700,
+                    color: "rgba(30,26,16,.56)",
                     letterSpacing: ".04em",
                     whiteSpace: "nowrap",
                   }}
@@ -522,15 +608,15 @@ export function LandingPage({
                 borderRadius: 16,
                 padding: isSmallMobile ? "10px 12px" : "12px 14px",
                 textAlign: "left",
-                background: "rgba(255,255,255,.2)",
+                background: "linear-gradient(160deg, rgba(255,255,255,.36), rgba(255,255,255,.18))",
                 minHeight: isSmallMobile ? 72 : 84,
                 animation: `revealSoftUp .72s ${introEase} ${0.72 + i * 0.08}s both`,
                 transition:
                   "transform .28s ease, box-shadow .28s ease, border-color .28s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)";
-                e.currentTarget.style.boxShadow = "0 12px 20px rgba(30,26,16,.1)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 14px rgba(30,26,16,.07)";
                 e.currentTarget.style.borderColor = "rgba(30,26,16,.24)";
               }}
               onMouseLeave={(e) => {

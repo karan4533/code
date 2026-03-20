@@ -1,6 +1,13 @@
 /* Global Styles */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
+:root {
+  --site-base-bg:
+    radial-gradient(68rem 27rem at 50% -10%, rgba(126, 142, 232, 0.22), rgba(126, 142, 232, 0) 70%),
+    radial-gradient(44rem 18rem at 50% -12%, rgba(235, 164, 90, 0.2), rgba(235, 164, 90, 0) 74%),
+    linear-gradient(180deg, #efeae2 0%, #e8e3d9 44%, #e5dfd4 100%);
+}
+
 *,
 *::before,
 *::after {
@@ -14,7 +21,7 @@ html {
 }
 
 body {
-  background: #E8E3D9;
+  background: var(--site-base-bg);
   overflow-x: hidden;
 }
 
