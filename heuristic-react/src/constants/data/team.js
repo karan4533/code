@@ -1,3 +1,5 @@
+const karthikPhoto = new URL("../../assets/karthik.jpeg", import.meta.url).href;
+
 /* Team Data */
 export const TEAM = [
   {
@@ -10,8 +12,9 @@ export const TEAM = [
   {
     initial: "K",
     name: "Dr. Karthikeyan",
-    role: " Chief AI architect and CTO",
+    role: " Chief AI Officer & CTO",
     bullets: ["Doctorate in AI / ML", "17+ years OF AI/Gen AI and R&D"],
+    photo: karthikPhoto,
     grad: "linear-gradient(160deg,#9A9070 0%,#7A7055 30%,#4A4030 70%,#302818 100%)",
   },
   {

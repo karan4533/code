@@ -45,22 +45,36 @@ export function Team() {
                 justifyContent: "flex-end",
               }}
             >
-              <span
-                style={{
-                  fontFamily: font.serif,
-                  fontSize: 72,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,.18)",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%,-60%)",
-                  lineHeight: 1,
-                  pointerEvents: "none",
-                }}
-              >
-                {m.initial}
-              </span>
+              {m.photo ? (
+                <img
+                  src={m.photo}
+                  alt={m.name}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    fontFamily: font.serif,
+                    fontSize: 72,
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,.18)",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-60%)",
+                    lineHeight: 1,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {m.initial}
+                </span>
+              )}
               <div
                 style={{
                   position: "relative",
