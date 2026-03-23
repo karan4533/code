@@ -65,11 +65,12 @@ export function LandingPage({
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "100vh",
+        minHeight: isTablet ? "auto" : "100svh",
         background: "var(--site-base-bg)",
         display: "flex",
-        alignItems: "center",
+        alignItems: isTablet ? "flex-start" : "center",
         justifyContent: "center",
+        paddingBottom: isTablet ? (isSmallMobile ? 8 : 14) : 0,
         animation: `landingCinematicIn .95s ${introEase} both`,
         overflow: "hidden",
       }}
