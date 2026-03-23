@@ -669,7 +669,7 @@ function Hero() {
       <div style={{
         display:"grid", gridTemplateColumns:isTablet ? "1fr" : "1fr 1fr",
         alignItems:"center", gap:isSmallMobile ? 24 : isMobile ? 28 : 40,
-        minHeight:isTablet ? "auto" : "calc(100vh - 60px)", padding:isSmallMobile ? "28px 0 40px" : isMobile ? "36px 0 56px" : "60px 0 80px",
+        padding:isSmallMobile ? "28px 0 40px" : isMobile ? "36px 0 56px" : "60px 0 80px",
       }}>
         <Reveal>
           <Pill>About us</Pill>

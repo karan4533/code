@@ -19,7 +19,6 @@ export function Hero() {
           gridTemplateColumns: isTablet ? "1fr" : "1fr 1fr",
           alignItems: "center",
           gap: isSmallMobile ? 24 : isMobile ? 28 : 40,
-          minHeight: isTablet ? "auto" : "calc(100vh - 60px)",
           padding: isSmallMobile
             ? "28px 0 40px"
             : isMobile
