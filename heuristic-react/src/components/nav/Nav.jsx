@@ -20,6 +20,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
     { label: "About", href: "#about" },
     { label: "Service", href: "#services" },
     { label: "Case Studies", href: "#case-studies" },
+    { label: "Research Updates", href: "#research-updates" },
     { label: "Contact", onClick: onContactClick },
   ];
 
