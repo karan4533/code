@@ -60,16 +60,4 @@ export const SERVICES = [
       "Change Management Support",
     ],
   },
-  {
-    emoji: "🧪",
-    name: "R&D as a Service",
-    desc: "Dedicated AI research execution to explore, validate, and productionize high-impact innovation opportunities.",
-    items: [
-      "Prototype-to-Production Research",
-      "Model Experimentation Pipelines",
-      "Evaluation Framework Design",
-      "Rapid Feasibility Studies",
-      "IP-Oriented Solution Discovery",
-    ],
-  },
 ];

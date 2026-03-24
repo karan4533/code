@@ -4,6 +4,7 @@ export { Services } from "./Services";
 export { CaseStudies } from "./CaseStudies";
 export { CaseStudyDetailPage } from "./CaseStudyDetailPage";
 export { Team } from "./Team";
+export { ResearchUpdates } from "./ResearchUpdates";
 export { FAQ } from "./FAQ";
 export { Contact } from "./Contact";
 export { Footer } from "./Footer";

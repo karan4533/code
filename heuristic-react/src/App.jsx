@@ -7,6 +7,7 @@ import { Services } from "./components/pages/Services";
 import { CaseStudies } from "./components/pages/CaseStudies";
 import { CaseStudyDetailPage } from "./components/pages/CaseStudyDetailPage";
 import { Team } from "./components/pages/Team";
+import { ResearchUpdates } from "./components/pages/ResearchUpdates";
 import { FAQ } from "./components/pages/FAQ";
 import { Contact } from "./components/pages/Contact";
 import { Footer } from "./components/pages/Footer";
@@ -175,6 +176,7 @@ export default function App() {
           <Services />
           <CaseStudies onOpenCaseStudy={handleOpenCaseStudy} />
           <Team />
+          <ResearchUpdates />
           <FAQ />
           <Contact />
         </>

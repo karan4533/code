@@ -1,8 +1,11 @@
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
+import { SERVICES } from "../../constants/data/services";
 
 export function Footer() {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const serviceLinks = SERVICES.map((service) => [service.name, "#services"]);
+
   const cols = [
     {
       title: "Navigate",
@@ -16,13 +19,7 @@ export function Footer() {
     },
     {
       title: "Services",
-      links: [
-        ["Custom AI Solutions", "#"],
-        ["Industrial GenAI", "#"],
-        ["AI Governance", "#"],
-        ["Strategic Consulting", "#"],
-        ["R&D as a Service", "#"],
-      ],
+      links: serviceLinks,
     },
     {
       title: "Connect",

@@ -10,7 +10,7 @@ export function Services() {
     <Section id="services">
       <Reveal>
         <SecHeader
-          pill="Our services"
+          pill="Our AI services"
           title={
             <>
               Everything you need to
