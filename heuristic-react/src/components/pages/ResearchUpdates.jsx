@@ -32,6 +32,7 @@ export function ResearchUpdates() {
               ? "repeat(2,minmax(0,1fr))"
               : "repeat(3,minmax(0,1fr))",
           gap: isSmallMobile ? 14 : 20,
+          alignItems: "stretch",
         }}
       >
         {visibleUpdates.map((item, index) => (
@@ -40,21 +41,24 @@ export function ResearchUpdates() {
               <article
                 style={{
                   border: `1px solid ${T.ink12}`,
-                  borderRadius: 20,
-                  padding: isSmallMobile ? 14 : 16,
-                  background: "rgba(255,255,255,.06)",
-                  transition: "transform .24s ease, box-shadow .24s ease",
+                  borderRadius: 22,
+                  padding: isSmallMobile ? 14 : 18,
+                  background: "rgba(255,255,255,.09)",
+                  boxShadow: "0 4px 12px rgba(30,26,16,.04)",
+                  transition: "transform .24s ease, box-shadow .24s ease, border-color .24s ease",
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow = "0 12px 20px rgba(30,26,16,.06)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                  e.currentTarget.style.boxShadow = "0 14px 24px rgba(30,26,16,.08)";
+                  e.currentTarget.style.borderColor = "rgba(30,26,16,.2)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(30,26,16,.04)";
+                  e.currentTarget.style.borderColor = T.ink12;
                 }}
               >
                 {item.category && (
@@ -63,10 +67,10 @@ export function ResearchUpdates() {
                       fontFamily: font.sans,
                       fontSize: 11,
                       fontWeight: 600,
-                      letterSpacing: ".08em",
+                      letterSpacing: ".1em",
                       textTransform: "uppercase",
                       color: T.ink40,
-                      marginBottom: 8,
+                      marginBottom: 9,
                     }}
                   >
                     {item.category}
@@ -80,7 +84,7 @@ export function ResearchUpdates() {
                       fontFamily: font.serif,
                       fontSize: isSmallMobile ? 22 : 30,
                       fontWeight: 600,
-                      lineHeight: 1.2,
+                      lineHeight: 1.16,
                       color: T.ink,
                     }}
                   >
@@ -95,6 +99,7 @@ export function ResearchUpdates() {
                       fontFamily: font.sans,
                       fontSize: isSmallMobile ? 13 : 14,
                       color: T.ink60,
+                      lineHeight: 1.4,
                     }}
                   >
                     {item.date}
@@ -106,11 +111,13 @@ export function ResearchUpdates() {
                     borderRadius: 16,
                     minHeight: isSmallMobile ? 170 : 210,
                     background: item.visualBg,
+                    border: "1px solid rgba(255,255,255,.16)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     padding: "16px",
                     marginTop: "auto",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,.14)",
                   }}
                 >
                   {item.visualText && (

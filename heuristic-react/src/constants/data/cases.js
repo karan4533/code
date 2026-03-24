@@ -3,7 +3,7 @@ export const CASES = [
   {
     cat: "E-Commerce",
     weeks: "8 weeks",
-    title: "Product Taxonomy & Attribute Enrichment Engine",
+    title: "Product Taxonomy and Attribute Enrichment Engine",
     body: "Fine-tuned Llama 3.2 + agentic RAG across 4,000+ taxonomy endpoints with multimodal extraction.",
     metrics: [
       { val: "92%", label: "end-to-end automation" },

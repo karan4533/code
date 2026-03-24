@@ -818,7 +818,7 @@ function Services() {
 }
 
 const CASES = [
-  { cat:"E-Commerce", weeks:"8 weeks", title:"Product Taxonomy & Attribute Enrichment Engine", body:"Fine-tuned Llama 3.2 + agentic RAG across 4,000+ taxonomy endpoints with multimodal extraction.", metrics:[{val:"92%",label:"end-to-end automation"},{val:"6×",label:"faster SKU processing"}] },
+  { cat:"E-Commerce", weeks:"8 weeks", title:"Product Taxonomy and Attribute Enrichment Engine", body:"Fine-tuned Llama 3.2 + agentic RAG across 4,000+ taxonomy endpoints with multimodal extraction.", metrics:[{val:"92%",label:"end-to-end automation"},{val:"6×",label:"faster SKU processing"}] },
   { cat:"Construction", weeks:"12 weeks", title:"Real-Time Safety Monitoring for Construction Sites", body:"Edge-deployed YOLOv8 + DeepSORT tracking for PPE compliance and sub-second safety alerts.", metrics:[{val:"60%",label:"reduction in violations"},{val:"<1s",label:"real-time alert latency"}] },
   { cat:"D2C Brand", weeks:"10 weeks", title:"Customer Support Voice Agent", body:"Multi-agent framework with RAG pipelines and ~800ms end-to-end latency for high-volume queries.", metrics:[{val:"80%",label:"faster query resolution"},{val:"800ms",label:"response latency"}] },
   { cat:"Legal", weeks:"8 weeks", title:"Legal Contracts Assistant", body:"Knowledge graph indexing 400,000+ contracts with RAG-grounded responses and RBAC chat interface.", metrics:[{val:"500K",label:"contracts indexed"},{val:"91%",label:"clause extraction accuracy"}] },

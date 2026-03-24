@@ -34,7 +34,10 @@ export function Footer() {
   return (
     <footer
       style={{
-        background: T.footer,
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "linear-gradient(180deg, #1a150b 0%, #151108 58%, #100d06 100%)",
         padding: isSmallMobile
           ? "36px 16px 20px"
           : isMobile
@@ -45,7 +48,34 @@ export function Footer() {
         fontFamily: font.sans,
       }}
     >
-      <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          width: 340,
+          height: 340,
+          borderRadius: "50%",
+          top: -180,
+          right: -90,
+          background: "radial-gradient(circle, rgba(176,120,69,.28), rgba(176,120,69,0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          width: 320,
+          height: 320,
+          borderRadius: "50%",
+          bottom: -190,
+          left: -120,
+          background: "radial-gradient(circle, rgba(12,96,96,.18), rgba(12,96,96,0) 72%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "grid",
@@ -56,17 +86,18 @@ export function Footer() {
                 : "1.6fr 1fr 1fr 1fr",
             gap: isSmallMobile ? 20 : isMobile ? 28 : 48,
             paddingBottom: isSmallMobile ? 32 : 48,
-            borderBottom: "1px solid rgba(255,255,255,.08)",
+            borderBottom: "1px solid rgba(255,255,255,.12)",
           }}
         >
           <div>
             <div
               style={{
                 fontFamily: font.serif,
-                fontSize: isSmallMobile ? 17 : 20,
+                fontSize: isSmallMobile ? 18 : 22,
                 fontWeight: 600,
                 color: T.w,
-                marginBottom: 12,
+                marginBottom: 10,
+                letterSpacing: ".01em",
               }}
             >
               Heuristic Labs
@@ -75,9 +106,9 @@ export function Footer() {
               style={{
                 fontSize: isSmallMobile ? 12 : 13,
                 color: T.w40,
-                lineHeight: 1.7,
-                marginBottom: 24,
-                maxWidth: 280,
+                lineHeight: 1.72,
+                marginBottom: 26,
+                maxWidth: 300,
               }}
             >
               Your Applied AI Lab — turning AI ambition into secure, scalable,
@@ -87,6 +118,8 @@ export function Footer() {
               href="#contact"
               style={{
                 display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
                 padding: isSmallMobile
                   ? "7px 16px"
                   : "9px 20px",
@@ -95,13 +128,30 @@ export function Footer() {
                 fontSize: 14,
                 color: T.w60,
                 textDecoration: "none",
+                background: "rgba(255,255,255,.04)",
+                transition: "background .2s ease, color .2s ease, transform .2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,.1)";
+                e.currentTarget.style.color = T.w;
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,.04)";
+                e.currentTarget.style.color = T.w60;
+                e.currentTarget.style.transform = "translateY(0)";
               }}
             >
               Talk to us
             </a>
           </div>
           {cols.map((col) => (
-            <div key={col.title}>
+            <div
+              key={col.title}
+              style={{
+                padding: isSmallMobile ? "0" : "4px 0",
+              }}
+            >
               <div
                 style={{
                   fontSize: 11,
@@ -131,6 +181,16 @@ export function Footer() {
                         fontSize: isSmallMobile ? 12 : 14,
                         color: T.w60,
                         textDecoration: "none",
+                        transition: "color .2s ease, transform .2s ease",
+                        display: "inline-block",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = T.w;
+                        e.currentTarget.style.transform = "translateX(2px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = T.w60;
+                        e.currentTarget.style.transform = "translateX(0)";
                       }}
                     >
                       {label}
