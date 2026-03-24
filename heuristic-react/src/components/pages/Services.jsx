@@ -4,7 +4,8 @@ import { Reveal, SecHeader, Section, Em } from "../shared";
 import { SERVICES } from "../../constants/data/services";
 
 export function Services() {
-  const { isMobile, isSmallMobile } = useViewport();
+  const { isTablet, isSmallMobile } = useViewport();
+
   return (
     <Section id="services">
       <Reveal>
@@ -20,81 +21,78 @@ export function Services() {
           desc="End-to-end AI transformation — from strategy and research to production-grade systems and governance frameworks."
         />
       </Reveal>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(2,1fr)",
-          gap: isSmallMobile ? 12 : 14,
-        }} 
-      >
+
+      <div style={{ borderTop: `1px solid ${T.ink12}` }}>
         {SERVICES.map((s, i) => (
-          <Reveal key={s.name} delay={i * 0.05}>
-            <div
+          <Reveal key={s.name} delay={i * 0.04}>
+            <article
               style={{
-                position: "relative",
-                overflow: "hidden",
-                background: `linear-gradient(160deg, ${T.bg2} 0%, #E4DED3 52%, #D9D2C7 100%)`,
-                border: `1px solid ${T.ink12}`,
-                borderRadius: 18,
-                padding: isSmallMobile
-                  ? "16px 14px 18px"
-                  : "22px 20px 24px",
-                height: "100%",
-                boxShadow: "0 10px 24px rgba(30,26,16,.06)",
+                display: "grid",
+                gridTemplateColumns: isTablet
+                  ? "1fr"
+                  : "minmax(0, .9fr) minmax(0, 1.1fr)",
+                gap: isSmallMobile ? 10 : 22,
+                padding: isSmallMobile ? "16px 0" : "24px 0",
+                borderBottom: `1px solid ${T.ink12}`,
+                transition: "background .22s ease, transform .22s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(30,26,16,.02)";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.transform = "translateY(0)";
               }}
             >
               <div
                 style={{
-                  position: "absolute",
-                  right: -44,
-                  top: -44,
-                  width: 110,
-                  height: 110,
-                  borderRadius: "50%",
-                  background: i % 2 === 0 ? "rgba(176,120,69,.14)" : "rgba(12,96,96,.12)",
-                  filter: "blur(2px)",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 1,
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   justifyContent: "space-between",
-                  marginBottom: isSmallMobile ? 10 : 12,
+                  gap: 12,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-                  <span
-                    style={{
-                      width: isSmallMobile ? 30 : 34,
-                      height: isSmallMobile ? 30 : 34,
-                      borderRadius: 10,
-                      border: `1px solid ${T.ink12}`,
-                      background: "rgba(255,255,255,.44)",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: isSmallMobile ? 16 : 18,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {s.emoji}
-                  </span>
+                <div style={{ minWidth: 0 }}>
                   <div
                     style={{
-                      fontFamily: font.serif,
-                      fontSize: isSmallMobile ? 17 : 19,
-                      fontWeight: 600,
-                      color: T.ink,
-                      lineHeight: 1.25,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 9,
+                      marginBottom: 7,
                     }}
                   >
-                    {s.name}
+                    <span style={{ fontSize: isSmallMobile ? 16 : 18, lineHeight: 1 }}>
+                      {s.emoji}
+                    </span>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontFamily: font.serif,
+                        fontSize: isSmallMobile ? 19 : 24,
+                        fontWeight: 600,
+                        color: T.ink,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {s.name}
+                    </h3>
                   </div>
+
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: font.sans,
+                      fontSize: isSmallMobile ? 12 : 13,
+                      lineHeight: 1.62,
+                      color: T.ink60,
+                      maxWidth: 520,
+                    }}
+                  >
+                    {s.desc}
+                  </p>
                 </div>
+
                 <span
                   style={{
                     fontFamily: font.sans,
@@ -102,56 +100,57 @@ export function Services() {
                     fontWeight: 600,
                     letterSpacing: ".08em",
                     color: T.ink40,
+                    flexShrink: 0,
+                    paddingTop: 2,
                   }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
 
-              <p
+              <div
                 style={{
-                  position: "relative",
-                  zIndex: 1,
-                  fontSize: isSmallMobile ? 12 : 13,
-                  lineHeight: 1.62,
-                  color: T.ink60,
-                  marginBottom: 12,
-                  fontFamily: font.sans,
-                }}
-              >
-                {s.desc}
-              </p>
-
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  position: "relative",
-                  zIndex: 1,
                   display: "grid",
                   gridTemplateColumns: isSmallMobile ? "1fr" : "repeat(2,minmax(0,1fr))",
-                  gap: isSmallMobile ? 6 : 6,
+                  gap: isSmallMobile ? 8 : 10,
+                  alignContent: "start",
                 }}
               >
                 {s.items.map((item) => (
-                  <li
+                  <div
                     key={item}
                     style={{
-                      fontSize: isSmallMobile ? 11 : 12,
-                      color: T.ink,
-                      background: "rgba(255,255,255,.46)",
-                      border: `1px solid ${T.ink12}`,
-                      borderRadius: 10,
-                      padding: "6px 8px",
-                      lineHeight: 1.3,
-                      fontFamily: font.sans,
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: 8,
+                      paddingBottom: isSmallMobile ? 5 : 6,
+                      borderBottom: `1px solid ${T.ink12}`,
                     }}
                   >
-                    {item}
-                  </li>
+                    <span
+                      style={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: "50%",
+                        background: T.ink40,
+                        marginTop: 6,
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: font.sans,
+                        fontSize: isSmallMobile ? 12 : 13,
+                        lineHeight: 1.45,
+                        color: T.ink,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </article>
           </Reveal>
         ))}
       </div>
