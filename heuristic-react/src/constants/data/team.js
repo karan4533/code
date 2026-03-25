@@ -1,6 +1,6 @@
 const karthikPhoto = new URL("../../assets/karthik.jpeg", import.meta.url).href;
 const sarathyPhoto = new URL("../../assets/sarathy.png", import.meta.url).href;
-const rohitPhoto = new URL("../../assets/Rohit.jpg", import.meta.url).href;
+const rohitPhoto = new URL("../../assets/Rohit.png", import.meta.url).href;
 
 /* Team Data */
 export const TEAM = [
