@@ -33,6 +33,7 @@ export function Footer() {
   ];
   return (
     <footer
+      id="footer"
       style={{
         position: "relative",
         overflow: "hidden",

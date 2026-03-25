@@ -2,6 +2,18 @@ import { useEffect, useState } from "react";
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
 
+const SECTION_ORDER = [
+  "home",
+  "about",
+  "services",
+  "case-studies",
+  "team",
+  "research-updates",
+  "faq",
+  "contact",
+  "footer",
+];
+
 export function ScrollArrows() {
   const { isMobile, isSmallMobile } = useViewport();
   const [scrollState, setScrollState] = useState({
@@ -9,25 +21,33 @@ export function ScrollArrows() {
     nextDirection: "down",
   });
 
-  useEffect(() => {
-    const updateScrollState = () => {
-      const doc = document.documentElement;
-      const top = window.scrollY || doc.scrollTop || 0;
-      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 0);
-      const threshold = 24;
-      const progress = maxScroll > 0 ? top / maxScroll : 0;
+  const getOrderedTargets = () =>
+    SECTION_ORDER.map((id) => document.getElementById(id))
+      .filter(Boolean)
+      .map((element) => ({
+        element,
+        top: element.getBoundingClientRect().top + window.scrollY,
+      }))
+      .sort((a, b) => a.top - b.top);
 
-      let nextDirection = "down";
-      if (top <= threshold) {
-        nextDirection = "down";
-      } else if (maxScroll - top <= threshold) {
-        nextDirection = "up";
-      } else {
-        nextDirection = progress >= 0.5 ? "up" : "down";
-      }
+  useEffect(() => {
+    const getScrollMetrics = () => {
+      const scroller = document.scrollingElement || document.documentElement;
+      const top = scroller ? scroller.scrollTop : window.scrollY || 0;
+      const maxScroll = scroller
+        ? Math.max(scroller.scrollHeight - scroller.clientHeight, 0)
+        : Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+      return { top, maxScroll };
+    };
+
+    const updateScrollState = () => {
+      const { top, maxScroll } = getScrollMetrics();
+      const bottomThreshold = 56;
+      const isNearBottom = maxScroll - top <= bottomThreshold;
+      const nextDirection = isNearBottom ? "up" : "down";
 
       setScrollState({
-        hasScrollablePage: maxScroll > threshold,
+        hasScrollablePage: maxScroll > bottomThreshold,
         nextDirection,
       });
     };
@@ -44,16 +64,21 @@ export function ScrollArrows() {
 
   if (!scrollState.hasScrollablePage) return null;
 
-  const handleScroll = (event) => {
+  const handleScroll = () => {
     if (scrollState.nextDirection === "up") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
-    window.scrollBy({
-      top: Math.max(window.innerHeight * 0.82, 320),
-      behavior: "smooth",
-    });
+    const currentTop = (document.scrollingElement || document.documentElement).scrollTop;
+    const nextTarget = getOrderedTargets().find((target) => target.top > currentTop + 8);
+
+    if (nextTarget) {
+      nextTarget.element.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
 
   const controlSize = isSmallMobile ? 44 : isMobile ? 46 : 50;

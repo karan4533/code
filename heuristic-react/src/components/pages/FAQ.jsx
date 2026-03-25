@@ -8,7 +8,7 @@ export function FAQ() {
   const { isMobile, isSmallMobile } = useViewport();
   const [open, setOpen] = useState(null);
   return (
-    <Section>
+    <Section id="faq">
       <Reveal>
         <div
           style={{
