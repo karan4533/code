@@ -618,14 +618,14 @@ export function LandingPage({
               ? "1fr"
               : isTablet
                 ? "repeat(2, minmax(0, 1fr))"
-                : "repeat(3, minmax(0, 1fr))",
+                : "repeat(4, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
             marginTop: isSmallMobile ? 18 : 24,
           }}
         >
           {STATS.map((item, i) => (
             <div
-              key={item.label}
+              key={item.value}
               style={{
                 border: `1px dashed ${T.ink12}`,
                 borderRadius: 16,
@@ -654,10 +654,12 @@ export function LandingPage({
             >
               <div
                 style={{
-                  fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 22 : 26,
+                  fontFamily: font.sans,
+                  fontSize: isSmallMobile ? 20 : 24,
+                  fontWeight: 700,
                   lineHeight: 1,
                   color: T.ink,
+                  letterSpacing: ".01em",
                   marginBottom: 5,
                 }}
               >
