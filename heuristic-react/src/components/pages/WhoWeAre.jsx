@@ -79,13 +79,13 @@ export function WhoWeAre() {
               >
                 <div
                   style={{
-                    fontFamily: font.sans,
-                    fontSize: isSmallMobile ? 38 : 48,
+                    fontFamily: font.serif,
+                    fontSize: isSmallMobile ? 42 : 52,
                     fontWeight: 700,
                     color: T.w,
                     lineHeight: 1,
                     marginBottom: 6,
-                    letterSpacing: "-.01em",
+                    letterSpacing: "-.02em",
                   }}
                 >
                   {s.num}

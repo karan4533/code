@@ -36,9 +36,7 @@ export function Footer() {
       id="footer"
       style={{
         position: "relative",
-        overflow: "hidden",
-        background:
-          "linear-gradient(180deg, #1a150b 0%, #151108 58%, #100d06 100%)",
+        background: T.footer,
         padding: isSmallMobile
           ? "36px 16px 20px"
           : isMobile
@@ -49,33 +47,6 @@ export function Footer() {
         fontFamily: font.sans,
       }}
     >
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          width: 340,
-          height: 340,
-          borderRadius: "50%",
-          top: -180,
-          right: -90,
-          background: "radial-gradient(circle, rgba(176,120,69,.28), rgba(176,120,69,0) 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          width: 320,
-          height: 320,
-          borderRadius: "50%",
-          bottom: -190,
-          left: -120,
-          background: "radial-gradient(circle, rgba(12,96,96,.18), rgba(12,96,96,0) 72%)",
-          pointerEvents: "none",
-        }}
-      />
-
       <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div
           style={{
