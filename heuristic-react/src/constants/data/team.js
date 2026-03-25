@@ -11,7 +11,7 @@ export const TEAM = [
   },
   {
     initial: "K",
-    name: "Dr. Karthikeyan",
+    name: "Dr. Karthikeyan Saminathan",
     role: " Chief AI Officer & CTO",
     bullets: ["Doctorate in AI / ML", "17+ years OF AI/Gen AI and R&D"],
     photo: karthikPhoto,

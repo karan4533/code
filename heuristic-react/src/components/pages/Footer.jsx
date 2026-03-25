@@ -10,11 +10,12 @@ export function Footer() {
     {
       title: "Navigate",
       links: [
+        ["Home", "#home"],
         ["About", "#about"],
-        ["Services", "#services"],
+        ["Service", "#services"],
         ["Case Studies", "#case-studies"],
-        ["Team", "#team"],
-        ["FAQ", "#"],
+        ["Research Updates", "#research-updates"],
+        ["Contact", "#contact"],
       ],
     },
     {
