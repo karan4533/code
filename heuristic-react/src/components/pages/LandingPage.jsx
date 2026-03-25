@@ -38,9 +38,15 @@ export function LandingPage({
   const parallaxOffset = Math.min(scrollY * 0.05, 18);
   const contentLift = Math.min(scrollY * 0.02, 8);
   const rotatingPhrases = [
-    "Build your next AI launch.",
-    "Ship outcomes, not prototypes.",
-    "Turn strategy into working systems.",
+    "Agentic AI Automation",
+    "Multilingual Voice Agents",
+    "Autonomous Customer Support",
+    "Conversational Bots",
+    "Document Analysis",
+    "Vision Intelligence",
+    "Compliance Monitoring",
+    "Conversational Data Insights",
+    "Agentic Knowledge Search",
   ];
   const companyList = [
     "GAP",
