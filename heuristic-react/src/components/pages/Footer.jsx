@@ -26,8 +26,7 @@ export function Footer() {
       links: [
         ["Talk to us", "#contact"],
         ["Email Us", "mailto:connect@heuristiclabs.ai"],
-        ["LinkedIn", "#"],
-        ["Website", "https://heuristiclabs.ai"],
+        ["LinkedIn", "https://www.linkedin.com/company/heuristic-labs-ai/posts/?feedView=all"],
       ],
     },
   ];
