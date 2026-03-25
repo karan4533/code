@@ -107,43 +107,13 @@ export function Footer() {
                 fontSize: isSmallMobile ? 12 : 13,
                 color: T.w40,
                 lineHeight: 1.72,
-                marginBottom: 26,
+                marginBottom: 0,
                 maxWidth: 300,
               }}
             >
               Your Applied AI Lab — turning AI ambition into secure, scalable,
               production-ready systems. Unlocking value in weeks.
             </p>
-            <a
-              href="#contact"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: isSmallMobile
-                  ? "7px 16px"
-                  : "9px 20px",
-                borderRadius: 100,
-                border: "1.5px solid rgba(255,255,255,.18)",
-                fontSize: 14,
-                color: T.w60,
-                textDecoration: "none",
-                background: "rgba(255,255,255,.04)",
-                transition: "background .2s ease, color .2s ease, transform .2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,.1)";
-                e.currentTarget.style.color = T.w;
-                e.currentTarget.style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,.04)";
-                e.currentTarget.style.color = T.w60;
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
-            >
-              Talk to us
-            </a>
           </div>
           {cols.map((col) => (
             <div

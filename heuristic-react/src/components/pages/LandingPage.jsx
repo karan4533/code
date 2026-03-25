@@ -18,8 +18,23 @@ export function LandingPage({
   const [phraseIndex, setPhraseIndex] = useState(0);
   const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
-  const globalNavOffset = isSmallMobile ? 74 : isMobile ? 82 : isTablet ? 90 : 96;
+  const globalNavOffset = isSmallMobile ? 62 : isMobile ? 70 : isTablet ? 78 : 86;
   const heroMinHeight = isTablet ? "auto" : "100svh";
+  const heroContentPadding = showLocalHeader
+    ? isSmallMobile
+      ? "8px 12px 24px"
+      : isMobile
+        ? "11px 16px 28px"
+        : isTablet
+          ? "16px 24px 34px"
+          : "46px 28px 34px"
+    : isSmallMobile
+      ? "6px 12px 20px"
+      : isMobile
+        ? "8px 16px 22px"
+        : isTablet
+          ? "10px 24px 24px"
+          : "28px 28px 20px";
   const parallaxOffset = Math.min(scrollY * 0.05, 18);
   const contentLift = Math.min(scrollY * 0.02, 8);
   const rotatingPhrases = [
@@ -321,15 +336,9 @@ export function LandingPage({
         style={{
           textAlign: "center",
           animation: `revealSoftUp .9s ${introEase} .12s both`,
-          padding: isSmallMobile
-            ? "8px 12px 24px"
-            : isMobile
-              ? "11px 16px 28px"
-              : isTablet
-                ? "16px 24px 34px"
-                    : "46px 28px 34px",
-                  width: "min(1080px, 100%)",
-                  marginTop: showLocalHeader ? headerHeight : globalNavOffset,
+          padding: heroContentPadding,
+          width: "min(1080px, 100%)",
+          marginTop: showLocalHeader ? headerHeight : globalNavOffset,
           alignSelf: isMobile || isTablet ? "flex-start" : "center",
           display: "flex",
           flexDirection: "column",

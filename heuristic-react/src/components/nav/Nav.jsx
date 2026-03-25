@@ -18,6 +18,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const navLinks = [
     { label: "Home", onClick: onHomeClick },
     { label: "About", href: "#about" },
+    { label: "Leadership", href: "#team" },
     { label: "Service", href: "#services" },
     { label: "Case Studies", href: "#case-studies" },
     { label: "Research Updates", href: "#research-updates" },
