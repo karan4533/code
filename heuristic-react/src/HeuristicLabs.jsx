@@ -173,7 +173,7 @@ function LandingPage({ onExit, onHome, onAbout, onService, onCaseStudies, onCont
   ];
 
   const stats = [
-    { value: "50+", label: "AI engagements shipped" },
+    { value: "40+", label: "AI engagements shipped" },
     { value: "6-10 weeks", label: "Typical production timeline" },
     { value: "92%", label: "Automation coverage on average" },
   ];

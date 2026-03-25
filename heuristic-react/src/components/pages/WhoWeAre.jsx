@@ -60,7 +60,7 @@ export function WhoWeAre() {
                   "Average time to first production deployment",
               },
               {
-                num: "50+",
+                num: "40+",
                 label:
                   "Years of combined AI leadership experience",
               },
@@ -79,13 +79,13 @@ export function WhoWeAre() {
               >
                 <div
                   style={{
-                    fontFamily: font.serif,
-                    fontSize: isSmallMobile ? 42 : 52,
+                    fontFamily: font.sans,
+                    fontSize: isSmallMobile ? 38 : 48,
                     fontWeight: 700,
                     color: T.w,
                     lineHeight: 1,
                     marginBottom: 6,
-                    letterSpacing: "-.02em",
+                    letterSpacing: "-.01em",
                   }}
                 >
                   {s.num}
