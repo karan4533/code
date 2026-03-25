@@ -71,7 +71,10 @@ export function ScrollArrows() {
     }
 
     const currentTop = (document.scrollingElement || document.documentElement).scrollTop;
-    const nextTarget = getOrderedTargets().find((target) => target.top > currentTop + 8);
+    const sectionAdvanceOffset = isSmallMobile ? 90 : isMobile ? 98 : 112;
+    const nextTarget = getOrderedTargets().find(
+      (target) => target.top > currentTop + sectionAdvanceOffset,
+    );
 
     if (nextTarget) {
       nextTarget.element.scrollIntoView({ behavior: "smooth", block: "start" });
