@@ -14,7 +14,7 @@ export function ResearchUpdates() {
           pill="Research updates"
           title={
             <>
-              Research an
+              Research and
               <br />
               <Em>updates</Em>.
             </>
