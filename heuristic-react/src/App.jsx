@@ -11,6 +11,7 @@ import { ResearchUpdates } from "./components/pages/ResearchUpdates";
 import { FAQ } from "./components/pages/FAQ";
 import { Contact } from "./components/pages/Contact";
 import { Footer } from "./components/pages/Footer";
+import { ScrollArrows } from "./components/shared/ScrollArrows";
 import { CASES } from "./constants/data/cases";
 
 const toCaseSlug = (value) =>
@@ -188,6 +189,7 @@ export default function App() {
         />
       )}
       <Footer />
+      <ScrollArrows />
     </>
   );
 }
