@@ -18,12 +18,35 @@ export function LandingPage({
   const [phraseIndex, setPhraseIndex] = useState(0);
   const introEase = "cubic-bezier(0.16,1,0.3,1)";
   const headerHeight = isSmallMobile ? 56 : isMobile ? 60 : isTablet ? 64 : 72;
+  const globalNavOffset = isSmallMobile ? 62 : isMobile ? 70 : isTablet ? 78 : 86;
+  const heroMinHeight = isTablet ? "auto" : "100svh";
+  const heroContentPadding = showLocalHeader
+    ? isSmallMobile
+      ? "8px 12px 24px"
+      : isMobile
+        ? "11px 16px 28px"
+        : isTablet
+          ? "16px 24px 34px"
+          : "46px 28px 34px"
+    : isSmallMobile
+      ? "6px 12px 20px"
+      : isMobile
+        ? "8px 16px 22px"
+        : isTablet
+          ? "10px 24px 24px"
+          : "28px 28px 20px";
   const parallaxOffset = Math.min(scrollY * 0.05, 18);
   const contentLift = Math.min(scrollY * 0.02, 8);
   const rotatingPhrases = [
-    "Build your next AI launch.",
-    "Ship outcomes, not prototypes.",
-    "Turn strategy into working systems.",
+    "Agentic AI Automation",
+    "Multilingual Voice Agents",
+    "Autonomous Customer Support",
+    "Conversational Bots",
+    "Document Analysis",
+    "Vision Intelligence",
+    "Compliance Monitoring",
+    "Conversational Data Insights",
+    "Agentic Knowledge Search",
   ];
   const companyList = [
     "GAP",
@@ -65,14 +88,15 @@ export function LandingPage({
       style={{
         position: "relative",
         width: "100%",
-        minHeight: isTablet ? "auto" : "100svh",
+        scrollMarginTop: isSmallMobile ? 78 : isMobile ? 84 : isTablet ? 90 : 96,
+        minHeight: heroMinHeight,
         background: "var(--site-base-bg)",
         display: "flex",
         alignItems: isTablet ? "flex-start" : "center",
         justifyContent: "center",
         paddingBottom: isTablet ? (isSmallMobile ? 8 : 14) : 0,
         animation: `landingCinematicIn .95s ${introEase} both`,
-        overflow: "hidden",
+        overflowX: "hidden",
       }}
     >
       <div
@@ -318,15 +342,9 @@ export function LandingPage({
         style={{
           textAlign: "center",
           animation: `revealSoftUp .9s ${introEase} .12s both`,
-          padding: isSmallMobile
-            ? "8px 12px 24px"
-            : isMobile
-              ? "11px 16px 28px"
-              : isTablet
-                ? "16px 24px 34px"
-                    : "46px 28px 34px",
-                  width: "min(1080px, 100%)",
-          marginTop: showLocalHeader ? headerHeight : 0,
+          padding: heroContentPadding,
+          width: "min(1080px, 100%)",
+          marginTop: showLocalHeader ? headerHeight : globalNavOffset,
           alignSelf: isMobile || isTablet ? "flex-start" : "center",
           display: "flex",
           flexDirection: "column",
@@ -361,7 +379,7 @@ export function LandingPage({
             flexDirection: "column",
             alignItems: "center",
             gap: isSmallMobile ? 8 : 10,
-            marginTop: isSmallMobile ? 4 : isMobile ? -2 : -10,
+            marginTop: isSmallMobile ? 8 : isMobile ? 10 : 14,
             marginBottom: isSmallMobile ? 4 : 8,
             position: "relative",
             zIndex: 1,
@@ -447,7 +465,11 @@ export function LandingPage({
             letterSpacing: "-.028em",
             color: T.ink,
             maxWidth: 860,
-            margin: "12px auto 26px",
+            margin: isSmallMobile
+              ? "10px auto 20px"
+              : isMobile
+                ? "10px auto 22px"
+                : "8px auto 18px",
             animation: `heroHeadlineIn .95s ${introEase} .14s both`,
             position: "relative",
             zIndex: 1,
@@ -476,7 +498,7 @@ export function LandingPage({
           style={{
             height: isSmallMobile ? 34 : isMobile ? 40 : 46,
             overflow: "hidden",
-            margin: "2px auto 14px",
+            margin: isSmallMobile ? "0 auto 10px" : "0 auto 12px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -512,7 +534,7 @@ export function LandingPage({
             lineHeight: 1.76,
             color: T.ink60,
             maxWidth: 760,
-            margin: "0 auto 22px",
+            margin: "0 auto 16px",
             animation: `revealSoftUp .9s ${introEase} .3s both`,
             position: "relative",
             zIndex: 1,
@@ -526,8 +548,8 @@ export function LandingPage({
         <div
           style={{
             width: "100%",
-            marginTop: isSmallMobile ? 12 : 16,
-            paddingTop: isSmallMobile ? 10 : 14,
+            marginTop: isSmallMobile ? 6 : 10,
+            paddingTop: isSmallMobile ? 8 : 10,
             paddingBottom: isSmallMobile ? 4 : 7,
             borderTop: `1px dashed ${T.ink12}`,
             position: "relative",
@@ -596,14 +618,14 @@ export function LandingPage({
               ? "1fr"
               : isTablet
                 ? "repeat(2, minmax(0, 1fr))"
-                : "repeat(3, minmax(0, 1fr))",
+                : "repeat(4, minmax(0, 1fr))",
             gap: isSmallMobile ? 12 : 16,
             marginTop: isSmallMobile ? 18 : 24,
           }}
         >
           {STATS.map((item, i) => (
             <div
-              key={item.label}
+              key={item.value}
               style={{
                 border: `1px dashed ${T.ink12}`,
                 borderRadius: 16,
@@ -632,10 +654,12 @@ export function LandingPage({
             >
               <div
                 style={{
-                  fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 22 : 26,
+                  fontFamily: font.sans,
+                  fontSize: isSmallMobile ? 20 : 24,
+                  fontWeight: 700,
                   lineHeight: 1,
                   color: T.ink,
+                  letterSpacing: ".01em",
                   marginBottom: 5,
                 }}
               >

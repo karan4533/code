@@ -7,6 +7,8 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
   const isDesktopWide = !isTablet;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMobileSubmenu, setActiveMobileSubmenu] = useState(null);
+  const [activeDesktopSubmenu, setActiveDesktopSubmenu] = useState(null);
   const [brandHovered, setBrandHovered] = useState(false);
   const [brandPressed, setBrandPressed] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,8 +20,16 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
   const navLinks = [
     { label: "Home", onClick: onHomeClick },
     { label: "About", href: "#about" },
+    { label: "Leadership", href: "#team" },
     { label: "Service", href: "#services" },
-    { label: "Case Studies", href: "#case-studies" },
+    {
+      label: "Case Studies",
+      href: "#case-studies",
+      subLinks: [
+        { label: "Case Study", href: "#case-studies" },
+        { label: "Research Updates", href: "#research-updates" },
+      ],
+    },
     { label: "Contact", onClick: onContactClick },
   ];
 
@@ -32,6 +42,14 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!activeDesktopSubmenu) return;
+
+    const onDocumentClick = () => setActiveDesktopSubmenu(null);
+    window.addEventListener("click", onDocumentClick);
+    return () => window.removeEventListener("click", onDocumentClick);
+  }, [activeDesktopSubmenu]);
 
   return (
     <>
@@ -58,7 +76,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
           width: isDesktopWide ? "min(1240px, calc(100% - 44px))" : "calc(100% - 16px)",
           margin: "0 auto",
           borderRadius: isDesktopWide ? 999 : 20,
-          overflow: "hidden",
+          overflow: isDesktopWide ? "visible" : "hidden",
           isolation: "isolate",
           background: isScrolled ? "#eee9e0" : "#eee9e0",
           backdropFilter: "none",
@@ -76,7 +94,13 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
         {/* Hamburger Menu Button - Mobile Only */}
         {isTablet && (
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => {
+              setMobileMenuOpen((prev) => {
+                const next = !prev;
+                if (!next) setActiveMobileSubmenu(null);
+                return next;
+              });
+            }}
             style={{
               position: "relative",
               width: 28,
@@ -146,7 +170,7 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
             }}
           >
             {navLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.label} style={{ position: "relative" }}>
                 {link.onClick ? (
                   <button
                     onClick={link.onClick}
@@ -174,6 +198,56 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   >
                     {link.label}
                   </button>
+                ) : link.subLinks ? (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setActiveDesktopSubmenu((prev) =>
+                        prev === link.label ? null : link.label
+                      );
+                    }}
+                    style={{
+                      fontSize: linkSize,
+                      fontWeight: 600,
+                      letterSpacing: ".015em",
+                      color: "rgba(30,26,16,.74)",
+                      textDecoration: "none",
+                      background: "transparent",
+                      border: "none",
+                      borderRadius: 10,
+                      padding: "6px 4px",
+                      whiteSpace: "nowrap",
+                      transition: "color .2s ease",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      cursor: "pointer",
+                      fontFamily: font.sans,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "rgba(30,26,16,.96)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "rgba(30,26,16,.74)";
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        width: 7,
+                        height: 7,
+                        borderRight: "1.6px solid rgba(30,26,16,.72)",
+                        borderBottom: "1.6px solid rgba(30,26,16,.72)",
+                        transform:
+                          activeDesktopSubmenu === link.label
+                            ? "rotate(-135deg) translateY(-1px)"
+                            : "rotate(45deg) translateY(-1px)",
+                        transition: "transform .2s ease",
+                      }}
+                    />
+                  </button>
                 ) : (
                   <a
                     href={link.href}
@@ -197,6 +271,53 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   >
                     {link.label}
                   </a>
+                )}
+
+                {link.subLinks && activeDesktopSubmenu === link.label && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 10px)",
+                      left: 0,
+                      minWidth: 180,
+                      background: "rgba(244,240,233,.98)",
+                      border: "1px solid rgba(30,26,16,.11)",
+                      borderRadius: 12,
+                      boxShadow: "0 10px 22px rgba(20,16,8,.12)",
+                      padding: 6,
+                      zIndex: 260,
+                    }}
+                  >
+                    {link.subLinks.map((subLink) => (
+                      <a
+                        key={subLink.label}
+                        href={subLink.href}
+                        onClick={() => setActiveDesktopSubmenu(null)}
+                        style={{
+                          display: "block",
+                          fontSize: 13,
+                          fontWeight: 600,
+                          letterSpacing: ".012em",
+                          color: "rgba(30,26,16,.8)",
+                          textDecoration: "none",
+                          borderRadius: 8,
+                          padding: "9px 10px",
+                          transition: "background .2s ease, color .2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = "rgba(232,226,214,.9)";
+                          e.currentTarget.style.color = "rgba(30,26,16,.98)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style.color = "rgba(30,26,16,.8)";
+                        }}
+                      >
+                        {subLink.label}
+                      </a>
+                    ))}
+                  </div>
                 )}
               </li>
             ))}
@@ -300,6 +421,29 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
               display: "block",
             };
 
+            const subItemStyle = {
+              ...itemStyle,
+              width: "calc(100% - 16px)",
+              marginLeft: 16,
+              padding: "10px 14px",
+              fontSize: 12,
+              background: "rgba(233,227,216,.7)",
+            };
+
+            const mobileArrowStyle = {
+              width: 7,
+              height: 7,
+              borderRight: "1.6px solid rgba(30,26,16,.72)",
+              borderBottom: "1.6px solid rgba(30,26,16,.72)",
+              transform:
+                activeMobileSubmenu === link.label
+                  ? "rotate(-135deg) translateY(-1px)"
+                  : "rotate(45deg) translateY(-1px)",
+              transition: "transform .2s ease",
+              marginLeft: 10,
+              flexShrink: 0,
+            };
+
             if (link.onClick) {
               return (
                 <button
@@ -321,24 +465,76 @@ export function Nav({ onLogoClick, onHomeClick, onContactClick, isLanding }) {
                   {link.label}
                 </button>
               );
+            } else if (link.subLinks) {
+              return (
+                <div key={link.label}>
+                  <button
+                    onClick={() => {
+                      setActiveMobileSubmenu((prev) =>
+                        prev === link.label ? null : link.label
+                      );
+                    }}
+                    style={{
+                      ...itemStyle,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background:
+                        activeMobileSubmenu === link.label
+                          ? "rgba(232,226,214,.96)"
+                          : "rgba(236,230,219,.82)",
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <span aria-hidden="true" style={mobileArrowStyle} />
+                  </button>
+
+                  {activeMobileSubmenu === link.label &&
+                    link.subLinks.map((subLink) => (
+                        <a
+                          key={`${link.label}-${subLink.label}`}
+                          href={subLink.href}
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setActiveMobileSubmenu(null);
+                          }}
+                          style={{
+                            ...subItemStyle,
+                            color: T.ink,
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = "rgba(230,224,212,.92)";
+                            e.currentTarget.style.transform = "translateY(-1px)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = "rgba(233,227,216,.7)";
+                            e.currentTarget.style.transform = "translateY(0)";
+                          }}
+                        >
+                          {subLink.label}
+                        </a>
+                      ))}
+                </div>
+              );
             } else {
               return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  style={itemStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(232,226,214,.96)";
-                    e.currentTarget.style.transform = "translateY(-1px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(236,230,219,.82)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
-                >
-                  {link.label}
-                </a>
+                <div key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={itemStyle}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(232,226,214,.96)";
+                      e.currentTarget.style.transform = "translateY(-1px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(236,230,219,.82)";
+                      e.currentTarget.style.transform = "translateY(0)";
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                </div>
               );
             }
           })}

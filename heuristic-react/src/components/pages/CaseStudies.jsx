@@ -6,8 +6,10 @@ import { CASES } from "../../constants/data/cases";
 
 export function CaseStudies({ onOpenCaseStudy }) {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const [showAllCases, setShowAllCases] = useState(false);
   const [hoveredCaseIndex, setHoveredCaseIndex] = useState(null);
-  const visibleCases = CASES.slice(0, 3);
+  const previewCount = 3;
+  const visibleCases = showAllCases ? CASES : CASES.slice(0, previewCount);
 
   const handleOpenCase = (index) => {
     if (typeof onOpenCaseStudy === "function") {
@@ -46,94 +48,137 @@ export function CaseStudies({ onOpenCaseStudy }) {
           const caseIndex = i;
 
           return (
-          <Reveal key={c.title} delay={i * 0.05}>
-            <button
-              type="button"
-              onClick={() => handleOpenCase(caseIndex)}
-              onMouseEnter={() => setHoveredCaseIndex(caseIndex)}
-              onMouseLeave={() => setHoveredCaseIndex(null)}
-              style={{
-                border: "none",
-                background: "transparent",
-                width: "100%",
-                padding: 0,
-                textAlign: "left",
-                cursor: "pointer",
-                transform:
-                  hoveredCaseIndex === caseIndex
-                    ? "translateY(-2px)"
-                    : "translateY(0)",
-                transition: "transform .24s ease, opacity .24s ease",
-              }}
-            >
-              <div
+            <Reveal key={c.title} delay={i * 0.05}>
+              <button
+                type="button"
+                onClick={() => handleOpenCase(caseIndex)}
+                onMouseEnter={() => setHoveredCaseIndex(caseIndex)}
+                onMouseLeave={() => setHoveredCaseIndex(null)}
                 style={{
+                  border: "none",
+                  background: "transparent",
                   width: "100%",
-                  height: isSmallMobile ? 138 : 190,
-                  borderRadius: 16,
-                  border: `1px solid ${T.ink12}`,
-                  background:
-                    i % 2 === 0
-                      ? `linear-gradient(150deg, ${T.bg2} 0%, ${T.bg3} 100%)`
-                      : `linear-gradient(150deg, ${T.bg3} 0%, ${T.bg2} 100%)`,
-                  marginBottom: isSmallMobile ? 11 : 14,
-                }}
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: 8,
-                  marginBottom: isSmallMobile ? 8 : 10,
+                  padding: 0,
+                  textAlign: "left",
+                  cursor: "pointer",
+                  transform:
+                    hoveredCaseIndex === caseIndex
+                      ? "translateY(-2px)"
+                      : "translateY(0)",
+                  transition: "transform .24s ease, opacity .24s ease",
                 }}
               >
-                <span
+                <div
                   style={{
-                    fontSize: isSmallMobile ? 10 : 11,
-                    fontWeight: 600,
-                    letterSpacing: ".08em",
-                    textTransform: "uppercase",
-                    color: T.ink60,
-                    fontFamily: font.sans,
-                    borderBottom: `1px solid ${T.ink12}`,
-                    paddingBottom: 2,
+                    width: "100%",
+                    height: isSmallMobile ? 138 : 190,
+                    borderRadius: 16,
+                    border: `1px solid ${T.ink12}`,
+                    background:
+                      i % 2 === 0
+                        ? `linear-gradient(150deg, ${T.bg2} 0%, ${T.bg3} 100%)`
+                        : `linear-gradient(150deg, ${T.bg3} 0%, ${T.bg2} 100%)`,
+                    marginBottom: isSmallMobile ? 11 : 14,
+                  }}
+                />
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 8,
+                    marginBottom: isSmallMobile ? 8 : 10,
                   }}
                 >
-                  {c.cat}
-                </span>
+                  <span
+                    style={{
+                      fontSize: isSmallMobile ? 10 : 11,
+                      fontWeight: 600,
+                      letterSpacing: ".08em",
+                      textTransform: "uppercase",
+                      color: T.ink60,
+                      fontFamily: font.sans,
+                      borderBottom: `1px solid ${T.ink12}`,
+                      paddingBottom: 2,
+                    }}
+                  >
+                    {c.cat}
+                  </span>
 
-                <span
+                  <span
+                    style={{
+                      fontSize: isSmallMobile ? 10 : 11,
+                      fontWeight: 600,
+                      color: T.ink,
+                      fontFamily: font.sans,
+                      letterSpacing: ".03em",
+                    }}
+                  >
+                    {c.weeks}
+                  </span>
+                </div>
+
+                <h3
                   style={{
-                    fontSize: isSmallMobile ? 10 : 11,
+                    fontFamily: font.serif,
+                    fontSize: isSmallMobile ? 20 : 24,
                     fontWeight: 600,
                     color: T.ink,
-                    fontFamily: font.sans,
-                    letterSpacing: ".03em",
+                    margin: 0,
+                    lineHeight: 1.3,
                   }}
                 >
-                  {c.weeks}
-                </span>
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: font.serif,
-                  fontSize: isSmallMobile ? 20 : 24,
-                  fontWeight: 600,
-                  color: T.ink,
-                  margin: 0,
-                  lineHeight: 1.3,
-                }}
-              >
-                {c.title}
-              </h3>
-            </button>
-          </Reveal>
-        );
+                  {c.title}
+                </h3>
+              </button>
+            </Reveal>
+          );
         })}
       </div>
+
+      {CASES.length > previewCount && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+          <button
+            type="button"
+            onClick={() => setShowAllCases((prev) => !prev)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 9,
+              border: `1.5px solid ${T.ink12}`,
+              background: "transparent",
+              color: T.ink,
+              borderRadius: 100,
+              padding: "10px 20px",
+              fontSize: 14,
+              fontWeight: 500,
+              fontFamily: font.sans,
+              cursor: "pointer",
+            }}
+          >
+            {showAllCases
+              ? "Show fewer"
+              : `View all case studies (${CASES.length - previewCount})`}
+            <span
+              style={{
+                width: 22,
+                height: 22,
+                borderRadius: "50%",
+                border: `1px solid ${T.ink12}`,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 11,
+                transform: showAllCases ? "rotate(-90deg)" : "rotate(90deg)",
+                transition: "transform .2s ease",
+              }}
+            >
+              {"->"}
+            </span>
+          </button>
+        </div>
+      )}
     </Section>
   );
 }

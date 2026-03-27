@@ -1,42 +1,41 @@
 import { T, font } from "../../constants/designTokens";
 import { useViewport } from "../../hooks/useViewport";
+import { SERVICES } from "../../constants/data/services";
 
 export function Footer() {
   const { isMobile, isTablet, isSmallMobile } = useViewport();
+  const serviceLinks = SERVICES.map((service) => [service.name, "#services"]);
+
   const cols = [
     {
       title: "Navigate",
       links: [
+        ["Home", "#home"],
         ["About", "#about"],
-        ["Services", "#services"],
+        ["Service", "#services"],
         ["Case Studies", "#case-studies"],
-        ["Team", "#team"],
-        ["FAQ", "#"],
+        ["Research Updates", "#research-updates"],
+        ["Contact", "#contact"],
       ],
     },
     {
       title: "Services",
-      links: [
-        ["Custom AI Solutions", "#"],
-        ["Industrial GenAI", "#"],
-        ["AI Governance", "#"],
-        ["Strategic Consulting", "#"],
-        ["R&D as a Service", "#"],
-      ],
+      links: serviceLinks,
     },
     {
       title: "Connect",
       links: [
         ["Talk to us", "#contact"],
         ["Email Us", "mailto:connect@heuristiclabs.ai"],
-        ["LinkedIn", "#"],
-        ["Website", "https://heuristiclabs.ai"],
+        ["LinkedIn", "https://www.linkedin.com/company/heuristic-labs-ai/posts/?feedView=all"],
       ],
     },
   ];
   return (
     <footer
+      id="footer"
       style={{
+        position: "relative",
         background: T.footer,
         padding: isSmallMobile
           ? "36px 16px 20px"
@@ -48,7 +47,7 @@ export function Footer() {
         fontFamily: font.sans,
       }}
     >
-      <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "grid",
@@ -59,17 +58,18 @@ export function Footer() {
                 : "1.6fr 1fr 1fr 1fr",
             gap: isSmallMobile ? 20 : isMobile ? 28 : 48,
             paddingBottom: isSmallMobile ? 32 : 48,
-            borderBottom: "1px solid rgba(255,255,255,.08)",
+            borderBottom: "1px solid rgba(255,255,255,.12)",
           }}
         >
           <div>
             <div
               style={{
                 fontFamily: font.serif,
-                fontSize: isSmallMobile ? 17 : 20,
+                fontSize: isSmallMobile ? 18 : 22,
                 fontWeight: 600,
                 color: T.w,
-                marginBottom: 12,
+                marginBottom: 10,
+                letterSpacing: ".01em",
               }}
             >
               Heuristic Labs
@@ -78,33 +78,22 @@ export function Footer() {
               style={{
                 fontSize: isSmallMobile ? 12 : 13,
                 color: T.w40,
-                lineHeight: 1.7,
-                marginBottom: 24,
-                maxWidth: 280,
+                lineHeight: 1.72,
+                marginBottom: 0,
+                maxWidth: 300,
               }}
             >
               Your Applied AI Lab — turning AI ambition into secure, scalable,
               production-ready systems. Unlocking value in weeks.
             </p>
-            <a
-              href="#contact"
-              style={{
-                display: "inline-flex",
-                padding: isSmallMobile
-                  ? "7px 16px"
-                  : "9px 20px",
-                borderRadius: 100,
-                border: "1.5px solid rgba(255,255,255,.18)",
-                fontSize: 14,
-                color: T.w60,
-                textDecoration: "none",
-              }}
-            >
-              Talk to us
-            </a>
           </div>
           {cols.map((col) => (
-            <div key={col.title}>
+            <div
+              key={col.title}
+              style={{
+                padding: isSmallMobile ? "0" : "4px 0",
+              }}
+            >
               <div
                 style={{
                   fontSize: 11,
@@ -134,6 +123,16 @@ export function Footer() {
                         fontSize: isSmallMobile ? 12 : 14,
                         color: T.w60,
                         textDecoration: "none",
+                        transition: "color .2s ease, transform .2s ease",
+                        display: "inline-block",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = T.w;
+                        e.currentTarget.style.transform = "translateX(2px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = T.w60;
+                        e.currentTarget.style.transform = "translateX(0)";
                       }}
                     >
                       {label}

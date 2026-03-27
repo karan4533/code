@@ -8,11 +8,12 @@ export const Section = ({ children, bg, id }) => {
       id={id}
       style={{
         background: bg || T.bg,
+        scrollMarginTop: isSmallMobile ? 38 : isMobile ? 44 : isTablet ? 52 : 60,
         padding: isSmallMobile
-          ? "40px 0"
+          ? "28px 0"
           : isMobile
-            ? "56px 0"
-            : "80px 0",
+            ? "40px 0"
+            : "56px 0",
       }}
     >
       <div

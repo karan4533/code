@@ -12,9 +12,9 @@ export function Team() {
           pill="Meet the team"
           title={
             <>
-              You're in
+              Enterprise AI
               <br />
-              <Em>experienced</Em> hands.
+              <Em>expertise</Em> in every profile.
             </>
           }
           desc="No layers of management. You work directly with the specialists who understand your business and build your AI systems from first principles to production."

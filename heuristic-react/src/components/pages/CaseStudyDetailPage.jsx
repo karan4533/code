@@ -7,6 +7,31 @@ export function CaseStudyDetailPage({ caseStudy, caseIndex = 0, onBack }) {
 
   if (!caseStudy) return null;
 
+  const renderMetricValue = (value) => {
+    const normalized = String(value).trim();
+    const match = normalized.match(/^([<>]?\d+(?:\.\d+)?)([%×x])$/);
+
+    if (!match) return normalized;
+
+    const [, numberPart, symbolPart] = match;
+    const symbol = symbolPart === "x" ? "×" : symbolPart;
+
+    return (
+      <>
+        <span>{numberPart}</span>
+        <span
+          style={{
+            fontSize: "0.82em",
+            fontWeight: 700,
+            lineHeight: 1,
+            transform: "translateY(-0.02em)",
+          }}
+        >
+          {symbol}
+        </span>
+      </>
+    );
+  };
   const detailDate = new Date(2024, (caseIndex * 2) % 12, 1).toLocaleDateString(
     "en-US",
     {
@@ -207,16 +232,20 @@ export function CaseStudyDetailPage({ caseStudy, caseIndex = 0, onBack }) {
                   </span>
                   <span
                     style={{
-                      fontFamily: font.serif,
+                      fontFamily: font.sans,
                       fontSize: isSmallMobile ? 24 : 30,
                       fontWeight: 700,
                       color: T.ink,
-                      lineHeight: 1,
-                      letterSpacing: "-.01em",
+                      lineHeight: 1.02,
+                      letterSpacing: ".01em",
+                      fontVariantNumeric: "tabular-nums lining-nums",
+                      display: "inline-flex",
+                      alignItems: "baseline",
+                      gap: 1,
                       flexShrink: 0,
                     }}
                   >
-                    {metric.val}
+                    {renderMetricValue(metric.val)}
                   </span>
                 </div>
               ))}

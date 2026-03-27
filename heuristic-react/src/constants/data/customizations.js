@@ -15,7 +15,8 @@ export const CAPABILITIES = [
 ];
 
 export const STATS = [
-  { value: "50+", label: "AI engagements shipped" },
+  { value: "40+", label: "AI engagements shipped" },
   { value: "6-10 weeks", label: "Typical production timeline" },
-  { value: "92%", label: "Automation coverage on average" },
+  { value: "2x", label: "Faster than traditional AI delivery" },
+  { value: "40+years", label: "Leadership experience in AI" },
 ];
